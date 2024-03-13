@@ -1,21 +1,21 @@
 package com.java6.java_6_asm.entities;
 
 import com.java6.java_6_asm.entities._enum.Role;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Nationalized;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -30,16 +30,41 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue
     private Integer id;
+
+    @Nationalized
+   // @NotBlank(message = "Vui lòng nhập họ")
+    @Pattern(regexp = "^[a-zA-ZÀ-ỹ\\s]*$", message = "Họ không hợp lệ")
     private String firstname;
+
+    @Nationalized
+   // @NotBlank(message = "Vui lòng nhập tên")
+    @Pattern(regexp = "^[a-zA-ZÀ-ỹ\\s]*$", message = "Tên không hợp lệ")
     private String lastname;
+
+    @Email(message = "Email không hợp lệ")
     private String email;
+
+    @Column
+    @NotBlank(message = "Vui lòng nhập mật khẩu")
+    @Size(min = 6, message = "Mật khẩu phải chứa ít nhất 6 ký tự")
+    @Pattern(regexp = ".*[a-zA-Z].*", message = "Mật khẩu phải chứa ít nhất một chữ cái")
     private String password;
+
+    private Boolean gender;
+    @Temporal(TemporalType.DATE)
+    private Date birthDay;
 
     @Enumerated(EnumType.STRING)
     private Role role;
 
     @OneToMany(mappedBy = "user")
     private List<Token> tokens;
+
+    @OneToMany(mappedBy = "contactId", fetch = FetchType.LAZY)
+    private List<Contact> contacts;
+
+    @OneToMany(mappedBy = "voucherId", fetch = FetchType.LAZY)
+    private List<Voucher> vouchers;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
