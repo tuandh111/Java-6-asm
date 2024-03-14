@@ -2,7 +2,7 @@ package com.java6.java_6_asm.service.impl;
 
 import com.java6.java_6_asm.entities.User;
 import com.java6.java_6_asm.repositories.UserRepository;
-import com.java6.java_6_asm.model.ChangePasswordRequest;
+import com.java6.java_6_asm.payLoad.ChangePasswordRequest;
 import com.java6.java_6_asm.service.service.UserService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;

@@ -1,6 +1,6 @@
 package com.java6.java_6_asm.controller;
 
-import com.java6.java_6_asm.model.ChangePasswordRequest;
+import com.java6.java_6_asm.payLoad.ChangePasswordRequest;
 import com.java6.java_6_asm.service.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +17,11 @@ import java.security.Principal;
 @RequiredArgsConstructor
 public class UserController {
     @Autowired
-    UserService service;
+    UserService userService;
 
     @PatchMapping
     public ResponseEntity<?> changePassword(@RequestBody ChangePasswordRequest request, Principal connectedUser) {
-        service.changePassword(request, connectedUser);
+        userService.changePassword(request, connectedUser);
         return ResponseEntity.ok().build();
     }
 }

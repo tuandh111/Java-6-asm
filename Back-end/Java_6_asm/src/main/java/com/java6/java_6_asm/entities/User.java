@@ -1,5 +1,6 @@
 package com.java6.java_6_asm.entities;
 
+import com.java6.java_6_asm.entities._enum.Gender;
 import com.java6.java_6_asm.entities._enum.Role;
 import jakarta.persistence.*;
 
@@ -7,14 +8,9 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.*;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.Nationalized;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -32,16 +28,17 @@ public class User implements UserDetails {
     private Integer id;
 
     @Nationalized
-   // @NotBlank(message = "Vui lòng nhập họ")
+    @NotBlank(message = "Vui lòng nhập họ")
     @Pattern(regexp = "^[a-zA-ZÀ-ỹ\\s]*$", message = "Họ không hợp lệ")
     private String firstname;
 
     @Nationalized
-   // @NotBlank(message = "Vui lòng nhập tên")
+    @NotBlank(message = "Vui lòng nhập tên")
     @Pattern(regexp = "^[a-zA-ZÀ-ỹ\\s]*$", message = "Tên không hợp lệ")
     private String lastname;
 
     @Email(message = "Email không hợp lệ")
+    @NotNull(message = "Vui lòng nhập email")
     private String email;
 
     @Column
@@ -50,7 +47,9 @@ public class User implements UserDetails {
     @Pattern(regexp = ".*[a-zA-Z].*", message = "Mật khẩu phải chứa ít nhất một chữ cái")
     private String password;
 
-    private Boolean gender;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
+
     @Temporal(TemporalType.DATE)
     private Date birthDay;
 
@@ -65,6 +64,9 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "voucherId", fetch = FetchType.LAZY)
     private List<Voucher> vouchers;
+
+    @OneToMany(mappedBy = "orderId", fetch = FetchType.LAZY)
+    private List<Order> orders;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

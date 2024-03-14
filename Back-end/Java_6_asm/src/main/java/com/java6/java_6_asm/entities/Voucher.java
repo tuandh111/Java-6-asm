@@ -15,6 +15,7 @@ public class Voucher {
     @Id
     @GeneratedValue
     private Integer voucherId;
+
     @NotNull(message = "Vui lòng nhập tên voucher")
     private String voucherName;
 

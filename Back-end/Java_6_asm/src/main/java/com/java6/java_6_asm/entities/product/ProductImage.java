@@ -1,8 +1,7 @@
-package com.java6.java_6_asm.entities;
+package com.java6.java_6_asm.entities.product;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import jdk.jfr.Enabled;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,5 +23,5 @@ public class ProductImage {
 
     @ManyToOne
     @JoinColumn(name = "productId")
-    private  Product product;
+    private Product product;
 }

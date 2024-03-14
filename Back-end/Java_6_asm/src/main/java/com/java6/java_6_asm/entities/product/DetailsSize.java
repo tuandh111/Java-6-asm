@@ -1,4 +1,4 @@
-package com.java6.java_6_asm.entities;
+package com.java6.java_6_asm.entities.product;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

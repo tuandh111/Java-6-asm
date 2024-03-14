@@ -1,14 +1,11 @@
-package com.java6.java_6_asm.entities;
+package com.java6.java_6_asm.entities.product;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
-import jdk.jfr.Enabled;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Nationalized;
-import org.w3c.dom.stylesheets.LinkStyle;
 
 import java.util.Date;
 import java.util.List;
@@ -17,25 +14,24 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "color")
-public class Color {
-
+@Table(name = "size")
+public class Size {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer colorId;
+    private Integer sizeId;
 
     @Nationalized
-    @NotNull(message = "Vui lòng nhập màu")
-    private String colorName;
+    @NotNull(message = "Vui lòng chọn size")
+    private String sizeName;
 
-    private  Boolean isActive;
+    private Boolean isActive;
 
     @Temporal(TemporalType.DATE)
-    private Date createDate = new Date();
+    private Date createDate= new Date();
 
     @Temporal(TemporalType.DATE)
     private Date deleteDate;
 
-    @OneToMany(mappedBy = "detailsColorId")
-    private List<DetailsColor> detailsColor;
+    @OneToMany(mappedBy = "detailsSizeId", fetch = FetchType.LAZY)
+    private List<DetailsSize> detailsSizes;
 }

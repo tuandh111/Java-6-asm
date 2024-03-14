@@ -1,14 +1,11 @@
-package com.java6.java_6_asm.entities;
+package com.java6.java_6_asm.entities.product;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 import org.hibernate.annotations.Nationalized;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.w3c.dom.stylesheets.LinkStyle;
 
 import java.util.List;
 

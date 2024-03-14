@@ -1,6 +1,4 @@
-package com.java6.java_6_asm.entities;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
+package com.java6.java_6_asm.entities.product;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
@@ -8,7 +6,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.mapping.ToOne;
 
 @Data
 @NoArgsConstructor
@@ -19,7 +16,7 @@ public class Discount {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer discountId;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "productId")
     private Product product;
 

@@ -1,4 +1,4 @@
-package com.java6.java_6_asm.entities;
+package com.java6.java_6_asm.entities.product;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -14,24 +14,25 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "size")
-public class Size {
+@Table(name = "color")
+public class Color {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer sizeId;
+    private Integer colorId;
 
     @Nationalized
-    @NotNull(message = "Vui lòng chọn size")
-    private String sizeName;
+    @NotNull(message = "Vui lòng nhập màu")
+    private String colorName;
 
-    private Boolean isActive;
+    private  Boolean isActive;
 
     @Temporal(TemporalType.DATE)
-    private Date createDate= new Date();
+    private Date createDate = new Date();
 
     @Temporal(TemporalType.DATE)
     private Date deleteDate;
 
-    @OneToMany(mappedBy = "detailsSizeId", fetch = FetchType.LAZY)
-    private List<DetailsSize> detailsSizes;
+    @OneToMany(mappedBy = "detailsColorId")
+    private List<DetailsColor> detailsColor;
 }

@@ -1,6 +1,7 @@
-package com.java6.java_6_asm.entities;
+package com.java6.java_6_asm.entities.product;
 
-import com.fasterxml.jackson.databind.DatabindException;
+import com.java6.java_6_asm.entities.*;
+import com.java6.java_6_asm.entities._enum.Gender;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Min;
@@ -8,7 +9,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 import org.hibernate.annotations.Nationalized;
 
 import java.util.Date;
@@ -31,7 +31,7 @@ public class Product {
     private Boolean isActive;
 
     @Temporal(TemporalType.DATE)
-    private Date createDate = new Date();
+    private Date createDate= new Date();
 
     @Temporal(TemporalType.DATE)
     private Date deleteDate;
@@ -45,11 +45,14 @@ public class Product {
     @Min(value = 0, message = "Số lượng phải lớn 0")
     private Double price;
 
+    private int sold;
+
     @Nationalized
     @Column(columnDefinition = "nvarchar(MAX)")
     private String description;
 
-    private Boolean gender;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
 
     @OneToMany(mappedBy = "productId")
     private List<Favorites> favorites;
@@ -67,6 +70,6 @@ public class Product {
     @OneToMany(mappedBy = "detailsSizeId")
     private List<DetailsSize> detailsSizes;
 
-    @OneToOne
-    private Discount discount;
+    @OneToMany(mappedBy = "cartId")
+    private List<Cart> cart;
 }
