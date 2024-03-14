@@ -1,5 +1,6 @@
 package com.java6.java_6_asm.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.java6.java_6_asm.entities._enum.Gender;
 import com.java6.java_6_asm.entities._enum.Role;
 import jakarta.persistence.*;
@@ -57,6 +58,7 @@ public class User implements UserDetails {
     private Role role;
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private List<Token> tokens;
 
     @OneToMany(mappedBy = "contactId", fetch = FetchType.LAZY)
