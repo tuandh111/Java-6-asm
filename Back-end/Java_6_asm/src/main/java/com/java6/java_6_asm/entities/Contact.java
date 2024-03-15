@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Nationalized;
 
 @Data
 @Builder
@@ -15,9 +16,10 @@ import lombok.NoArgsConstructor;
 @Table(name = "Contact")
 public class Contact {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer contactId;
-
+    
+    @Nationalized
     @NotNull(message = "Vui lòng nhập địa chỉ")
     private String addressName;
 

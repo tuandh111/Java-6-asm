@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "Voucher")
 public class Voucher {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer voucherId;
 
     @NotNull(message = "Vui lòng nhập tên voucher")
