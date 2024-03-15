@@ -31,7 +31,7 @@ public class Product {
     private Boolean isActive;
 
     @Temporal(TemporalType.DATE)
-    private Date createDate= new Date();
+    private Date createDate = new Date();
 
     @Temporal(TemporalType.DATE)
     private Date deleteDate;
@@ -45,7 +45,6 @@ public class Product {
     @Min(value = 0, message = "Số lượng phải lớn 0")
     private Double price;
 
-    private int sold;
 
     @Nationalized
     @Column(columnDefinition = "nvarchar(MAX)")
