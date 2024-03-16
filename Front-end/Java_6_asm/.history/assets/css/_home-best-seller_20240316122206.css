@@ -1,0 +1,14 @@
+.home-best-seller {
+    background-color: #52453b;
+}
+
+.home-best-seller .title-post {
+    background-color: #6b3f1f;
+    padding: 20px;
+    text-align: center;
+}
+
+.home-best-seller .title-post h1 {
+    font-size: 100px;
+    font-weight: 500;
+}
