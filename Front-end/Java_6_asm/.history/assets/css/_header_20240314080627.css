@@ -1,0 +1,7 @@
+.page-header {
+    background: #010101;
+    z-index: 999;
+    border: 0;
+    position: sticky;
+    top: 0;
+}

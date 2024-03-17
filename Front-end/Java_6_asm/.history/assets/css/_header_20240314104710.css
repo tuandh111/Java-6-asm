@@ -1,0 +1,89 @@
+:root {
+    --black: #010101;
+    --red-color: #ef3340;
+    --yellow: #fced14;
+    --text-primary-color: #fff;
+}
+
+
+
+.page-header {
+    background: var(--black);
+    z-index: 999;
+    border: 0;
+    position: sticky;
+    top: 0;
+}
+
+.page-header .logo img {
+    width: 80px;
+    height: 80px;
+}
+
+.input-group {
+    flex-wrap: nowrap;
+}
+
+.input-group input {
+    width: 450px;
+}
+
+.btn-red {
+    position: static;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    border-radius: 6px;
+    background: #fced14;
+    text-transform: uppercase;
+    margin-left: 10px;
+    transition: all .3s;
+    white-space: nowrap;
+    border: none;
+}
+
+.d-grid {
+    position: relative;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 20px;
+    background-color: #ef3340;
+    align-items: center;
+}
+
+.nav-info {
+    position: relative;
+    padding: 10px;
+    display: grid;
+    align-items: center;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 10px;
+    background-color: #39ef33;
+    font-size: 14px;
+}
+
+.nav-icon {
+    font-size: 20px;
+    line-height: 25px;
+    color: #ededed !important;
+    background-color: #333;
+    padding: 8px;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.text-label {
+    font-size: 10px;
+    line-height: 16px;
+    margin-bottom: 2px;
+    text-wrap: nowrap;
+}
+
+.text-link {
+    color: #ededed;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .06px;
+    text-wrap: nowrap;
+}
