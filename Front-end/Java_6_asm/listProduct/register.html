@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="MyLogin">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,8 +14,14 @@
   <link rel="stylesheet" href="vendors/owl-carousel/owl.carousel.min.css">
   <link rel="stylesheet" href="vendors/nice-select/nice-select.css">
   <link rel="stylesheet" href="vendors/nouislider/nouislider.min.css">
-
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
+	<script src="/listProduct/js/login.js"></script>
+	<script src="/listProduct/assets/js/vendor/angularjs_1.8.2.js"></script>
+	<script src="/listProduct/assets/js/vendor/angular-route.min.js"></script>
+	<script src="/listProduct/assets/js/vendor/angular.min.js"></script>
   <link rel="stylesheet" href="css/style.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
 	<!--================ Start Header Menu Area =================-->
@@ -108,29 +114,52 @@
 					</div>
 				</div>
 				<div class="col-lg-6">
-					<div class="login_form_inner register_form_inner">
+					<div class="login_form_inner register_form_inner" ng-controller="SignUpController">
 						<h3>Create an account</h3>
-						<form class="row login_form" action="#/" id="register_form" >
+						<form class="row login_form" id="register_form" >
 							<div class="col-md-12 form-group">
-								<input type="text" class="form-control" id="name" name="name" placeholder="Username" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username'">
+								<input type="text" class="form-control" ng-model="Firstname" placeholder="Firstname" onfocus="this.placeholder = ''"
+									onblur="this.placeholder = 'Username'">
+									<div ng-show="firstnameError" class="error-message text-danger">(*) Please enter your firstname</div>
 							</div>
 							<div class="col-md-12 form-group">
-								<input type="text" class="form-control" id="email" name="email" placeholder="Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address'">
-              </div>
-              <div class="col-md-12 form-group">
-								<input type="text" class="form-control" id="password" name="password" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">
-              </div>
-              <div class="col-md-12 form-group">
-								<input type="text" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Confirm Password'">
+								<input type="text" class="form-control" ng-model="Lastname"  placeholder="Lastname" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username'">
+								<div ng-show="lastnameError" class="error-message text-danger">(*) Please enter your lastname</div>
 							</div>
+							<div class="col-md-12 form-group">
+								<input type="email" class="form-control" ng-model="Email" placeholder="Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address'">
+								<div ng-show="emailError" class="error-message text-danger">(*) Please enter your email</div>
+								<div ng-show="emailExits" class="error-message text-danger">(*) Email already exists</div>
+              				</div>
+              	<div class="col-md-12 form-group">
+					<input type="password" class="form-control" ng-model="Password" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">
+					<div ng-show="passwordError" class="error-message text-danger">(*) Please enter your password</div>
+					<div ng-show="passwordFormatError" class="error-message text-danger">(*) Password must be at least 6 characters and 1
+												letter</div>
+              	</div>
+              <div class="col-md-12 form-group">
+					<input type="password" class="form-control" ng-model ="ConfirmPassword"placeholder="Confirm Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Confirm Password'">
+					<div ng-show="confirmError" class="error-message text-danger">(*) Please enter your confirm password</div>
+					<div ng-show="confirmPasswordError" class="error-message text-danger">(*) Password confirmation must match the password
+								</div>
+				</div>
 							<div class="col-md-12 form-group">
 								<div class="creat_account">
-									<input type="checkbox" id="f-option2" name="selector">
+									<input type="checkbox" id="f-option2" required name="selector">
 									<label for="f-option2">Keep me logged in</label>
 								</div>
 							</div>
 							<div class="col-md-12 form-group">
-								<button type="submit" value="submit" class="button button-register w-100">Register</button>
+								<div class="creat_account">
+										<div id="recaptchaContainer" style="display: none;">
+											<div class="g-recaptcha" data-sitekey="6LdosU4pAAAAAO_EzhGlRqWLJqns6eULivmzGWWE"></div>
+										</div>
+										
+										<div id="error"></div>
+								</div>
+							</div>
+							<div class="col-md-12 form-group">
+								<button ng-click="signUp()" class="button button-register w-100" id="submitButton" >Register</button>
 							</div>
 						</form>
 					</div>
@@ -232,8 +261,11 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 	</footer>
 	<!--================ End footer Area  =================-->
 
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<script>
 
 
+</script>
   <script src="vendors/jquery/jquery-3.2.1.min.js"></script>
   <script src="vendors/bootstrap/bootstrap.bundle.min.js"></script>
   <script src="vendors/skrollr.min.js"></script>
