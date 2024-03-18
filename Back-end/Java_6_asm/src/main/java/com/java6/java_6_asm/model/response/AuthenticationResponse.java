@@ -1,4 +1,4 @@
-package com.java6.java_6_asm.payLoad;
+package com.java6.java_6_asm.model.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

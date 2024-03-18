@@ -1,4 +1,4 @@
-package com.java6.java_6_asm.payLoad;
+package com.java6.java_6_asm.model.request;
 
 import com.java6.java_6_asm.entities._enum.Role;
 import lombok.AllArgsConstructor;

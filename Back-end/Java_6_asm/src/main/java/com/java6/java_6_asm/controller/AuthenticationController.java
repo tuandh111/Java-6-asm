@@ -2,10 +2,9 @@ package com.java6.java_6_asm.controller;
 
 import com.java6.java_6_asm.entities.User;
 import com.java6.java_6_asm.entities._enum.Role;
-import com.java6.java_6_asm.exception.BadRequestException;
-import com.java6.java_6_asm.payLoad.AuthenticationRequest;
-import com.java6.java_6_asm.payLoad.AuthenticationResponse;
-import com.java6.java_6_asm.payLoad.RegisterRequest;
+import com.java6.java_6_asm.model.request.AuthenticationRequest;
+import com.java6.java_6_asm.model.response.AuthenticationResponse;
+import com.java6.java_6_asm.model.request.RegisterRequest;
 import com.java6.java_6_asm.security.service.AuthenticationService;
 import com.java6.java_6_asm.service.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -14,7 +13,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;

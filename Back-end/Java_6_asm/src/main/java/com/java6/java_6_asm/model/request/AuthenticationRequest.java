@@ -1,4 +1,4 @@
-package com.java6.java_6_asm.payLoad;
+package com.java6.java_6_asm.model.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

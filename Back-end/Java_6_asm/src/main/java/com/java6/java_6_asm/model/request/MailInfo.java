@@ -1,4 +1,4 @@
-package com.java6.java_6_asm.model;
+package com.java6.java_6_asm.model.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

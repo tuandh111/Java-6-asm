@@ -1,7 +1,7 @@
 package com.java6.java_6_asm.service.service.utils;
 
 
-import com.java6.java_6_asm.model.MailInfo;
+import com.java6.java_6_asm.model.request.MailInfo;
 import jakarta.mail.MessagingException;
 
 
