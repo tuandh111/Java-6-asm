@@ -1,24 +1,27 @@
 package com.java6.java_6_asm.service.impl;
 
 import com.java6.java_6_asm.entities.User;
+import com.java6.java_6_asm.exception.NotFoundException;
 import com.java6.java_6_asm.repositories.UserRepository;
-import com.java6.java_6_asm.model.ChangePasswordRequest;
+import com.java6.java_6_asm.payLoad.ChangePasswordRequest;
 import com.java6.java_6_asm.service.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
-    private final PasswordEncoder passwordEncoder;
-    private final UserRepository repository;
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(PasswordEncoder passwordEncoder, UserRepository repository) {
-        this.passwordEncoder = passwordEncoder;
-        this.repository = repository;
-    }
+    @Autowired
+    UserRepository userRepository;
+
 
     @Override
     public void changePassword(ChangePasswordRequest request, Principal connectedUser) {
@@ -37,6 +40,29 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(request.getNewPassword()));
 
         // save the new password
-        repository.save(user);
+        userRepository.save(user);
+    }
+
+    @Override
+    public User updateUser(User request) {
+        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new NotFoundException("Not Found User"));
+        user.setFirstname(request.getFirstname());
+        user.setLastname(request.getLastname());
+        user.setEmail(request.getEmail());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setGender(request.getGender());
+        user.setBirthDay(request.getBirthDay());
+        userRepository.save(user);
+        return user;
+    }
+
+    @Override
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 }

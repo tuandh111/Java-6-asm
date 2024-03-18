@@ -1,0 +1,102 @@
+.prod-card {
+    background: linear-gradient(to right, #4daf54, #3d8888);
+    padding: 25px;
+}
+
+.prod-card .card {
+    height: 400px;
+    background: #272d48;
+    padding: 20px;
+    position: relative;
+    font-size: 15px;
+    color: var(--white);
+}
+
+.prod-card .card .cart-heart,
+.prod-card .card .card-cart {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+    cursor: pointer;
+    color: var(--black);
+}
+
+.prod-card .card .cart-heart:hover,
+.prod-card .card .card-cart:hover {
+    color: var(--red-color2);
+}
+
+.prod-card .card .cart-heart {
+    left: unset;
+    right: 25px;
+}
+
+.prod-card .card .card-image {
+    margin-bottom: 10px;
+}
+
+.prod-card .card .card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.prod-card .card .card-titles,
+.prod-card .card .card-price {
+    font-size: 17px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.prod-card .card .card-titles {
+    color: var(--white);
+}
+
+.prod-card .card .card-price {
+    color: var(--red-color2);
+}
+
+.prod-card .card .card-size,
+.prod-card .card .card-color {
+    display: flex;
+    align-items: center;
+}
+
+.prod-card .card .card-size p,
+.prod-card .card .card-color p {
+    margin: 0;
+}
+
+.prod-card .card .card-size span {
+    padding: 0 5px;
+    background: #dadada;
+    margin: 5px;
+    border-radius: 5px;
+    color: var(--black);
+    font-size: 13px;
+}
+
+.prod-card .card .card-color {
+    margin: 10px 0;
+}
+
+.prod-card .card .card-color span {
+    /* padding: 5px; */
+    margin: 5px;
+    border-radius: 50%;
+    color: var(--black);
+    width: 20px;
+    cursor: pointer;
+}
+
+.prod-card .card .card-color span.card-color-red {
+    background: var(--red-color2);
+}
+
+.prod-card .card .card-color span.card-color-blue {
+    background: rgb(13, 13, 120)
+}
+
+.prod-card .card .card-color span.card-color-green {
+    background: rgb(5, 165, 48)
+}
