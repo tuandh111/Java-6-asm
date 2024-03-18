@@ -1,6 +1,7 @@
 package com.java6.java_6_asm.controller;
 
 import com.java6.java_6_asm.model.request.ChangePasswordRequest;
+import com.java6.java_6_asm.payLoad.ChangePasswordRequest;
 import com.java6.java_6_asm.service.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

@@ -1,0 +1,46 @@
+<div class="card-body">
+    <div class="row" ng-show="isLogin">
+        <div class="col-3 col-sm-2 col-md-4">
+            <div class="box-icon">
+                <img class="w-100" src="assets/images/soc.jpg" alt="">
+            </div>
+        </div>
+        <div class="col-9 col-sm-10 col-md-8">
+            <div class="name-item">
+                <h6>{{fullNameSuccess}}</h6>
+            </div>
+            <div class="total-item">
+                <h6>{{userMarkSuccess}} điểm</h6>
+            </div>
+            <button type="button" class="btn btn-outline-success" data-bs-toggle="collapse" data-bs-target="#studentInfoCard">Thông tin học
+                viên</button>
+        </div>
+    </div>
+    <div class="collapse mt-3" id="studentInfoCard">
+        <div class="card card-body bg-info">
+            <h5>Thông tin học viên</h5>
+            <p>Họ tên: {{fullNameSuccess}}</p>
+            <p>Điểm: {{userMarkSuccess}} điểm</p>
+            <p>Email: {{emailSuccess}}</p>
+            <p>Ngày sinh: {{birthdaSuccess|date:'yyyy-MM-dd'}}</p>
+            <p>Học phí: {{schoolfeeSuccess|currency:'VND':0}}</p>
+        </div>
+        <div class="card-footer d-flex justify-content-end">
+            <button class="btn btn-primary">
+                <a class="text-decoration-none text-white" href="">
+                    Sửa tài khoản
+                </a>              
+            </button>
+        </div>
+    </div>
+    <div class="d-flex bd-highlight" ng-hide="isLogin">
+        <div class="flex-grow-1 bd-highlight alert alert-danger alert-dismissible fade show"
+            role="alert">
+            <strong>Error!</strong> Bạn chưa đăng nhập...
+            <strong class="">
+                <a class="link-success" href="" data-bs-toggle="modal" data-bs-target="#loginModal">Đăng
+                    nhập</a>
+            </strong>
+        </div>
+    </div>
+</div>

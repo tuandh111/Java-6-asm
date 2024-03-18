@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PC05132-LAB1</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo py-1">
+                <a href="/">
+                    <img src="assets/images/logo.png" alt="">
+                </a>
+            </div>
+            <nav class="navbar navbar-expand-lg bg-body-tertiary bg-dark" data-bs-theme="dark">
+                <div class="container-fluid">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#primaryMenu"
+                        aria-controls="primaryMenu" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="primaryMenu">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="#">
+                                    <i class="bi bi-house-add"></i>
+                                    Trang chủ
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <i class="bi bi-list-columns-reverse"></i>
+                                    Giới thiệu
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <i class="bi bi-telephone-outbound"></i>
+                                    Liên hệ
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <i class="bi bi-envelope-arrow-up"></i>
+                                    Góp ý
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <i class="bi bi-question-circle"></i>
+                                    Hỏi đáp
+                                </a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    <i class="bi bi-person-check"></i>
+                                    Tài khoản
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#">Đăng nhập</a></li>
+                                    <li><a class="dropdown-item" href="#">Quên mật khẩu</a></li>
+                                    <li><a class="dropdown-item" href="#">Đăng ký thành viên</a></li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li><a class="dropdown-item" href="#">Đăng xuất</a></li>
+                                    <li><a class="dropdown-item" href="#">Đổi mật khẩu</a></li>
+                                    <li><a class="dropdown-item" href="#">Cập nhật hồ sơ</a></li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li><a class="dropdown-item" href="#">Đơn hàng</a></li>
+                                    <li><a class="dropdown-item" href="#">Hàng đã mua</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <ul class="navbar-nav mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    Tiếng Việt
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    English
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <main class="main">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-9">
+                    <div class="box-content mt-3">
+                        <!-- <img class="w-100" src="assets/images/637581879179938677_giaohangtannha-thumb.png" alt=""> -->
+                        <div id="myCarouseExample" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-indicators">
+                              <button type="button" data-bs-target="#myCarouseExample" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                              <button type="button" data-bs-target="#myCarouseExample" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                              <button type="button" data-bs-target="#myCarouseExample" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                            </div>
+                            <div class="carousel-inner">
+                              <div class="carousel-item active" data-bs-interval="1000">
+                                <img src="/assets/images/637581879179938677_giaohangtannha-thumb.png" class="d-block w-100" alt="...">
+                              </div>
+                              <div class="carousel-item" data-bs-interval="2000">
+                                <img src="assets/images/637577248211685123_giasoccuoituan-21-23-thumb.jpg" class="d-block w-100" alt="...">
+                              </div>
+                              <div class="carousel-item" data-bs-interval="3000">
+                                <img src="assets/images/637633703456131299_vuotmuadich-thumb.jpg" class="d-block w-100" alt="...">
+                              </div>
+                              
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#myCarouseExample" data-bs-slide="prev">
+                              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                              <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#myCarouseExample" data-bs-slide="next">
+                              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                              <span class="visually-hidden">Next</span>
+                            </button>
+                            
+                          </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="card mt-3">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-3 col-sm-2 col-md-4">
+                                    <div class="box-icon">
+                                        <img class="w-100" src="assets/images/cart.gif" alt="">
+                                    </div>
+                                </div>
+                                <div class="col-9 col-sm-10 col-md-8">
+                                    <div class="count-item"> 100 Sản phẩm </div>
+                                    <div class="total-item"> 0đ </div>
+                                    <div class="view-cart"> <a href="">Xem giỏ hàng</a></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mt-3">
+                        <div class="card-body">
+                            <input type="text" class="form-control" id="search" placeholder="Từ khóa">
+                        </div>
+                    </div>
+                    <div class="card mt-3">
+                        <div class="card-header">
+                            <i class="bi bi-list-columns-reverse"></i>
+                            PHÂN LOẠI
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Điện thoại di động</li>
+                            <li class="list-group-item">Máy tính xách tay</li>
+                            <li class="list-group-item">Máy tính để bàn</li>
+                            <li class="list-group-item">Quạt máy</li>
+                            <li class="list-group-item">Tivi</li>
+                            <li class="list-group-item">Tủ lạnh</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="py-3 my-4">
+        <div class="container">
+            <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+                <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Trang chủ</a></li>
+                <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Giới thiệu</a></li>
+                <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Liên hệ</a></li>
+                <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Góp ý</a></li>
+                <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Hỏi đáp</a></li>
+                <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Tài khoản</a></li>
+            </ul>
+            <p class="text-center text-muted">© PC05132 - Nguyễn Thành Trung</p>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

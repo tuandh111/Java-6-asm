@@ -1,0 +1,115 @@
+<div class="modal-dialog modal-xl">
+    <div class="modal-content">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-body">
+            <div class="text-center text-lg-start">
+                <div class="container py-4">
+                    <div class="row g-0 align-items-center">
+                        <div class="col-lg-6 mb-5 mb-lg-0">
+                            <div class="card cascading-right"
+                                style="background: hsla(0, 0%, 100%, 0.55); backdrop-filter: blur(30px);">
+                                <div class="card-body p-5 shadow-5 text-center">
+                                    <h2 class="fw-bold mb-5">
+                                        <strong style="color: rgb(46, 11, 161);">Đăng Ký Ngay</strong>
+                                        <strong style="color: rgb(231, 16, 16);">!!!</strong>
+                                    </h2>
+                                    <form name="formRegister">
+                                        <div class="row">
+                                            <div class="col-md-4 mb-4">
+                                                <div class="form-outline">
+                                                    <label class="form-label" for="registerModalFullname">Họ và
+                                                        tên</label>
+                                                    <input type="text" id="registerModalFullname"
+                                                        name="registerInputFullname" class="form-control"
+                                                        ng-model="user.registerFullname" required />
+                                                    <span ng-show="formRegister.registerInputFullname.$invalid"
+                                                        class="text-danger">(*) Nhập họ và tên</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 mb-4">
+                                                <div class="form-outline">
+                                                    <label class="form-label" for="registerModalName">Tên đăng
+                                                        nhập</label>
+                                                    <input type="text" id="registerModalName"
+                                                        ng-model="user.registerName" name="registerInputName"
+                                                        class="form-control" required />
+                                                    <span ng-show="formRegister.registerInputName.$invalid"
+                                                        class="text-danger">(*) Nhập tên đăng nhập</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 mb-4">
+                                                <div class="form-outline">
+                                                    <label class="form-label" for="registerModalDate">Ngày
+                                                        sinh</label>
+                                                    <input type="date" id="registerModalDate" class="form-control"
+                                                        ng-model="user.registerBirthday" name="registerInputBirthday"
+                                                        required />
+                                                    <span ng-show="formRegister.registerInputBirthday.$invalid"
+                                                        class="text-danger">(*) Chọn Ngày sinh</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-outline mb-4">
+                                            <label class="form-label" for="registerModalEmail">Địa chỉ
+                                                email</label>
+                                            <input type="email" id="registerModalEmail" class="form-control"
+                                                ng-model="user.registerEmail" name="registerInputEmail" required />
+                                            <span ng-show="formRegister.registerInputEmail.$invalid"
+                                                class="text-danger">(*) Nhập email</span>
+                                        </div>
+                                        <div class="form-outline mb-4">
+                                            <label class="form-label" for="registerModalPass">Mật khẩu</label>
+                                            <input type="password" id="registerModalPass" minlength="8"
+                                                class="form-control" ng-model="user.registerPass"
+                                                name="registerInputPass" required />
+                                            <!-- <span ng-show="formRegister.registerInputPass.$invalid"
+                                                class="text-danger">(*) Mật khẩu ít nhất 8 ký tự</span> -->
+                                            <span
+                                                ng-show="user.registerPass==null && formRegister.registerInputPass.$invalid==false"
+                                                class="text-danger">(*) Nhập mật khẩu</span>
+                                            <span
+                                                ng-show="user.registerPass!=null && formRegister.registerInputPass.$valid==false"
+                                                class="text-danger">(*) Mật khẩu ít nhất 8 ký tự</span>
+                                        </div>
+                                        <div class="form-check d-flex justify-content-center mb-4">
+                                            <input class="form-check-input me-2" type="checkbox" value=""
+                                                id="registerModalPassCheckBox" checked />
+                                            <label class="form-check-label" for="registerModalPassCheckBox">
+                                                Nhận thống báo từ T99 FullStack
+                                            </label>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary btn-block mb-4">
+                                            Đăng Ký
+                                        </button>
+                                        <div class="text-center">
+                                            <p>Hoặc đăng ký với:</p>
+                                            <button type="button" class="btn btn-link btn-floating mx-1">
+                                                <i class="bi bi-google"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-link btn-floating mx-1">
+                                                <i class="bi bi-facebook"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-link btn-floating mx-1">
+                                                <i class="bi bi-twitter"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-link btn-floating mx-1">
+                                                <i class="bi bi-instagram"></i>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 mb-5 mb-lg-0">
+                            <img src="assets/images/Coder.jpg" class="w-100 rounded-4 shadow-4" alt="" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+        </div>
+    </div>
+</div>

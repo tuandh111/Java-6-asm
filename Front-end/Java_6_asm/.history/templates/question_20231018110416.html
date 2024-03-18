@@ -1,0 +1,39 @@
+<div class="container">
+    <div class="myQuiz mb-3">
+        <div class="card w-100 border-info">
+            <div class="countdown text-center">
+                <h4 class=""><i class="bi bi-alarm"></i>
+                    <span id="timer" ng-show="countdown>0"><strong>{{countdown}}</strong></span>
+                    <span id="timer" ng-show="countdown<=0"><strong class="text-danger">Hết giờ !!!</strong></span>
+                </h4>
+            </div>
+            <div class="card-header d-flex justify-content-between bg-info">
+                <h3>{{title}}</h3>
+                <h6 id="status-question">Câu {{countQuestion}} trong {{listQuestion.length}}</h6>
+            </div>
+            <div class="card-body" >
+                <div class="mt-1" ng-show="countdown>0">
+                    <form id="quiz-form">
+                        <div class="py-3" id="question-container{{$index}}" ng-repeat="question in listQuestion|limitTo:pageSize:begin">
+                            <h3>{{question.Text}}</h3>
+                            <div class="custom-control custom-radio p-1" ng-repeat="option in question.Answers">
+                                <input type="radio" class="custom-control-input" id="q{{question.id}}{{$index}}" name="question{{question.id}}" value="{{option.id}}" ng-model="selectedOption[question.id]" ng-change="radioCheck(question.id)">
+                                <label class="custom-control-label" for="q{{question.id}}{{$index}}">{{option.Text}}</label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="mt-1" ng-show="countdown<=0">
+                    <h3>Chúc mừng bạn đã đúng: {{totalMark}}/{{listQuestion.length}} </h3>
+                </div>
+            </div>
+            <div class="card-footer d-flex justify-content-between mt-3">
+                <div class="question-control">
+                    <button id="next-button" class="btn btn-primary" ng-click="nextQuiz()">Next</button>
+                    <button id="next-button" class="btn btn-secondary" ng-click="prevQuiz()">Prvious</button>
+                </div>                
+                <button id="score-button" class="btn btn-success">Score: {{totalMark}}/{{listQuestion.length}}</button>
+            </div>
+        </div>
+    </div>
+</div>

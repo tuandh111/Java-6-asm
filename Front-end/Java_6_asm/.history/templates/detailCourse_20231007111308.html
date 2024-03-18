@@ -1,0 +1,41 @@
+<div class="container">
+
+    <div class="bgimgDetailCoursePage p-4">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                <img ng-src="{{image }}" alt="" class="img-thumbnail">
+                <div id="detailCourseSlider" class="carousel slide mb-3" data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#detailCourseSlider" data-bs-slide-to="0" class="active"
+                            aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#detailCourseSlider" data-bs-slide-to="1"
+                            aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#detailCourseSlider" data-bs-slide-to="2"
+                            aria-label="Slide 3"></button>
+                    </div>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active" data-bs-interval="3000">
+                            <img ng-src="{{image }}" class="d-block w-100" alt="...">
+                        </div>
+                        <div class="carousel-item" data-bs-interval="3000">
+                            <img src="/assets/images/slider/slide2.png" class="d-block w-100" alt="...">
+                        </div>
+                        <div class="carousel-item" data-bs-interval="3000">
+                            <img src="/assets/images/slider/slide3.png" class="d-block w-100" alt="...">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>{{title}}</h5>
+                    </div>
+                    <div class="card-body">
+                        {{textDescription}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

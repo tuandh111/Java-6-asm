@@ -15,7 +15,7 @@ import java.util.List;
 @Repository
 public interface CartRepository extends JpaRepository<Cart, String> {
     @Query("SELECT c FROM Cart c WHERE c.user = :user and c.checkPay = false")
-    List<Cart> findAllByUser(@Param("user") Integer user);
+    List<Cart> findAllByUser(@Param("user") User user);
 
     @Transactional
     @Modifying

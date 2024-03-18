@@ -4,6 +4,7 @@ import com.java6.java_6_asm.entities.User;
 import com.java6.java_6_asm.exception.NotFoundException;
 import com.java6.java_6_asm.repositories.UserRepository;
 import com.java6.java_6_asm.model.request.ChangePasswordRequest;
+import com.java6.java_6_asm.payLoad.ChangePasswordRequest;
 import com.java6.java_6_asm.service.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

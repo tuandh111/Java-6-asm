@@ -1,0 +1,29 @@
+<div class="box-content mt-3">
+    <div class="row">
+        <div class="col-lg-3 col-md-4 col-sm-12 mb-3" ng-repeat="product in listProducts|limitTo:8:begin">
+            <div class="card d-flex flex-column h-100">
+                <a href="#!detailCourse/{{listProducts[$index].id}}">
+                    <img ng-src="{{ product.image }}" alt="" class="card-img-top img-thumbnail" data-bs-toggle="tooltip" data-bs-placement="right" title="Click để xem chi tiết khóa học">
+                </a>              
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.title }}</h5>
+                    <p class="card-text">{{ product.textDescription | truncateWordsHTML:10}}</p>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                        data-bs-target="#confirmTest">
+                        Thi thử
+                    </button>
+                    <button type="button" class="btn btn-secondary">
+                        <a class="text-decoration-none text-white" href="#!detailCourse/{{listProducts[$index].id}}">
+                            Xem chi tiết
+                        </a>              
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <nav aria-label="Page navigation example" id="paginationF99" ng-include="'component/paginationF99.html'">
+        
+    </nav>
+</div>
