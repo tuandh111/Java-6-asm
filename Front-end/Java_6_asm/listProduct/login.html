@@ -115,15 +115,15 @@
 				</div>
 				<div class="col-lg-6" ng-controller="SignInController">
 					<div class="login_form_inner">
-						<h3>Log in to enter</h3>
+						<h2 class="mb-4">Log in to enter</h2>
 						<form class="row login_form"  id="contactForm" >
 							<div class="col-md-12 form-group">
 								<input type="email" class="form-control" ng-model="email"   placeholder="Email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email'">
-								<div ng-show="emailError" class="error-message text-danger mt-3">(*) Please enter your email</div>
+								<div ng-show="emailError" class="error-message text-danger mt-3" style="float: left;">(*) Please enter your email</div>
 							</div>
 							<div class="col-md-12 form-group">
 								<input type="password" class="form-control" ng-model="password"  placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">
-								<div ng-show="passwordError" class="error-message text-danger mt-3">(*) Please enter your password</div>
+								<div ng-show="passwordError" class="error-message text-danger mt-3" style="float: left;">(*) Please enter your password</div>
 							</div>
 							<div class="col-md-12 form-group">
 								<div class="creat_account">
