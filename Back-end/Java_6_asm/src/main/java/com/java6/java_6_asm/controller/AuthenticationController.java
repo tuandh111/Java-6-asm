@@ -6,9 +6,6 @@ import com.java6.java_6_asm.model.request.AuthenticationRequest;
 import com.java6.java_6_asm.model.response.AuthenticationResponse;
 import com.java6.java_6_asm.model.request.RegisterRequest;
 import com.java6.java_6_asm.exception.BadRequestException;
-import com.java6.java_6_asm.payLoad.AuthenticationRequest;
-import com.java6.java_6_asm.payLoad.AuthenticationResponse;
-import com.java6.java_6_asm.payLoad.RegisterRequest;
 import com.java6.java_6_asm.security.service.AuthenticationService;
 import com.java6.java_6_asm.service.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -37,11 +34,11 @@ public class AuthenticationController {
     private final AuthenticationService service;
 
     @PostMapping("/register")
-    public ResponseEntity<?> register( @RequestBody RegisterRequest request) {
+    public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
         System.out.println(checkEmail(request.getEmail()));
-        Map<String,Object> jsonError = new HashMap<>();
-        if(checkEmail(request.getEmail())) {
-            jsonError.put("message","ErrorEmail");
+        Map<String, Object> jsonError = new HashMap<>();
+        if (checkEmail(request.getEmail())) {
+            jsonError.put("message", "ErrorEmail");
             return ResponseEntity.ok(jsonError);
         }
         request.setRole(Role.USER);
