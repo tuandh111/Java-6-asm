@@ -1,0 +1,32 @@
+<div class="container">
+    <div class="myQuiz mb-3">
+        <div class="card w-100 border-info">
+            <div class="countdown text-center">
+                <h4 class=""><i class="bi bi-alarm"></i>
+                    <span id="timer"><strong>{{countdown}}</strong></span>
+                </h4>
+            </div>
+            <div class="card-header d-flex justify-content-between bg-info">
+                <h6>Lập trình Androi nâng cao</h6>
+                <h6 id="status-question">Câu 1 trong 10</h6>
+            </div>
+            <div class="card-body" >
+                <div class="mt-1">
+                    <form id="quiz-form">
+                        <div class="p-3" id="question-container{{$index}}" ng-repeat="question in listQuestion">
+                            <h3>{{question.question}}</h3>
+                            <div class="custom-control custom-radio" ng-repeat="option in question.options">
+                                <input type="radio" class="custom-control-input" id="q{{question.id}}{{$index}}" name="question{{question.id}}{{$index}}" value="${option}">
+                                <label class="custom-control-label" for="q{{question.id}}{{$index}}">{{option}}</label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="card-footer d-flex justify-content-between mt-3">
+                <button id="next-button" class="btn btn-primary">Next</button>
+                <button id="score-button" class="btn btn-success">Score</button>
+            </div>
+        </div>
+    </div>
+</div>

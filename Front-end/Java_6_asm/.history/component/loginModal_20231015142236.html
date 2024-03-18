@@ -1,0 +1,49 @@
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-body">
+            <div class="text-center" ng-controller="LoginControllerHTML">
+                <div class="p-5 bg-image bg-login-custom"></div>
+                <div class="card mx-4 mx-md-5 shadow-5-strong card-login-custom">
+                    <div class="card-body py-5 px-md-5">
+                        <div class="row d-flex justify-content-center">
+                            <div class="col-lg-8">
+                                <h2 class="fw-bold mb-5">Đăng nhập</h2>
+                                <form name="formLogin">
+                                    <div class="form-outline mb-4">
+                                        <label class="form-label" for="loginModalName">Tên đăng nhập</label>
+                                        <input type="text" id="loginModalName" name="textLoginModalName"
+                                            class="form-control" ng-model="user.loginName" required>
+                                        <span ng-show="formLogin.textLoginModalName.$invalid" class="text-danger">(*) Nhập tên đăng nhập</span>
+                                    </div>
+                                    <div class="form-outline mb-4">
+                                        <label class="form-label" for="loginModalNamePass">Mật khẩu</label>
+                                        <input type="password" id="loginModalNamePass" class="form-control"
+                                            ng-model="user.loginPass" required>
+                                    </div>
+                                    <div class="form-check d-flex justify-content-center mb-4">
+                                        <input class="form-check-input me-2" type="checkbox" value=""
+                                            id="loginModalNameRemember" checked />
+                                        <label class="form-check-label" for="loginModalNameRemember">
+                                            Nhớ tài khoản của tôi
+                                        </label>
+                                    </div>
+                                    <div class="form-check mb-4">
+                                        <a href="" data-bs-toggle="modal" data-bs-target="#forgetPassModal"><i>Bạn quên
+                                                mật khẩu?</i></a>
+                                    </div>
+                                    <button type="button" class="btn btn-primary btn-block mb-4" ng-click="login()">
+                                        Đăng nhập
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+        </div>
+    </div>
+</div>

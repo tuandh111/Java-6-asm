@@ -1,0 +1,23 @@
+<div class="modal-dialog modal-lg"  ng-controller="ChangeControllerHTML">
+    <div class="modal-content text-center">
+        <div class="modal-header h5 text-white bg-primary justify-content-center">
+            Đổi mật khẩu
+        </div>
+        <div class="modal-body px-5">
+            <p class="py-2">
+                Nhập vào đẩy đủ các thông tin sau
+            </p>
+            <form name="formChangePass">
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="changePassModalEmail">Nhập Email của bạn:
+                    </label>
+                    <input type="email" id="changePassModalEmail" class="form-control" placeholder="name@example.com"
+                        ng-model="user.emailChangePass" name="changePassInput" required />
+                    <span ng-show="formChangePass.changePassInput.$invalid" class="text-danger">(*) Nhập email có định
+                        dạng name@example.com</span>
+                </div>
+            </form>
+            <a href="#" class="btn btn-primary w-100">Đổi mật khẩu</a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PC05132-LAB3</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo py-1 d-flex justify-content-between">
+                <div class="name-websit">
+                    <h2>QUIZ TRỰC TUYẾN</h2>
+                    <h6>Tham gia kiểm tra kiến thức ngay hôm nay!</h6>
+                </div>
+                <a href="/">
+                    <img src="assets/logos/logo.png" alt="">
+                </a>
+            </div>
+            <nav class="navbar navbar-expand-lg bg-body-tertiary bg-dark" data-bs-theme="dark">
+                <div class="container-fluid">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#primaryMenu"
+                        aria-controls="primaryMenu" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="primaryMenu">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="#">
+                                    <i class="bi bi-house-add"></i>
+                                    Trang chủ
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <i class="bi bi-list-columns-reverse"></i>
+                                    Giới thiệu
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <i class="bi bi-list-task"></i>
+                                    Danh sách môn học
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <i class="bi bi-postcard-heart"></i>
+                                    Bài viết
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <i class="bi bi-telephone-outbound"></i>
+                                    Liên hệ
+                                </a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    <i class="bi bi-person-check"></i>
+                                    Tài khoản
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item" href="#" data-bs-toggle="modal"
+                                            data-bs-target="#loginModal">Đăng nhập</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#" data-bs-toggle="modal"
+                                            data-bs-target="#registerModal">Đăng ký</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#" data-bs-toggle="modal"
+                                            data-bs-target="#forgetPassModal">Quên mật khẩu</a>
+                                    </li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <ul class="navbar-nav mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    Tiếng Việt
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    English
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <main class="main">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-9">
+                    <div class="box-content mt-3">
+                        <div class="quiz mb-3">
+                            <div class="card w-100 border-info">
+                                <div class="time-core text-center">
+                                    <h4 class=""><i class="bi bi-alarm"></i>
+                                        <span><strong>02:56</strong></span>
+                                    </h4>
+                                </div>
+                                <div class="card-header d-flex justify-content-between bg-info">
+                                    <h6>Lập trình Androi nâng cao</h6>
+                                    <h6>Câu 1 trong 10</h6>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Phương thức nào của Camera được sử dụng để lấy các thông số
+                                        thiết lập cho Camera</h5>
+                                    <div class="form-check">
+                                        <div class="cau1">
+                                            <label class="options">
+                                                <input type="radio" name="radio">
+                                                Đáp Án 1
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                        <div class="cau2">
+                                            <label class="options">
+                                                <input type="radio" name="radio">
+                                                Đáp Án 2
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                        <div class="cau3">
+                                            <label class="options">
+                                                <input type="radio" name="radio">
+                                                Đáp Án 3
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                        <div class="cau4">
+                                            <label class="options">
+                                                <input type="radio" name="radio">
+                                                Đáp Án 4
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="control-question d-flex justify-content-between mt-3">
+                                        <button class="btn btn-primary">Gửi</button>
+                                        <button class="btn btn-success">Kiểm tra</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row ">
+                            <div class="col-lg-3 col-md-4 col-sm-12">
+                                <div class="card d-flex flex-column h-100 mb-3">
+                                    <img src="assets/logos/ADBS.jpg" alt="" class="card-img-top img-thumbnail">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Lập trình Android cơ bản</h5>
+                                        <p class="card-text">Lập trình Android cơ bản</p>
+                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                            data-bs-target="#confirmTest">
+                                            Thi thử
+                                        </button>
+                                        <button type="button" class="btn btn-secondary">
+                                            Xem chi tiết
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-sm-12">
+                                <div class="card d-flex flex-column h-100 mb-3">
+                                    <img src="assets/logos/ADAV.jpg" alt="" class="card-img-top img-thumbnail">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Lập trình Android nâng cao</h5>
+                                        <p class="card-text">Lập trình Android nâng cao</p>
+                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                            data-bs-target="#confirmTest">
+                                            Thi thử
+                                        </button>
+                                        <button type="button" class="btn btn-secondary">
+                                            Xem chi tiết
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-sm-12">
+                                <div class="card d-flex flex-column h-100 mb-3">
+                                    <img src="assets/logos/ADTE.jpg" alt="" class="card-img-top img-thumbnail">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Kiểm thử ứng dụng Android</h5>
+                                        <p class="card-text">Kiểm thử ứng dụng Android</p>
+                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                            data-bs-target="#confirmTest">
+                                            Thi thử
+                                        </button>
+                                        <button type="button" class="btn btn-secondary">
+                                            Xem chi tiết
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-sm-12">
+                                <div class="card d-flex flex-column h-100 mb-3">
+                                    <img src="assets/logos/ADUI.jpg" alt="" class="card-img-top img-thumbnail">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Thiết kế UI trên Android</h5>
+                                        <p class="card-text">Thiết kế UI trên Android</p>
+                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                            data-bs-target="#confirmTest">
+                                            Thi thử
+                                        </button>
+                                        <button type="button" class="btn btn-secondary">
+                                            Xem chi tiết
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-sm-12">
+                                <div class="card d-flex flex-column h-100 mb-3">
+                                    <img src="assets/logos/ASNE.png" alt="" class="card-img-top img-thumbnail">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Lập trình ASP.NET</h5>
+                                        <p class="card-text">Lập trình ASP.NET</p>
+                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                            data-bs-target="#confirmTest">
+                                            Thi thử
+                                        </button>
+                                        <button type="button" class="btn btn-secondary">
+                                            Xem chi tiết
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-sm-12">
+                                <div class="card d-flex flex-column h-100 mb-3">
+                                    <img src="assets/logos/CLCO.jpg" alt="" class="card-img-top img-thumbnail">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Điện toán đám mây</h5>
+                                        <p class="card-text">Điện toán đám mây</p>
+                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                            data-bs-target="#confirmTest">
+                                            Thi thử
+                                        </button>
+                                        <button type="button" class="btn btn-secondary">
+                                            Xem chi tiết
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-sm-12">
+                                <div class="card d-flex flex-column h-100 mb-3">
+                                    <img src="assets/logos/DBBS.png" alt="" class="card-img-top img-thumbnail">
+                                    <div class="card-body">
+                                        <h5 class="card-title">SQL Server</h5>
+                                        <p class="card-text">SQL Server</p>
+                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                            data-bs-target="#confirmTest">
+                                            Thi thử
+                                        </button>
+                                        <button type="button" class="btn btn-secondary">
+                                            Xem chi tiết
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-sm-12">
+                                <div class="card d-flex flex-column h-100 mb-3">
+                                    <img src="assets/logos/DBBS.png" alt="" class="card-img-top img-thumbnail">
+                                    <div class="card-body">
+                                        <h5 class="card-title">SQL Server</h5>
+                                        <p class="card-text">SQL Server</p>
+                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                            data-bs-target="#confirmTest">
+                                            Thi thử
+                                        </button>
+                                        <button type="button" class="btn btn-secondary">
+                                            Xem chi tiết
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-sm-12">
+                                <div class="card d-flex flex-column h-100 mb-3">
+                                    <img src="assets/logos/DBAV.png" alt="" class="card-img-top img-thumbnail">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Cơ sở dữ liệu</h5>
+                                        <p class="card-text">Cơ sở dữ liệu</p>
+                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                            data-bs-target="#confirmTest">
+                                            Thi thử
+                                        </button>
+                                        <button type="button" class="btn btn-secondary">
+                                            Xem chi tiết
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-sm-12">
+                                <div class="card d-flex flex-column h-100 mb-3">
+                                    <img src="assets/logos/GAME.png" alt="" class="card-img-top img-thumbnail">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Lập trình game 2D</h5>
+                                        <p class="card-text">Lập trình game 2D</p>
+                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                            data-bs-target="#confirmTest">
+                                            Thi thử
+                                        </button>
+                                        <button type="button" class="btn btn-secondary">
+                                            Xem chi tiết
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-sm-12">
+                                <div class="card d-flex flex-column h-100 mb-3">
+                                    <img src="assets/logos/HTCS.jpg" alt="" class="card-img-top img-thumbnail">
+                                    <div class="card-body">
+                                        <h5 class="card-title">HTML5 và CSS3</h5>
+                                        <p class="card-text">HTML5 và CSS3</p>
+                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                            data-bs-target="#confirmTest">
+                                            Thi thử
+                                        </button>
+                                        <button type="button" class="btn btn-secondary">
+                                            Xem chi tiết
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-sm-12">
+                                <div class="card d-flex flex-column h-100 mb-3">
+                                    <img src="assets/logos/INMA.jpg" alt="" class="card-img-top img-thumbnail">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Internet Marketing</h5>
+                                        <p class="card-text">Internet Marketing</p>
+                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                            data-bs-target="#confirmTest">
+                                            Thi thử
+                                        </button>
+                                        <button type="button" class="btn btn-secondary">
+                                            Xem chi tiết
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-sm-12">
+                                <div class="card d-flex flex-column h-100 mb-3">
+                                    <img src="assets/logos/JAAV.png" alt="" class="card-img-top img-thumbnail">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Lập trình Java nâng cao</h5>
+                                        <p class="card-text">Lập trình Java nâng cao</p>
+                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                            data-bs-target="#confirmTest">
+                                            Thi thử
+                                        </button>
+                                        <button type="button" class="btn btn-secondary">
+                                            Xem chi tiết
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-sm-12">
+                                <div class="card d-flex flex-column h-100 mb-3">
+                                    <img src="assets/logos/JABS.png" alt="" class="card-img-top img-thumbnail">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Lập trình OOP với Java</h5>
+                                        <p class="card-text">Lập trình OOP với Java</p>
+                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                            data-bs-target="#confirmTest">
+                                            Thi thử
+                                        </button>
+                                        <button type="button" class="btn btn-secondary">
+                                            Xem chi tiết
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-sm-12">
+                                <div class="card d-flex flex-column h-100 mb-3">
+                                    <img src="assets/logos/JSPR.png" alt="" class="card-img-top img-thumbnail">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Lập trình JavaScript</h5>
+                                        <p class="card-text">Lập trình JavaScript</p>
+                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                            data-bs-target="#confirmTest">
+                                            Thi thử
+                                        </button>
+                                        <button type="button" class="btn btn-secondary">
+                                            Xem chi tiết
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-sm-12">
+                                <div class="card d-flex flex-column h-100 mb-3">
+                                    <img src="assets/logos/LAYO.jpg" alt="" class="card-img-top img-thumbnail">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Thiết kế layout</h5>
+                                        <p class="card-text">Thiết kế layout</p>
+                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                            data-bs-target="#confirmTest">
+                                            Thi thử
+                                        </button>
+                                        <button type="button" class="btn btn-secondary">
+                                            Xem chi tiết
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-sm-12">
+                                <div class="card d-flex flex-column h-100 mb-3">
+                                    <img src="assets/logos/MOWE.png" alt="" class="card-img-top img-thumbnail">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Thiết kế web cho di động</h5>
+                                        <p class="card-text">Thiết kế web cho di động</p>
+                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                            data-bs-target="#confirmTest">
+                                            Thi thử
+                                        </button>
+                                        <button type="button" class="btn btn-secondary">
+                                            Xem chi tiết
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-sm-12">
+                                <div class="card d-flex flex-column h-100 mb-3">
+                                    <img src="assets/logos/PHPP.png" alt="" class="card-img-top img-thumbnail">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Lập trình PHP</h5>
+                                        <p class="card-text">Lập trình PHP</p>
+                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                            data-bs-target="#confirmTest">
+                                            Thi thử
+                                        </button>
+                                        <button type="button" class="btn btn-secondary">
+                                            Xem chi tiết
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3 col-md-4 col-sm-12">
+                                <div class="card d-flex flex-column h-100 mb-3">
+                                    <img src="assets/logos/PMAG.jpg" alt="" class="card-img-top img-thumbnail">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Quản lý dự án với Agile</h5>
+                                        <p class="card-text">Quản lý dự án với Agile</p>
+                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                            data-bs-target="#confirmTest">
+                                            Thi thử
+                                        </button>
+                                        <button type="button" class="btn btn-secondary">
+                                            Xem chi tiết
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-sm-12">
+                                <div class="card d-flex flex-column h-100 mb-3">
+                                    <img src="assets/logos/VBPR.png" alt="" class="card-img-top img-thumbnail">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Lập trình VB.NET</h5>
+                                        <p class="card-text">Lập trình VB.NET</p>
+                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                            data-bs-target="#confirmTest">
+                                            Thi thử
+                                        </button>
+                                        <button type="button" class="btn btn-secondary">
+                                            Xem chi tiết
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-sm-12">
+                                <div class="card d-flex flex-column h-100 mb-3">
+                                    <img src="assets/logos/WEBU.jpg" alt="" class="card-img-top img-thumbnail">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Xây dựng trang web</h5>
+                                        <p class="card-text">Xây dựng trang web</p>
+                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                            data-bs-target="#confirmTest">
+                                            Thi thử
+                                        </button>
+                                        <button type="button" class="btn btn-secondary">
+                                            Xem chi tiết
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-3 col-md-4 col-sm-12">
+                                <div class="card d-flex flex-column h-100 mb-3">
+                                    <div class="h-30 flex-shrink-0">
+                                        <img src="assets/logos/ADBS.jpg" alt="" class="card-img-top img-thumbnail">
+                                    </div>
+                                    <div class="h-70">
+                                        <div class="card-body">
+                                            <h-70 class="flex-shrink-1">
+                                                <h5 class="card-title">Lập trình Android cơ bản</h5>
+                                                <p class="card-text">Lập trình Android cơ bảndddddddddddddddddddddddddđ</p>
+                                            </h-70>
+                                            <div class="h-30 flex-shrink-0 mt-3">
+                                                <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                                    data-bs-target="#confirmTest">
+                                                    Thi thử
+                                                </button>
+                                                <button type="button" class="btn btn-secondary">
+                                                    Xem chi tiết
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-sm-12">
+                                <div class="card d-flex flex-column h-100 mb-3">
+                                    <div class="h-30 flex-shrink-0">
+                                        <img src="assets/logos/ADBS.jpg" alt="" class="card-img-top img-thumbnail">
+                                    </div>
+                                    <div class="h-70">
+                                        <div class="card-body">
+                                            <h-70 class="flex-shrink-1">
+                                                <h5 class="card-title">Lập trình Android cơ bản</h5>
+                                                <p class="card-text">Lập trình Android cơ bảndddddddddddddddddddddddddđffffffffffffffffffffffffffffffffffffffffffffffffffffffff</p>
+                                            </h-70>
+                                            <div class="h-30 flex-shrink-0 mt-3">
+                                                <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                                    data-bs-target="#confirmTest">
+                                                    Thi thử
+                                                </button>
+                                                <button type="button" class="btn btn-secondary">
+                                                    Xem chi tiết
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="card mt-3">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-3 col-sm-2 col-md-4">
+                                    <div class="box-icon">
+                                        <img class="w-100" src="assets/images/soc.jpg" alt="">
+                                    </div>
+                                </div>
+                                <div class="col-9 col-sm-10 col-md-8">
+                                    <div class="name-item">
+                                        <h6>Tên học viên</h6>
+                                    </div>
+                                    <div class="total-item">
+                                        <h6>10 điểm</h6>
+                                    </div>
+                                    <button type="button" class="btn btn-outline-success">Thông tin học
+                                        viên</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mt-3">
+                        <div class="card-body">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Tìm kiếm..."
+                                    aria-label="Recipient's username" aria-describedby="button-addon2">
+                                <button class="btn btn-primary" type="button" id="button-addon2">Tìm kiếm</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mt-3">
+                        <div class="accordion" id="accordionMonHoc">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseSoftWare" aria-expanded="true"
+                                        aria-controls="collapseSoftWare">
+                                        <i class="bi bi-server"></i>
+                                        Phát triển phần mềm
+                                    </button>
+                                </h2>
+                                <div id="collapseSoftWare" class="accordion-collapse collapse show"
+                                    data-bs-parent="#accordionMonHoc">
+                                    <ul class="list-group">
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Lập trình Android nâng cao
+                                            <span class="badge bg-primary rounded-pill">12</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Lập trình Android cơ bản
+                                            <span class="badge bg-primary rounded-pill">2</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Lập trình ASP.NET
+                                            <span class="badge bg-primary rounded-pill">25</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Lập trình game 2D
+                                            <span class="badge bg-primary rounded-pill">1</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Lập trình Java nâng cao
+                                            <span class="badge bg-primary rounded-pill">10</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Lập trình Java nâng cao
+                                            <span class="badge bg-primary rounded-pill">4</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Lập trình JavaScript
+                                            <span class="badge bg-primary rounded-pill">4</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Lập trình VB.NET
+                                            <span class="badge bg-primary rounded-pill">4</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            SQL Server
+                                            <span class="badge bg-primary rounded-pill">4</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Cơ sở dữ liệu
+                                            <span class="badge bg-primary rounded-pill">22</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Lập trình PHP
+                                            <span class="badge bg-primary rounded-pill">22</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseWeb" aria-expanded="false" aria-controls="collapseWeb">
+                                        <i class="bi bi-globe-americas"></i>
+                                        Lập Trình Web
+                                    </button>
+                                </h2>
+                                <div id="collapseWeb" class="accordion-collapse collapse"
+                                    data-bs-parent="#accordionMonHoc">
+                                    <ul class="list-group">
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Xây dựng trang web
+                                            <span class="badge bg-primary rounded-pill">14</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Thiết kế web cho di động
+                                            <span class="badge bg-primary rounded-pill">2</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Thiết kế layout
+                                            <span class="badge bg-primary rounded-pill">1</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Internet Marketing
+                                            <span class="badge bg-primary rounded-pill">1</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            HTML5 và CSS3
+                                            <span class="badge bg-primary rounded-pill">1</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Thiết kế UI trên Android
+                                            <span class="badge bg-primary rounded-pill">1</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseWeb" aria-expanded="false" aria-controls="collapseWeb">
+                                        <i class="bi bi-list-stars"></i>
+                                        Những môn học khác
+                                    </button>
+                                </h2>
+                                <div id="collapseWeb" class="accordion-collapse collapse"
+                                    data-bs-parent="#accordionMonHoc">
+                                    <ul class="list-group">
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Thiết kế UI trên Android
+                                            <span class="badge bg-primary rounded-pill">14</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Điện toán đám mây
+                                            <span class="badge bg-primary rounded-pill">2</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="py-3 my-4">
+        <div class="container">
+            <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+                <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Trang chủ</a></li>
+                <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Giới thiệu</a></li>
+                <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Liên hệ</a></li>
+                <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Góp ý</a></li>
+                <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Hỏi đáp</a></li>
+                <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Tài khoản</a></li>
+            </ul>
+            <p class="text-center text-muted">© PC05132 - Nguyễn Thành Trung</p>
+        </div>
+    </footer>
+    <div class="modal fade" id="confirmTest" tabindex="-1" aria-labelledby="confirmTestLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="confirmTestLabel">Xác nhận thi thử</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label for="date">
+                                    <i class="small"></i><br>
+                                    <strong>Ngày ký hợp đồng :</strong>
+                                    <strong class="text-danger">(*)</strong>
+                                </label>
+                                <input id="date" type="date" class="form-control" aria-describedby="dateWarning">
+                                <small id="dateWarning" class="form-text text-danger">Vui lòng nhập ngày ký hợp
+                                    đồng</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary">Đồng ý</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="loginModalLabel">Đăng nhập tài khoản</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="card-body">
+                        <form action="">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label for="name">
+                                            <i class="small">Dấu * là bắt buộc</i><br>
+                                            <strong>Tên đăng nhập :</strong>
+                                            <strong class="text-danger">(*)</strong>
+                                        </label>
+                                        <input id="name" type="text" class="form-control"
+                                            aria-describedby="nameWarning">
+                                        <small id="nameWarning" class="form-text text-danger">Vui lòng nhập tên đăng
+                                            nhập</small>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label for="passWord">
+                                            <i class="small"></i><br>
+                                            <strong>Mật khẩu :</strong>
+                                            <strong class="text-danger">(*)</strong>
+                                        </label>
+                                        <input id="passWord" type="password" class="form-control"
+                                            aria-describedby="passWWarning">
+                                        <small id="passWWarning" class="form-text text-danger">Vui lòng nhập mật
+                                            khẩu</small>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <a href=""><i>Bạn quên mật khẩu?</i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary">Đồng ý</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="registerModalLabel">Đăng ký tài khoản</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="card-body">
+                        <form action="">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="name">
+                                            <i class="small">Dấu * là bắt buộc</i><br>
+                                            <strong>Họ và tên :</strong>
+                                            <strong class="text-danger">(*)</strong>
+                                        </label>
+                                        <input id="name" type="text" class="form-control"
+                                            aria-describedby="nameWarning">
+                                        <small id="nameWarning" class="form-text text-danger">Vui lòng nhập họ và
+                                            tên</small>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="userName">
+                                            <i class="small"></i><br>
+                                            <strong>Tên đăng nhập :</strong>
+                                            <strong class="text-danger">(*)</strong>
+                                        </label>
+                                        <input id="userName" type="text" class="form-control"
+                                            aria-describedby="nameWarning">
+                                        <small id="nameWarning" class="form-text text-danger">Vui lòng nhập tên đăng
+                                            nhập</small>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="email">
+                                            <i class="small"></i><br>
+                                            <strong>Email :</strong>
+                                            <strong class="text-danger">(*)</strong>
+                                        </label>
+                                        <input id="email" type="text" class="form-control"
+                                            aria-describedby="emailWarning">
+                                        <small id="emailWarning" class="form-text text-danger">Vui lòng nhập
+                                            email</small>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="passWord">
+                                            <i class="small"></i><br>
+                                            <strong>Mật khẩu :</strong>
+                                            <strong class="text-danger">(*)</strong>
+                                        </label>
+                                        <input id="passWord" type="password" class="form-control"
+                                            aria-describedby="passWarning">
+                                        <small id="passWarning" class="form-text text-danger">Vui lòng nhập mật
+                                            khẩu</small>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="ngaySinh">
+                                            <i class="small"></i><br>
+                                            <strong>Ngày sinh :</strong>
+                                            <strong class="text-danger">(*)</strong>
+                                        </label>
+                                        <input id="ngaySinh" type="date" class="form-control"
+                                            aria-describedby="ngaySinhWarning">
+                                        <small id="ngaySinhWarning" class="form-text text-danger">Vui lòng nhập ngày
+                                            sinh</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary">Đồng ý</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="forgetPassModal" tabindex="-1" aria-labelledby="forgetPassModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="forgetPassModalLabel">Lấy lại tài khoản</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="card-body">
+                        <form action="">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="mb-3">
+                                        <label for="email-id">
+                                            <i class="small"></i><br>
+                                            <strong>Email :</strong>
+                                            <strong class="text-danger">(*)</strong>
+                                        </label>
+                                        <input type="email" class="form-control" id="email-id"
+                                            placeholder="name@example.com" aria-describedby="emailWarning">
+                                        <small id="emailWarning" class="form-text text-danger">Vui lòng nhập
+                                            email</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary">Đồng ý</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>

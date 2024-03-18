@@ -1,0 +1,78 @@
+<div class="modal-dialog modal-lg" ng-controller="ChangeAccControllerHTML">
+    <div class="modal-content text-center">
+        <div class="modal-header h5 text-white bg-primary justify-content-center">
+            Cập nhật tài khoản
+        </div>
+        <div class="modal-body px-5">
+            <p class="py-2">
+                Nhập vào đẩy đủ các thông tin sau
+            </p>
+            <form name="formChangeAcc">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="changeAccModalEmail">Email của bạn:
+                            </label>
+                            <input type="email" id="changeAccModalEmail" class="form-control"
+                                placeholder="name@example.com" ng-model="user.emailChangeAcc" name="changeAccInputEmail"
+                                required />
+                            <span ng-show="formChangeAcc.changeAccInputEmail.$invalid" class="text-danger">(*) Nhập
+                                email có
+                                định
+                                dạng name@example.com</span>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="changeAccModalUsername">Username của bạn:
+                            </label>
+                            <input type="text" id="changeAccModalUsername" class="form-control"
+                                ng-model="user.usernameChangeAcc" name="changeAccInputUsername" required />
+                            <span ng-show="formChangeAcc.changeAccInputUsername.$invalid" class="text-danger">(*) Nhập
+                                username</span>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="changeModalAccPass">Mật khẩu</label>
+                            <input type="password" id="changeModalAccPass" minlength="8" class="form-control"
+                                ng-model="user.password" name="changeAccInputPass" required />
+                            <span ng-show="formChangeAcc.changeAccInputPass.$invalid" class="text-danger">(*) Mật khẩu
+                                ít
+                                nhất 8 ký tự</span>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="changeModalAccFullName">Họ và tên</label>
+                            <input type="text" id="changeModalAccFullName"  class="form-control"
+                                ng-model="user.fullname" name="changeAccFullName" required />
+                            <span ng-show="formChangeAcc.changeAccFullName.$invalid" class="text-danger">(*) Nhập họ và
+                                tên</span>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="changeModalAccGender">Giới tính</label>
+                            <input type="text" id="changeModalAccGender" class="form-control"
+                                ng-model="user.gender" name="changeAccGender" required />
+                            <span ng-show="formChangeAcc.changeAccGender.$invalid" class="text-danger">(*) Nhập giới
+                                tính</span>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="changeModalAccBirthday">Ngày sinh</label>
+                            <input type="date" id="changeModalAccBirthday" minlength="8" class="form-control"
+                                ng-model="user.birthday" name="changeAccBirthday" required />
+                            <span ng-show="formChangeAcc.changeAccBirthday.$invalid" class="text-danger">(*) Nhập ngày
+                                sinh</span>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <button type="button" class="btn btn-primary btn-block mb-4 w-100" ng-click="udateAcc()"
+                ng-disabled="isDisabledChangeButton">Cập nhật</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,20 @@
+<div class="container">
+    <h1>TRANG BÀI VIẾT</h1>
+    <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-12" ng-repeat="post in listPosts">
+            <div class="card">
+                <div class="card-body" style="width:350px; height:350px;">
+                    <img ng-src="{{post.image}}" alt="" class="img-thumbnail">
+                </div>
+                <div class="card-footer">
+                    <h4 class="title">
+                        {{post.title}}
+                    </h4>
+                    <p class="descrition">
+                        {{post.description|truncateWordsHTML:10}}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
