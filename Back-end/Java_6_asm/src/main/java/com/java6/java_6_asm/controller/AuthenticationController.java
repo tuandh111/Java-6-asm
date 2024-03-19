@@ -7,6 +7,8 @@ import com.java6.java_6_asm.model.response.AuthenticationResponse;
 import com.java6.java_6_asm.model.request.RegisterRequest;
 import com.java6.java_6_asm.exception.BadRequestException;
 import com.java6.java_6_asm.security.service.AuthenticationService;
+import com.java6.java_6_asm.security.service.GetTokenRefreshToken;
+import com.java6.java_6_asm.security.service.JwtService;
 import com.java6.java_6_asm.service.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,10 +28,11 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(origins = "*")
 public class AuthenticationController {
     @Autowired
     UserService userService;
+    private final JwtService jwtService;
 
     private final AuthenticationService service;
 
@@ -46,7 +49,10 @@ public class AuthenticationController {
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request) {
+    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request, HttpServletRequest httpServletRequest) {
+        GetTokenRefreshToken.getToken(httpServletRequest);
+        System.out.println("User1: " + jwtService.extractUsername("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0dWFuZGhwYzA1MDc2QGZwdC5lZHUudm4iLCJpYXQiOjE3MTA4MDk5NTIsImV4cCI6MTcxMDg5NjM1Mn0.8Ata74reIX-DVJavfDNwaeHsSehS5A2SxX3KDjGNcAY"));
+        ;
         return ResponseEntity.ok(service.authenticate(request));
     }
 

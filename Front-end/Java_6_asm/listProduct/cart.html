@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"  ng-app="myCart">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,7 +14,14 @@
   <link rel="stylesheet" href="vendors/owl-carousel/owl.carousel.min.css">
   <link rel="stylesheet" href="vendors/nice-select/nice-select.css">
   <link rel="stylesheet" href="vendors/nouislider/nouislider.min.css">
-
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
+        <script src="/listProduct/js/cart.js"></script>
+        <script src="/listProduct/assets/js/vendor/angularjs_1.8.2.js"></script>
+        <script src="/listProduct/assets/js/vendor/angular-route.min.js"></script>
+        <script src="/listProduct/assets/js/vendor/angular.min.js"></script>
+        <link rel="stylesheet" href="css/style.css">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -98,7 +105,7 @@
 
   <!--================Cart Area =================-->
   <section class="cart_area">
-      <div class="container">
+      <div class="container" ng-controller="CartCtrl">
           <div class="cart_inner">
               <div class="table-responsive">
                   <table class="table">
@@ -111,88 +118,32 @@
                           </tr>
                       </thead>
                       <tbody>
-                          <tr>
+                          <tr ng-repeat="cart in carts">
                               <td>
                                   <div class="media">
                                       <div class="d-flex">
                                           <img src="img/cart/cart1.png" alt="">
                                       </div>
                                       <div class="media-body">
-                                          <p>Minimalistic shop for multipurpose use</p>
+                                          <p>{{ cart.product.productName }}</p>
                                       </div>
                                   </div>
                               </td>
                               <td>
-                                  <h5>$360.00</h5>
+                                  <h5>{{cart.product.price}} </h5>
                               </td>
+                            <td>
+                                <div class="product_count">
+                                    <input type="number" name="qty" id="sst" max="{{cart.product.quantityInStock}}" ng-model="cart.quantity"
+                                        ng-change="updatePrice(cart)" title="Quantity:" class="input-text qty">
+                                    <button class="increase items-count" type="button" ng-click="incrementQuantity(cart)"><i
+                                            class="lnr lnr-chevron-up"></i></button>
+                                    <button class="reduced items-count" type="button" ng-click="decrementQuantity(cart)"><i
+                                            class="lnr lnr-chevron-down"></i></button>
+                                </div>
+                            </td>
                               <td>
-                                  <div class="product_count">
-                                      <input type="text" name="qty" id="sst" maxlength="12" value="1" title="Quantity:"
-                                          class="input-text qty">
-                                      <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
-                                          class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button>
-                                      <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
-                                          class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
-                                  </div>
-                              </td>
-                              <td>
-                                  <h5>$720.00</h5>
-                              </td>
-                          </tr>
-                          <tr>
-                              <td>
-                                  <div class="media">
-                                      <div class="d-flex">
-                                          <img src="img/cart/cart2.png" alt="">
-                                      </div>
-                                      <div class="media-body">
-                                          <p>Minimalistic shop for multipurpose use</p>
-                                      </div>
-                                  </div>
-                              </td>
-                              <td>
-                                  <h5>$360.00</h5>
-                              </td>
-                              <td>
-                                  <div class="product_count">
-                                      <input type="text" name="qty" id="sst" maxlength="12" value="1" title="Quantity:"
-                                          class="input-text qty">
-                                      <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
-                                          class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button>
-                                      <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
-                                          class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
-                                  </div>
-                              </td>
-                              <td>
-                                  <h5>$720.00</h5>
-                              </td>
-                          </tr>
-                          <tr>
-                              <td>
-                                  <div class="media">
-                                      <div class="d-flex">
-                                          <img src="img/cart/cart3.png" alt="">
-                                      </div>
-                                      <div class="media-body">
-                                          <p>Minimalistic shop for multipurpose use</p>
-                                      </div>
-                                  </div>
-                              </td>
-                              <td>
-                                  <h5>$360.00</h5>
-                              </td>
-                              <td>
-                                  <div class="product_count">
-                                      <input type="text" name="qty" id="sst" maxlength="12" value="1" title="Quantity:"
-                                          class="input-text qty">
-                                      <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
-                                          class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button>
-                                      <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
-                                          class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
-                                  </div>
-                              </td>
-                              <td>
-                                  <h5>$720.00</h5>
+                                  <h5>{{ calculateTotalPrice(cart) }}</h5>
                               </td>
                           </tr>
                           <tr class="bottom_button">
@@ -223,9 +174,9 @@
                               <td>
                                   <h5>Subtotal</h5>
                               </td>
-                              <td>
-                                  <h5>$2160.00</h5>
-                              </td>
+                            <td colspan="2">
+                                <h4>{{ totalCartValue }}</h4>
+                            </td>
                           </tr>
                           <tr class="shipping_area">
                               <td class="d-none d-md-block">

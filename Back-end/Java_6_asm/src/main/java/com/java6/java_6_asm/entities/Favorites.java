@@ -1,5 +1,6 @@
 package com.java6.java_6_asm.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.java6.java_6_asm.entities.product.Product;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

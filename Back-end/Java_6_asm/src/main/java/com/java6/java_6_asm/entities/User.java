@@ -62,12 +62,15 @@ public class User implements UserDetails {
     private List<Token> tokens;
 
     @OneToMany(mappedBy = "contactId", fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Contact> contacts;
 
     @OneToMany(mappedBy = "voucherId", fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Voucher> vouchers;
 
     @OneToMany(mappedBy = "orderId", fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Order> orders;
 
     @Override
@@ -103,5 +106,10 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" + "id=" + id + ", firstname='" + firstname + '\'' + ", lastname='" + lastname + '\'' + ", email='" + email + '\'' + ", password='" + password + '\'' + ", gender=" + gender + ", birthDay=" + birthDay + ", role=" + role + '}';
     }
 }

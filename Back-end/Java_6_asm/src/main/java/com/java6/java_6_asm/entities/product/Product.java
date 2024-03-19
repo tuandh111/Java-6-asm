@@ -1,5 +1,6 @@
 package com.java6.java_6_asm.entities.product;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.java6.java_6_asm.entities.*;
 import com.java6.java_6_asm.entities._enum.Gender;
 import jakarta.persistence.*;
@@ -53,22 +54,27 @@ public class Product {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @OneToMany(mappedBy = "productId")
+    @OneToMany(mappedBy = "productId")   @JsonIgnore
     private List<Favorites> favorites;
 
     @ManyToOne
-    @JoinColumn(name = "brandId")
+    @JoinColumn(name = "brandId")   @JsonIgnore
     private Brand brand;
 
-    @OneToMany(mappedBy = "productImageId")
+    @OneToMany(mappedBy = "productImageId")   @JsonIgnore
     private List<ProductImage> productImages;
 
-    @OneToMany(mappedBy = "detailsColorId")
+    @OneToMany(mappedBy = "detailsColorId")   @JsonIgnore
     private List<DetailsColor> detailsColors;
 
-    @OneToMany(mappedBy = "detailsSizeId")
+    @OneToMany(mappedBy = "detailsSizeId")   @JsonIgnore
     private List<DetailsSize> detailsSizes;
 
-    @OneToMany(mappedBy = "cartId")
+    @OneToMany(mappedBy = "cartId")   @JsonIgnore
     private List<Cart> cart;
+
+    @Override
+    public String toString() {
+        return "Product{" + "productId=" + productId + ", productName='" + productName + '\'' + ", isActive=" + isActive + ", createDate=" + createDate + ", deleteDate=" + deleteDate + ", quantityInStock=" + quantityInStock + ", price=" + price + ", description='" + description + '\'' + ", gender=" + gender + '}';
+    }
 }

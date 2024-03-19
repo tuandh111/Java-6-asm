@@ -34,11 +34,13 @@ app.controller("SignInController", [
              var config = {
                headers: {
                  "Content-Type": "application/json", // Đặt kiểu nội dung là JSON
-                 Authorization: "Bearer " + localStorage.getItem("accessToken"), // Thêm token vào tiêu đề Authorization nếu cần
+                 "Authorization": "Bearer " + localStorage.getItem("accessToken"), // Thêm token vào tiêu đề Authorization nếu cần
+                 "X-Refresh-Token": localStorage.getItem("refreshToken"),
                },
              };
+            console.log(config)
             $http
-                .post("http://localhost:8080/api/v1/auth/authenticate", requestData)
+                .post("http://localhost:8080/api/v1/auth/authenticate", requestData,config)
                 .then(function (response) {
                     try {
                         var dataResponse = response.data;
