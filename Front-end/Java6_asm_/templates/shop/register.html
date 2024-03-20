@@ -1,0 +1,106 @@
+<!-- ================ start banner area ================= -->
+<section class="blog-banner-area" id="category">
+	<div class="container h-100">
+		<div class="blog-banner">
+			<div class="text-center">
+				<h1>Register</h1>
+				<nav aria-label="breadcrumb" class="banner-breadcrumb">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a href="#">Home</a></li>
+						<li class="breadcrumb-item active" aria-current="page">Register</li>
+					</ol>
+				</nav>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- ================ end banner area ================= -->
+
+<!--================Login Box Area =================-->
+<section class="login_box_area section-margin">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-6">
+				<div class="login_box_img">
+					<div class="hover">
+						<h4>Already have an account?</h4>
+						<p>There are advances being made in science and technology everyday, and a good example of
+							this is the</p>
+						<a class="button button-account" href="#!/shop/login">Login Now</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-6">
+				<div class="login_form_inner register_form_inner" ng-controller="SignUpController">
+					<h2 class="mb-4">Create an account</h2>
+					<form class="row login_form" id="register_form">
+						<div class="col-md-12 form-group">
+							<input type="text" class="form-control" ng-model="Firstname" placeholder="Firstname"
+								onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username'">
+							<div ng-show="firstnameError" class="error-message text-danger mt-2" style="float: left;">(*) Please
+								enter your
+								firstname</div>
+						</div>
+						<div class="col-md-12 form-group">
+							<input type="text" class="form-control" ng-model="Lastname" placeholder="Lastname"
+								onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username'">
+							<div ng-show="lastnameError" class="error-message text-danger" mt-2 style="float: left;">(*) Please
+								enter your
+								lastname</div>
+						</div>
+						<div class="col-md-12 form-group">
+							<input type="email" class="form-control" ng-model="Email" placeholder="Email Address"
+								onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address'">
+							<div ng-show="emailError" class="error-message text-danger mt-2" style="float: left;">(*) Please enter
+								your email
+							</div>
+							<div ng-show="emailExits" class="error-message text-danger mt-2" style="float: left;">(*) Email already
+								exists
+							</div>
+						</div>
+						<div class="col-md-12 form-group">
+							<input type="password" class="form-control" ng-model="Password" placeholder="Password"
+								onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">
+							<div ng-show="passwordError" class="error-message text-danger mt-2" style="float: left;">(*) Please
+								enter your
+								password</div>
+							<div ng-show="passwordFormatError" class="error-message text-danger mt-2" style="float: left;">(*)
+								Password must
+								be at least 6 characters and 1
+								letter</div>
+						</div>
+						<div class="col-md-12 form-group">
+							<input type="password" class="form-control" ng-model="ConfirmPassword" placeholder="Confirm Password"
+								onfocus="this.placeholder = ''" onblur="this.placeholder = 'Confirm Password'">
+							<div ng-show="confirmError" class="error-message text-danger mt-2" style="float: left;">(*) Please enter
+								your
+								confirm password</div>
+							<div ng-show="confirmPasswordError" class="error-message text-danger mt-2" style="float: left;">(*)
+								Password 
+								confirmation must match the password</div>
+						</div>
+						<div class="col-md-12 form-group">
+							<div class="creat_account">
+								<input type="checkbox" id="f-option2" required name="selector">
+								<label for="f-option2">Keep me logged in</label>
+							</div>
+						</div>
+						<div class="col-md-12 form-group">
+							<div class="creat_account">
+								<div id="recaptchaContainer" style="display: none;">
+									<div class="g-recaptcha" data-sitekey="6LdosU4pAAAAAO_EzhGlRqWLJqns6eULivmzGWWE"></div>
+								</div>
+			
+								<div id="error"></div>
+							</div>
+						</div>
+						<div class="col-md-12 form-group">
+							<button ng-click="signUp()" class="button button-register w-100" id="submitButton">Register</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!--================End Login Box Area =================-->
