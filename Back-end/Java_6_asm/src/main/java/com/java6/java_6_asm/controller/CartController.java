@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.java6.java_6_asm.entities.Cart;
 import com.java6.java_6_asm.entities.User;
+import com.java6.java_6_asm.exception.NotFoundException;
+import com.java6.java_6_asm.model.request.CartRequest;
 import com.java6.java_6_asm.security.service.GetTokenRefreshToken;
 import com.java6.java_6_asm.security.service.JwtService;
 import com.java6.java_6_asm.service.service.CartService;
@@ -20,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/cart")
+@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 public class CartController {
@@ -31,14 +33,23 @@ public class CartController {
     @Autowired
     UserService userService;
 
-    @GetMapping
-    public ResponseEntity<?> getAllCartByUser(HttpServletRequest httpServletRequest) {
-        System.out.println("run successfully");
-        String token = GetTokenRefreshToken.getToken(httpServletRequest);
-        String email = jwtService.extractUsername(token);
-        User user = userService.findByEmail(email).orElseThrow();
-        List<Cart> cartList = cartService.findAllByUser(user);
-        return ResponseEntity.ok(cartList);
+    @GetMapping("/cart")
+    public ResponseEntity<List<Cart>> getAllCartByUser(HttpServletRequest httpServletRequest) {
+        return ResponseEntity.ok( cartService.findAllByUser(httpServletRequest));
+    }
+
+    @PostMapping("/update-cart/{id}")
+    public ResponseEntity<Cart> updateCartByUser(@PathVariable("id") String cartId, @RequestBody CartRequest cartRequest) {
+        return ResponseEntity.ok(cartService.updateCart(cartId, cartRequest));
+    }
+    @PostMapping("/create-cart")
+    public  ResponseEntity<Cart> createCartByUser(@RequestBody CartRequest cartRequest){
+        return  ResponseEntity.ok(cartService.saveCart(cartRequest));
+    }
+    @DeleteMapping("/delete-cart")
+    public  ResponseEntity<String> deleteCartByUser(@RequestBody CartRequest cartRequest){
+        cartService.deleteByUserAndProduct(cartRequest.getUserId(),cartRequest.getProductId());
+        return ResponseEntity.ok("Delete cart successfully by productId: "+ cartRequest.getProductId()+" and userId: "+ cartRequest.getUserId());
     }
 
 }

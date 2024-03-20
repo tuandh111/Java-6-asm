@@ -38,7 +38,6 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
-        System.out.println(checkEmail(request.getEmail()));
         Map<String, Object> jsonError = new HashMap<>();
         if (checkEmail(request.getEmail())) {
             jsonError.put("message", "ErrorEmail");
@@ -51,14 +50,12 @@ public class AuthenticationController {
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request, HttpServletRequest httpServletRequest) {
         GetTokenRefreshToken.getToken(httpServletRequest);
-        System.out.println("User1: " + jwtService.extractUsername("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0dWFuZGhwYzA1MDc2QGZwdC5lZHUudm4iLCJpYXQiOjE3MTA4MDk5NTIsImV4cCI6MTcxMDg5NjM1Mn0.8Ata74reIX-DVJavfDNwaeHsSehS5A2SxX3KDjGNcAY"));
-        ;
+        System.out.println("Email: " + jwtService.extractUsername("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0dWFuZGhwYzA1MDc2QGZwdC5lZHUudm4iLCJpYXQiOjE3MTA4MDk5NTIsImV4cCI6MTcxMDg5NjM1Mn0.8Ata74reIX-DVJavfDNwaeHsSehS5A2SxX3KDjGNcAY"));
         return ResponseEntity.ok(service.authenticate(request));
     }
 
     @PostMapping("/refresh-token")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        System.out.println("refresh token successfully");
         service.refreshToken(request, response);
     }
 
@@ -66,19 +63,13 @@ public class AuthenticationController {
     @PostMapping("/update-user")
     @Operation(summary = "Cập nhật user")
     public ResponseEntity<?> updateProfile(@RequestBody User request) {
-        try {
-            User user = userService.updateUser(request);
-            return ResponseEntity.ok(user);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("This user cannot be updated");
-        }
+        return ResponseEntity.ok(userService.updateUser(request));
     }
 
     @GetMapping("")
     @Operation(summary = "Danh sách người dùng")
     public ResponseEntity<?> findAllUser() {
-        List<User> user = userService.findAll();
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(userService.findAll());
     }
 
     public boolean checkEmail(String email) {
