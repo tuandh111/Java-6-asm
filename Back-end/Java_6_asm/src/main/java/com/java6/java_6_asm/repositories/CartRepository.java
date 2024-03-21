@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface CartRepository extends JpaRepository<Cart, String> {
@@ -23,5 +24,5 @@ public interface CartRepository extends JpaRepository<Cart, String> {
     void deleteByUserAndProduct(@Param("user") Integer userID, @Param("product") Integer productID);
 
     @Query("select  p from  Cart p where  p.user.id = :userID and  p.product.productId = :productID and p.checkPay = false")
-    Cart findByProductIDAndAndUserID(@Param("userID") Integer userID, @Param("productID") Integer productID);
+    Optional<Cart> findByProductIDAndAndUserID(@Param("userID") Integer userID, @Param("productID") Integer productID);
 }

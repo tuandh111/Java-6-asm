@@ -1,5 +1,6 @@
 package com.java6.java_6_asm.entities.product;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,7 +19,7 @@ public class DetailsColor {
     private Integer detailsColorId;
 
     @Temporal(TemporalType.DATE)
-    private Date createDate= new Date();
+    private Date createDate = new Date();
 
     @ManyToOne
     @JoinColumn(name = "colorId")
@@ -26,5 +27,6 @@ public class DetailsColor {
 
     @ManyToOne
     @JoinColumn(name = "productId")
+    @JsonIgnore
     private Product product;
 }

@@ -54,23 +54,26 @@ public class Product {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @OneToMany(mappedBy = "productId")   @JsonIgnore
+    @OneToMany(mappedBy = "productId")
+    @JsonIgnore
     private List<Favorites> favorites;
 
     @ManyToOne
-    @JoinColumn(name = "brandId")   @JsonIgnore
+    @JoinColumn(name = "brandId")
     private Brand brand;
 
-    @OneToMany(mappedBy = "productImageId")   @JsonIgnore
+    @OneToMany(mappedBy = "productImageId")
+    @JsonIgnore
     private List<ProductImage> productImages;
 
-    @OneToMany(mappedBy = "detailsColorId")   @JsonIgnore
+    @OneToMany(mappedBy = "detailsColorId")
     private List<DetailsColor> detailsColors;
 
-    @OneToMany(mappedBy = "detailsSizeId")   @JsonIgnore
+    @OneToMany(mappedBy = "detailsSizeId")
     private List<DetailsSize> detailsSizes;
 
-    @OneToMany(mappedBy = "cartId")   @JsonIgnore
+    @OneToMany(mappedBy = "cartId")
+    @JsonIgnore
     private List<Cart> cart;
 
     @Override

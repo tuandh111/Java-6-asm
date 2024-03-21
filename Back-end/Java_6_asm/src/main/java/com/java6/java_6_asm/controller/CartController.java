@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.java6.java_6_asm.entities.Cart;
 import com.java6.java_6_asm.entities.User;
+import com.java6.java_6_asm.entities.product.Product;
 import com.java6.java_6_asm.exception.NotFoundException;
 import com.java6.java_6_asm.model.request.CartRequest;
 import com.java6.java_6_asm.security.service.GetTokenRefreshToken;
@@ -50,6 +51,10 @@ public class CartController {
     public  ResponseEntity<String> deleteCartByUser(@RequestBody CartRequest cartRequest){
         cartService.deleteByUserAndProduct(cartRequest.getUserId(),cartRequest.getProductId());
         return ResponseEntity.ok("Delete cart successfully by productId: "+ cartRequest.getProductId()+" and userId: "+ cartRequest.getUserId());
+    }
+    @GetMapping("/cartUserIdAndProductId")
+    public ResponseEntity<Cart> getCartUserIdAndProductId(@RequestBody CartRequest cartRequest){
+        return ResponseEntity.ok(cartService.findByProductIDAndAndUserID(cartRequest.getUserId(), cartRequest.getProductId()));
     }
 
 }

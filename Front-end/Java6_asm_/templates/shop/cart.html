@@ -19,47 +19,69 @@
 
 
 <!--================Cart Area =================-->
-<section class="cart_area" >
+<section class="cart_area">
     <div class="container" ng-controller="CartCtrl">
         <div class="cart_inner">
             <div class="table-responsive">
                 <table class="table">
                     <thead>
                         <tr>
-                            <th scope="col">Product</th>
+
+                            <th scope="col">
+                                <form>
+                                    <input type="checkbox" id="checkAll" class="mr-2" ng-model="checkAll"> All
+                                    Product
+                                </form>
+                            </th>
                             <th scope="col">Price</th>
                             <th scope="col">Quantity</th>
-                            <th scope="col">Total</th>
+                            <th scope="col" style="width: 170px;">Total</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr ng-repeat="cart in carts">
                             <td>
                                 <div class="media">
-                                    <div class="d-flex">
-                                        <img src="img/cart/cart1.png" alt="">
+                                    <div class="d-flex" ng-model="cart.product.productId">
+                                        <form class="mt-3 mr-2">
+                                            <input type="checkbox" class="checkbox" ng-model="options[ $index]">
+                                        </form>
+                                        <img style="width: 60px;"
+                                            src="https://contents.mediadecathlon.com/p2153179/e958b22d2eccd9c7db0fea1da358fd8f/p2153179.jpg?format=auto&quality=70&f=650x0"
+                                            alt="">
                                     </div>
-                                    <div class="media-body">
-                                        <p>{{ cart.product.productName }}</p>
+                                    <div class="media-body" style="width: 350px;">
+                                        <h5><a href="#" style="color: #010101;">{{ cart.product.productName }} </a></h5>
+                                        <p>Thương hiệu: <span style="color: #010101;" class="mr-5">{{cart.product.brand.nameBrand}} </span> Loại:
+                                            <span style="color: #010101;" ng-if="cart.product.gender == 'UNISEX'">Nam và Nữ</span>
+                                            <span style="color: #010101;" ng-if="cart.product.gender == 'MALE'">Nam </span>
+                                            <span style="color: #010101;" ng-if="cart.product.gender == 'FEMALE'">Nữ</span>
+                                        </p>
+                                        <p >Màu: <span style="color: #010101;">{{cart.product.detailsColors[0].color.colorName}} </span><i
+                                                class="bi bi-pencil-square" style="float: right;"></i></p>
+                                        <p>Kích thước: <span style="color: #010101;">{{cart.product.detailsSizes[0].size.sizeName}}</span><i
+                                                class="bi bi-pencil-square" style="float: right;"></i></p>
                                     </div>
                                 </div>
                             </td>
                             <td>
-                                <h5>{{cart.product.price}} </h5>
+                                <h5 ng-model="cart.product.price">{{cart.product.price | number : fractionSize }} VNĐ
+                                </h5>
                             </td>
                             <td>
                                 <div class="product_count">
-                                    <input type="number" name="qty" id="sst" max="{{cart.product.quantityInStock}}"
-                                        ng-model="cart.quantity" ng-change="updatePrice(cart)" title="Quantity:"
+                                    <input type="number" name="qty" id="sst" ng-model="cart.quantity"
+                                        ng-change="updatePrice(cart)" ng-blur="updatePrice(cart)" title="Quantity:"
                                         class="input-text qty">
-                                    <button class="increase items-count" type="button" ng-click="incrementQuantity(cart)"><i
-                                            class="lnr lnr-chevron-up"></i></button>
-                                    <button class="reduced items-count" type="button" ng-click="decrementQuantity(cart)"><i
-                                            class="lnr lnr-chevron-down"></i></button>
+                                    <button class="increase items-count" type="button"
+                                        ng-click="incrementQuantity(cart)"><i class="bi bi-caret-up-fill"></i></button>
+                                    <button class="reduced items-count" type="button"
+                                        ng-click="decrementQuantity(cart)"><i
+                                            class="bi bi-caret-down-fill"></i></button>
                                 </div>
                             </td>
                             <td>
-                                <h5>{{ calculateTotalPrice(cart) }}</h5>
+                                <h5 style="color: red;">{{ calculateTotalPrice(cart) | number : fractionSize}} VNĐ</h5>
                             </td>
                         </tr>
                         <tr class="bottom_button">
@@ -67,45 +89,49 @@
                                 <a class="button" href="#">Update Cart</a>
                             </td>
                             <td>
-    
                             </td>
                             <td>
-    
+
                             </td>
-                            <td>
-                                <div class="cupon_text d-flex align-items-center">
+                            <td >
+                                <div class="cupon_text d-flex" style="float: right;">
                                     <input type="text" placeholder="Coupon Code">
                                     <a class="primary-btn" href="#">Apply</a>
-                                    <a class="button" href="#">Have a Coupon?</a>
+                                    <a class="button" href="#" >Have a Coupon?</a>
                                 </div>
                             </td>
                         </tr>
                         <tr>
                             <td>
-    
+                                <h4>Miễn phí giao hàng cho đơn hàng từ 3,000,000 VNĐ</h4>
+                                    
                             </td>
                             <td>
-    
-                            </td>
-                            <td>
-                                <h5>Subtotal</h5>
+                                    
                             </td>
                             <td colspan="2">
-                                <h4>{{ totalCartValue }}</h4>
+                                <h3 style="color: red; margin: 0;">Tạm tính: <span style="float: right;">{{ totalCartValue | number : fractionSize}} VNĐ</span></h3>
+                                <h3 class="mt-4">Phí giao hàng: <span style="float: right;">{{freeShip}}</span></h3>
+                                <hr>
+                                <h3  class="mt-4" style="color: red; margin: 0;">Tổng tiền: <span style="float: right;">{{ totalCartAll | number : fractionSize}} VNĐ</span></h3>
                             </td>
                         </tr>
-                        <tr class="shipping_area">
-                            <td class="d-none d-md-block">
-    
+                        <tr class="shipping_area" >
+                            <td   colspan="2">
+                                    <h1>Sản phẩm đề xuất</h1>
+                                    <div class="row">
+                                        <div class="col-lg-3">tuan</div>
+                                        <div class="col-lg-3">tuan2</div>
+                                        <div class="col-lg-3">tuan3</div>
+                                         <div class="col-lg-3">tuan3</div>
+                                    </div>
+                            </td>
+                         
+                            <td>
+                                
                             </td>
                             <td>
-    
-                            </td>
-                            <td>
-                                <h5>Shipping</h5>
-                            </td>
-                            <td>
-                                <div class="shipping_box">
+                                <div class="shipping_box"><h2>Hình thức khuyến mãi</h2>
                                     <ul class="list">
                                         <li><a href="#">Flat Rate: $5.00</a></li>
                                         <li><a href="#">Free Shipping</a></li>
@@ -130,13 +156,13 @@
                         </tr>
                         <tr class="out_button_area">
                             <td class="d-none-l">
-    
+
                             </td>
                             <td class="">
-    
+
                             </td>
                             <td>
-    
+
                             </td>
                             <td>
                                 <div class="checkout_btn_inner d-flex align-items-center">

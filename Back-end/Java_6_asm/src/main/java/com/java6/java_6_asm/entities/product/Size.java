@@ -1,5 +1,6 @@
 package com.java6.java_6_asm.entities.product;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -27,11 +28,12 @@ public class Size {
     private Boolean isActive;
 
     @Temporal(TemporalType.DATE)
-    private Date createDate= new Date();
+    private Date createDate = new Date();
 
     @Temporal(TemporalType.DATE)
     private Date deleteDate;
 
     @OneToMany(mappedBy = "detailsSizeId", fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<DetailsSize> detailsSizes;
 }

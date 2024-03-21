@@ -1,5 +1,6 @@
 package com.java6.java_6_asm.entities.product;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -26,6 +27,7 @@ public class Brand {
     private Boolean isActive;
 
     @OneToMany(mappedBy = "productId")
-    private List<Product> products ;
+    @JsonIgnore
+    private List<Product> products;
 
 }

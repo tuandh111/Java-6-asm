@@ -1,5 +1,6 @@
 package com.java6.java_6_asm.entities.product;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -25,7 +26,7 @@ public class Color {
     @NotNull(message = "Vui lòng nhập màu")
     private String colorName;
 
-    private  Boolean isActive;
+    private Boolean isActive;
 
     @Temporal(TemporalType.DATE)
     private Date createDate = new Date();
@@ -34,5 +35,6 @@ public class Color {
     private Date deleteDate;
 
     @OneToMany(mappedBy = "detailsColorId")
+    @JsonIgnore
     private List<DetailsColor> detailsColor;
 }

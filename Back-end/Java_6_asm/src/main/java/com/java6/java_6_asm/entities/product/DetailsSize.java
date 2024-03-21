@@ -1,5 +1,6 @@
 package com.java6.java_6_asm.entities.product;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,5 +27,6 @@ public class DetailsSize {
 
     @ManyToOne
     @JoinColumn(name = "productId")
+    @JsonIgnore
     private Product product;
 }

@@ -55,7 +55,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public Cart findByProductIDAndAndUserID(Integer userID, Integer productID) {
-        return cartRepository.findByProductIDAndAndUserID(userID, productID);
+        return cartRepository.findByProductIDAndAndUserID(userID, productID).orElseThrow(()->new NotFoundException("Not found product with user"));
     }
 
     @Override
