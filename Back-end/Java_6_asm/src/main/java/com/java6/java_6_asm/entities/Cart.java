@@ -30,4 +30,9 @@ public class Cart {
     @Column
     private Boolean checkPay;
 
+    private Integer imageId;
+
+    private Integer sizeId;
+
+    private Integer  colorId;
 }
