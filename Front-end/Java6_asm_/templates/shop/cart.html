@@ -33,9 +33,10 @@
                                     Product
                                 </form>
                             </th>
-                            <th scope="col">Price</th>
+                            <th scope="col" style="width: 170px;">Price</th>
                             <th scope="col">Quantity</th>
                             <th scope="col" style="width: 170px;">Total</th>
+
                         </tr>
                     </thead>
                     <tbody>
@@ -52,15 +53,37 @@
                                     </div>
                                     <div class="media-body" style="width: 350px;">
                                         <h5><a href="#" style="color: #010101;">{{ cart.product.productName }} </a></h5>
-                                        <p>Thương hiệu: <span style="color: #010101;" class="mr-5">{{cart.product.brand.nameBrand}} </span> Loại:
-                                            <span style="color: #010101;" ng-if="cart.product.gender == 'UNISEX'">Nam và Nữ</span>
-                                            <span style="color: #010101;" ng-if="cart.product.gender == 'MALE'">Nam </span>
-                                            <span style="color: #010101;" ng-if="cart.product.gender == 'FEMALE'">Nữ</span>
+                                        <p>Thương hiệu:
+                                            <span style="color: #010101;" class="mr-5">{{cart.product.brand.nameBrand}}
+                                            </span>
+                                            <span style="color: #010101; float: right;"
+                                                ng-if="cart.product.gender == 'UNISEX'"><span
+                                                    style="color: #858796;">Loại:</span> Nam và
+                                                Nữ</span>
+                                            <span style="color: #010101; float: right;"
+                                                ng-if="cart.product.gender == 'MALE'"> <span
+                                                    style="color: #858796;">Loại:</span> Nam
+                                            </span>
+                                            <span style="color: #010101; float: right;"
+                                                ng-if="cart.product.gender == 'FEMALE'"> <span
+                                                    style="color: #858796;">Loại:</span> Nữ</span>
                                         </p>
-                                        <p >Màu: <span style="color: #010101;">{{cart.product.detailsColors[0].color.colorName}} </span><i
-                                                class="bi bi-pencil-square" style="float: right;"></i></p>
-                                        <p>Kích thước: <span style="color: #010101;">{{cart.product.detailsSizes[0].size.sizeName}}</span><i
-                                                class="bi bi-pencil-square" style="float: right;"></i></p>
+                                        <p>Màu:
+                                            <span style="color: #010101;" ng-repeat="dtColor in detailsColor">
+                                                <span ng-if="dtColor.detailsColorId == cart.colorId">
+                                                    {{dtColor.color.colorName}}
+                                                </span>
+                                            </span><span style="float: right;">Chọn màu: <i
+                                                    class="bi bi-pencil-square"></span></i>
+                                        </p>
+                                        <p>Kích thước:
+                                            <span style="color: #010101;" ng-repeat="dtSize in detailsSize">
+                                                <span ng-if="dtSize.detailsSizeId == cart.sizeId">
+                                                    {{dtSize.size.sizeName}}
+                                                </span>
+                                            </span><span style="float: right;">Chọn size: <i
+                                                    class="bi bi-pencil-square"></span></i>
+                                        </p>
                                     </div>
                                 </div>
                             </td>
@@ -82,6 +105,62 @@
                             </td>
                             <td>
                                 <h5 style="color: red;">{{ calculateTotalPrice(cart) | number : fractionSize}} VNĐ</h5>
+
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td colspan="6">
+                                <div class="shipping_box">
+                                    <h2>Mã giảm giá</h2>
+                                    <div class="row">
+                                        <div class="col-lg-3">
+                                            <div class="card" style="width: 100%">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">Card title</h5>
+                                                    <p class="card-text">Some quick example text to build on the card
+                                                        title and
+                                                        make up the bulk of the card's content.</p>
+                                                    <a href="#" class="btn btn-primary">Sao chép</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <div class="card" style="width:  100%">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">Card title</h5>
+                                                    <p class="card-text">Some quick example text to build on the card
+                                                        title and
+                                                        make up the bulk of the card's content.</p>
+                                                    <a href="#" class="btn btn-primary">Sao chép</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <div class="card" style="width:  100%">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">Card title</h5>
+                                                    <p class="card-text">Some quick example text to build on the card
+                                                        title and
+                                                        make up the bulk of the card's content.</p>
+                                                    <a href="#" class="btn btn-primary">Sao chép</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <div class="card" style="width:  100%">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">Card title</h5>
+                                                    <p class="card-text">Some quick example text to build on the card
+                                                        title and
+                                                        make up the bulk of the card's content.</p>
+                                                    <a href="#" class="btn btn-primary">Sao chép</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
                             </td>
                         </tr>
                         <tr class="bottom_button">
@@ -93,45 +172,48 @@
                             <td>
 
                             </td>
-                            <td >
+                            <td>
                                 <div class="cupon_text d-flex" style="float: right;">
                                     <input type="text" placeholder="Coupon Code">
                                     <a class="primary-btn" href="#">Apply</a>
-                                    <a class="button" href="#" >Have a Coupon?</a>
+                                    <a class="button" href="#">Have a Coupon?</a>
                                 </div>
                             </td>
                         </tr>
                         <tr>
                             <td>
                                 <h4>Miễn phí giao hàng cho đơn hàng từ 3,000,000 VNĐ</h4>
-                                    
+
                             </td>
                             <td>
-                                    
+
                             </td>
                             <td colspan="2">
-                                <h3 style="color: red; margin: 0;">Tạm tính: <span style="float: right;">{{ totalCartValue | number : fractionSize}} VNĐ</span></h3>
-                                <h3 class="mt-4">Phí giao hàng: <span style="float: right;">{{freeShip}}</span></h3>
+                                <h4 style="color: red; margin: 0;">Tạm tính: <span style="float: right;">{{
+                                        totalCartValue | number : fractionSize}} VNĐ</span></h4>
+                                <h4 class="mt-4">Phí giao hàng: <span style="float: right;">{{freeShip}}</span></h4>
                                 <hr>
-                                <h3  class="mt-4" style="color: red; margin: 0;">Tổng tiền: <span style="float: right;">{{ totalCartAll | number : fractionSize}} VNĐ</span></h3>
+                                <h4 class="mt-4" style="color: red; margin: 0;">Tổng tiền: <span
+                                        style="float: right;">{{ totalCartAll | number : fractionSize}} VNĐ</span></h4>
                             </td>
                         </tr>
-                        <tr class="shipping_area" >
-                            <td   colspan="2">
-                                    <h1>Sản phẩm đề xuất</h1>
-                                    <div class="row">
-                                        <div class="col-lg-3">tuan</div>
-                                        <div class="col-lg-3">tuan2</div>
-                                        <div class="col-lg-3">tuan3</div>
-                                         <div class="col-lg-3">tuan3</div>
-                                    </div>
+                        <tr class="shipping_area">
+                            <td colspan="2">
+                                <h1>Sản phẩm đề xuất</h1>
+                                <div class="row">
+                                    <div class="col-lg-3">tuan</div>
+                                    <div class="col-lg-3">tuan2</div>
+                                    <div class="col-lg-3">tuan3</div>
+                                    <div class="col-lg-3">tuan3</div>
+                                </div>
                             </td>
-                         
+
                             <td>
-                                
+
                             </td>
                             <td>
-                                <div class="shipping_box"><h2>Hình thức khuyến mãi</h2>
+                                <div class="shipping_box">
+                                    <h2>Hình thức khuyến mãi</h2>
                                     <ul class="list">
                                         <li><a href="#">Flat Rate: $5.00</a></li>
                                         <li><a href="#">Free Shipping</a></li>

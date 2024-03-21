@@ -7,32 +7,32 @@ function cartController($scope, $http, $rootScope) {
   // Hàm để tính tổng tiền của giỏ hàng
   $scope.calculateTotalCartValue = function () {
     $scope.totalCartValue = 0;
-    $scope.totalCartAll =0;
+    $scope.totalCartAll = 0;
     angular.forEach($scope.carts, function (cart) {
       cart.totalPrice = cart.quantity * cart.product.price;
       $scope.totalCartValue += cart.totalPrice;
     });
-    if ($scope.totalCartValue>3000000){
-      $scope.freeShip= 'Miễn phí giao hàng';
+    if ($scope.totalCartValue > 3000000) {
+      $scope.freeShip = 'Miễn phí giao hàng';
       $scope.totalCartAll = $scope.totalCartValue
     } else {
       $scope.freeShip = '25,000 VNĐ';
-      $scope.totalCartAll = $scope.totalCartValue+ 25000
+      $scope.totalCartAll = $scope.totalCartValue + 25000
     }
   };
 
   $scope.updatePrice = function (cart) {
-    if (cart.quantity <= cart.product.quantityInStock && cart.quantity>0) {
+    if (cart.quantity <= cart.product.quantityInStock && cart.quantity > 0) {
       cart.totalPrice = cart.quantity * cart.product.price;
       $scope.calculateTotalCartValue();
-    } else if(cart.quantity > cart.product.quantityInStock) {
+    } else if (cart.quantity > cart.product.quantityInStock) {
       Swal.fire({
         title: "Lỗi!",
         text: "Số lượng không được lớn hơn số lượng trong kho!",
         icon: "error"
       });
       cart.quantity = cart.product.quantityInStock
-    }else if(cart.quantity <1){
+    } else if (cart.quantity < 1) {
       Swal.fire({
         title: "Lỗi!",
         text: "Số lượng phải lớn hơn 0",
@@ -40,7 +40,7 @@ function cartController($scope, $http, $rootScope) {
       });
       cart.quantity = 1
     }
-    console.log("is: ",cart.quantity, cart.product.quantityInStock)
+    console.log("is: ", cart.quantity, cart.product.quantityInStock)
     $scope.updateCart(cart);
   };
 
@@ -60,7 +60,7 @@ function cartController($scope, $http, $rootScope) {
         text: "Số lượng không được lớn hơn số lượng trong kho!",
         icon: "error"
       });
-      cart.quantity= cart.product.quantityInStock
+      cart.quantity = cart.product.quantityInStock
     }
     $scope.updateCart(cart);
   };
@@ -105,7 +105,42 @@ function cartController($scope, $http, $rootScope) {
     },
   };
   console.log(config);
-  console.log("this is cartController2");
+  //////////////////getAll DetailsColor
+  $http({
+    method: "GET",
+    headers: {
+      Authorization: "Bearer " + localStorage.getItem("accessToken"),
+      "X-Refresh-Token": localStorage.getItem("refreshToken"),
+    },
+    url: "http://localhost:8080/api/v1/details-color",
+  }).then(
+    function successCallback(response) {
+      console.log("color: " + response.data);
+      $scope.detailsColor = response.data;
+    },
+    function errorCallback(response) {
+      // called asynchronously if an error occurs
+      // or server returns response with an error status.
+    }
+  );
+  ////////////////////getAll DetailsSize
+  $http({
+    method: "GET",
+    headers: {
+      Authorization: "Bearer " + localStorage.getItem("accessToken"),
+      "X-Refresh-Token": localStorage.getItem("refreshToken"),
+    },
+    url: "http://localhost:8080/api/v1/details-size",
+  }).then(
+    function successCallback(response) {
+      console.log("color: " + response.data);
+      $scope.detailsSize = response.data;
+    },
+    function errorCallback(response) {
+      // called asynchronously if an error occurs
+      // or server returns response with an error status.
+    }
+  );
   $http({
     method: "GET",
     headers: {
