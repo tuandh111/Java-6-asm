@@ -88,14 +88,28 @@
                                 </div>
                             </td>
                             <td>
-                                <h5 ng-model="cart.product.price">{{cart.product.price | number : fractionSize }} VNĐ
-                                </h5>
+                                <p>
+                                    <span ng-if="!isDiscounted(cart.product.productId)">
+                                        Giá gốc: <span style="color: #010101;">{{ cart.product.price | number :
+                                            fractionSize }} VNĐ</span>
+                                    </span>
+                                    <span ng-if="isDiscounted(cart.product.productId)"
+                                        style="text-decoration: line-through;">
+                                        Giá gốc: <br>{{ cart.product.price | number : fractionSize }} VNĐ
+                                    </span>
+                                </p>
+                                <div ng-repeat="discount in discounts">
+                                    <div ng-if="discount.product.productId == cart.product.productId">
+                                        Giá giảm: <span style="color: #010101;"> {{ discount.discountedPrice | number :
+                                            fractionSize }} VNĐ</span>
+                                    </div>
+                                </div>
                             </td>
                             <td>
                                 <div class="product_count">
                                     <input type="number" name="qty" id="sst" ng-model="cart.quantity"
                                         ng-change="updatePrice(cart)" ng-blur="updatePrice(cart)" title="Quantity:"
-                                        class="input-text qty">
+                                        class="input-number qty">
                                     <button class="increase items-count" type="button"
                                         ng-click="incrementQuantity(cart)"><i class="bi bi-caret-up-fill"></i></button>
                                     <button class="reduced items-count" type="button"
@@ -107,7 +121,7 @@
                                 <h5 style="color: red;">{{ calculateTotalPrice(cart) | number : fractionSize}} VNĐ</h5>
 
                             </td>
-
+                            <td><i class="bi bi-trash"></i></td>
                         </tr>
                         <tr>
                             <td colspan="6">
@@ -117,44 +131,52 @@
                                         <div class="col-lg-3">
                                             <div class="card" style="width: 100%">
                                                 <div class="card-body">
-                                                    <h5 class="card-title">Card title</h5>
+                                                    <h5 class="card-title text-danger">Mã: <span
+                                                            class="btn btn-secondary">TUSGVJ</span></h5>
+                                                    <h3>Giảm: 40k</h3>
                                                     <p class="card-text">Some quick example text to build on the card
                                                         title and
                                                         make up the bulk of the card's content.</p>
-                                                    <a href="#" class="btn btn-primary">Sao chép</a>
+                                                    <a href="#" class="btn btn-warning">Sao chép</a>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-3">
                                             <div class="card" style="width:  100%">
                                                 <div class="card-body">
-                                                    <h5 class="card-title">Card title</h5>
+                                                    <h5 class="card-title text-danger">Mã: <span
+                                                            class="btn btn-secondary">TUDGVD</span></h5>
+                                                    <h3>Giảm: 50k</h3>
                                                     <p class="card-text">Some quick example text to build on the card
                                                         title and
                                                         make up the bulk of the card's content.</p>
-                                                    <a href="#" class="btn btn-primary">Sao chép</a>
+                                                    <a href="#" class="btn btn-warning">Sao chép</a>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-3">
                                             <div class="card" style="width:  100%">
                                                 <div class="card-body">
-                                                    <h5 class="card-title">Card title</h5>
+                                                    <h5 class="card-title text-danger">Mã: <span
+                                                            class="btn btn-secondary">NODGVD</span></h5>
+                                                    <h3>Giảm: 20k</h3>
                                                     <p class="card-text">Some quick example text to build on the card
                                                         title and
                                                         make up the bulk of the card's content.</p>
-                                                    <a href="#" class="btn btn-primary">Sao chép</a>
+                                                    <a href="#" class="btn btn-warning">Sao chép</a>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-3">
                                             <div class="card" style="width:  100%">
                                                 <div class="card-body">
-                                                    <h5 class="card-title">Card title</h5>
+                                                    <h5 class="card-title text-danger">Mã: <span
+                                                            class="btn btn-secondary">JUTHFG</span></h5>
+                                                    <h3>Giảm: 10k</h3>
                                                     <p class="card-text">Some quick example text to build on the card
                                                         title and
                                                         make up the bulk of the card's content.</p>
-                                                    <a href="#" class="btn btn-primary">Sao chép</a>
+                                                    <a href="#" class="btn btn-warning">Sao chép</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -189,12 +211,14 @@
 
                             </td>
                             <td colspan="2">
-                                <h4 style="color: red; margin: 0;">Tạm tính: <span style="float: right;">{{
-                                        totalCartValue | number : fractionSize}} VNĐ</span></h4>
-                                <h4 class="mt-4">Phí giao hàng: <span style="float: right;">{{freeShip}}</span></h4>
-                                <hr>
-                                <h4 class="mt-4" style="color: red; margin: 0;">Tổng tiền: <span
-                                        style="float: right;">{{ totalCartAll | number : fractionSize}} VNĐ</span></h4>
+                                <h5 style="color: red; margin: 0;">Tạm tính: <span style="float: right;">{{
+                                        totalCartValue | number : fractionSize}} VNĐ</span></h5>
+                                <h5 class="mt-4">Phí giao hàng: <span
+                                        style="float: right;color: #010101;">{{freeShip}}</span></h4>
+                                    <hr>
+                                    <h4 class="mt-4" style="color: red; margin: 0;">Tổng tiền: <span
+                                            style="float: right;">{{ totalCartAll | number : fractionSize}} VNĐ</span>
+                                    </h4>
                             </td>
                         </tr>
                         <tr class="shipping_area">

@@ -9,7 +9,18 @@ function cartController($scope, $http, $rootScope) {
     $scope.totalCartValue = 0;
     $scope.totalCartAll = 0;
     angular.forEach($scope.carts, function (cart) {
-      cart.totalPrice = cart.quantity * cart.product.price;
+      if ($scope.isDiscounted(cart.product.productId)) {
+        for (var i = 0; i < $scope.discounts.length; i++) {
+          if ($scope.discounts[i].product.productId === cart.product.productId) {
+            cart.totalPrice = cart.quantity * $scope.discounts[i].discountedPrice;
+            console.log(6, $scope.discounts[i].discountedPrice);
+            break;
+          }
+        }
+      } else {
+        cart.totalPrice = cart.quantity * cart.product.price;
+        console.log(7);
+      }
       $scope.totalCartValue += cart.totalPrice;
     });
     if ($scope.totalCartValue > 3000000) {
@@ -23,7 +34,19 @@ function cartController($scope, $http, $rootScope) {
 
   $scope.updatePrice = function (cart) {
     if (cart.quantity <= cart.product.quantityInStock && cart.quantity > 0) {
-      cart.totalPrice = cart.quantity * cart.product.price;
+      if ($scope.isDiscounted(cart.product.productId)) {
+        for (var i = 0; i < $scope.discounts.length; i++) {
+          if ($scope.discounts[i].product.productId === cart.product.productId) {
+            cart.totalPrice = cart.quantity * $scope.discounts[i].discountedPrice;
+            console.log(6, $scope.discounts[i].discountedPrice);
+            break;
+          }
+        }
+      } else {
+        cart.totalPrice = cart.quantity * cart.product.price;
+        console.log(7);
+      }
+
       $scope.calculateTotalCartValue();
     } else if (cart.quantity > cart.product.quantityInStock) {
       Swal.fire({
@@ -40,7 +63,6 @@ function cartController($scope, $http, $rootScope) {
       });
       cart.quantity = 1
     }
-    console.log("is: ", cart.quantity, cart.product.quantityInStock)
     $scope.updateCart(cart);
   };
 
@@ -80,7 +102,7 @@ function cartController($scope, $http, $rootScope) {
       data: JSON.stringify(requestData),
       url: "http://localhost:8080/api/v1/update-cart/" + cart.cartId,
     }).then(function (response) {
-      console.log(response.data);
+
     });
   };
   // Giảm số lượng sản phẩm
@@ -115,7 +137,6 @@ function cartController($scope, $http, $rootScope) {
     url: "http://localhost:8080/api/v1/details-color",
   }).then(
     function successCallback(response) {
-      console.log("color: " + response.data);
       $scope.detailsColor = response.data;
     },
     function errorCallback(response) {
@@ -133,7 +154,6 @@ function cartController($scope, $http, $rootScope) {
     url: "http://localhost:8080/api/v1/details-size",
   }).then(
     function successCallback(response) {
-      console.log("color: " + response.data);
       $scope.detailsSize = response.data;
     },
     function errorCallback(response) {
@@ -141,6 +161,35 @@ function cartController($scope, $http, $rootScope) {
       // or server returns response with an error status.
     }
   );
+  //////////////////// findAll Discount
+  $scope.discounts = [];
+  $http({
+    method: "GET",
+    headers: {
+      Authorization: "Bearer " + localStorage.getItem("accessToken"),
+      "X-Refresh-Token": localStorage.getItem("refreshToken"),
+    },
+    url: "http://localhost:8080/api/v1/discount",
+  }).then(
+    function successCallback(response) {
+      $scope.discounts = response.data;
+      $scope.isDiscounted = function (productId) {
+        for (var i = 0; i < $scope.discounts.length; i++) {
+          if ($scope.discounts[i].product.productId === productId) {
+            return true;
+          }
+        }
+        return false;
+      };
+
+    },
+    function errorCallback(response) {
+      // called asynchronously if an error occurs
+      // or server returns response with an error status.
+    }
+  );
+
+
   $http({
     method: "GET",
     headers: {
