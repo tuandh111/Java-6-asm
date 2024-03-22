@@ -11,5 +11,8 @@ public class CartRequest {
     private int quantity;
     private int productId;
     private int userId;
+    private int colorId;
+    private int sizeId;
+    private int imageId;
 
 }

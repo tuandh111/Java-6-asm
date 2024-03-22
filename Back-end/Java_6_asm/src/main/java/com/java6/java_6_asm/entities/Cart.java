@@ -34,5 +34,5 @@ public class Cart {
 
     private Integer sizeId;
 
-    private Integer  colorId;
+    private Integer colorId;
 }
