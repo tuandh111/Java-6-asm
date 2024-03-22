@@ -68,7 +68,19 @@ function cartController($scope, $http, $rootScope) {
 
   // Tính toán tổng giá tiền
   $scope.calculateTotalPrice = function (cart) {
-    return cart.totalPrice || cart.quantity * cart.product.price;
+    if ($scope.isDiscounted(cart.product.productId)) {
+      for (var i = 0; i < $scope.discounts.length; i++) {
+        if ($scope.discounts[i].product.productId === cart.product.productId) {
+          cart.totalPrice = cart.quantity * $scope.discounts[i].discountedPrice;
+          console.log(6, $scope.discounts[i].discountedPrice);
+          break;
+        }
+      }
+    } else {
+      cart.totalPrice = cart.quantity * cart.product.price;
+      console.log(7);
+    }
+    return cart.totalPrice;
   };
 
   // Tăng số lượng sản phẩm
@@ -241,4 +253,29 @@ function cartController($scope, $http, $rootScope) {
       // or server returns response with an error status.
     }
   );
+}
+
+function copyCode() {
+  // Lấy mã từ phần tử có id="code"
+  var codeElement = document.getElementById('code');
+  var code = codeElement.innerText;
+
+  // Tạo một input ẩn để sao chép mã
+  var tempInput = document.createElement('input');
+  tempInput.setAttribute('type', 'text');
+  tempInput.setAttribute('value', code);
+  document.body.appendChild(tempInput);
+
+  // Chọn và sao chép mã vào clipboard
+  tempInput.select();
+  document.execCommand('copy');
+  Swal.fire({
+    title: "Thành công!",
+    text: "Sao chép mã " + code + " thành công",
+    icon: "success"
+  });
+  // Xóa input tạm thời
+  document.body.removeChild(tempInput);
+
+  // Hiển thị thông báo đã sao chép
 }
