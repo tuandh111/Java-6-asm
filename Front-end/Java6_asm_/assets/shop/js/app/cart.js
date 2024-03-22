@@ -13,13 +13,11 @@ function cartController($scope, $http, $rootScope) {
         for (var i = 0; i < $scope.discounts.length; i++) {
           if ($scope.discounts[i].product.productId === cart.product.productId) {
             cart.totalPrice = cart.quantity * $scope.discounts[i].discountedPrice;
-            console.log(6, $scope.discounts[i].discountedPrice);
             break;
           }
         }
       } else {
         cart.totalPrice = cart.quantity * cart.product.price;
-        console.log(7);
       }
       $scope.totalCartValue += cart.totalPrice;
     });
@@ -38,13 +36,11 @@ function cartController($scope, $http, $rootScope) {
         for (var i = 0; i < $scope.discounts.length; i++) {
           if ($scope.discounts[i].product.productId === cart.product.productId) {
             cart.totalPrice = cart.quantity * $scope.discounts[i].discountedPrice;
-            console.log(6, $scope.discounts[i].discountedPrice);
             break;
           }
         }
       } else {
         cart.totalPrice = cart.quantity * cart.product.price;
-        console.log(7);
       }
 
       $scope.calculateTotalCartValue();
@@ -72,13 +68,11 @@ function cartController($scope, $http, $rootScope) {
       for (var i = 0; i < $scope.discounts.length; i++) {
         if ($scope.discounts[i].product.productId === cart.product.productId) {
           cart.totalPrice = cart.quantity * $scope.discounts[i].discountedPrice;
-          console.log(6, $scope.discounts[i].discountedPrice);
           break;
         }
       }
     } else {
       cart.totalPrice = cart.quantity * cart.product.price;
-      console.log(7);
     }
     return cart.totalPrice;
   };
@@ -138,7 +132,6 @@ function cartController($scope, $http, $rootScope) {
       "X-Refresh-Token": localStorage.getItem("refreshToken"),
     },
   };
-  console.log(config);
   //////////////////getAll DetailsColor
   $http({
     method: "GET",
@@ -211,7 +204,6 @@ function cartController($scope, $http, $rootScope) {
     url: "http://localhost:8080/api/v1/cart",
   }).then(
     function successCallback(response) {
-      console.log(response.data);
       $scope.carts = response.data;
       $scope.checkAll = false;
       $scope.options = [];
@@ -226,26 +218,32 @@ function cartController($scope, $http, $rootScope) {
           });
         }
       });
-
+      var selectedOptions = [];
       $scope.$watchCollection("options", function (newValue, oldValue) {
         if (newValue !== oldValue) {
           newValue.forEach(function (value, index) {
             if (value !== oldValue[index]) {
+              var cartId = $scope.carts[index].cartId;
               if (value) {
-                console.log("Đã chọn:", "Option " + (index + 1));
+                console.log("Đã chọn:", "Option " + cartId);
+                selectedOptions.push(cartId);
               } else {
-                console.log("Đã bỏ chọn:", "Option " + (index + 1));
+                console.log("Đã bỏ chọn:", "Option " + cartId);
+                var selectedIndex = selectedOptions.indexOf(cartId); // Tìm chỉ số của phần tử đã chọn
+                if (selectedIndex !== -1) {
+                  selectedOptions.splice(selectedIndex, 1); // Loại bỏ phần tử đã chọn khỏi mảng
+                }
               }
             }
           });
           $scope.checkAll = newValue.every(function (value) {
             return value;
           });
+          console.log("Các option đã chọn:", selectedOptions);
         }
       });
       $scope.carts.forEach(function (cart) {
-        // Thực hiện hành động cho từng cart ở đây
-        console.log(cart.quantity); // Ví dụ: In ra thông tin của mỗi cart
+        // Thực hiện hành động cho từng cart ở đây// Ví dụ: In ra thông tin của mỗi cart
       });
     },
     function errorCallback(response) {
