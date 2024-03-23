@@ -967,6 +967,42 @@ a {
     font-weight: 500
 }
 
+
+.card-product__price {
+    font-size: 15px;
+    font-weight: 500
+}
+
+.card-product__size,
+.card-product__color {
+    align-items: center;
+    margin-top: 5px;
+}
+
+.card-product__size span {
+    padding: 1px 3px;
+    background: #dadada;
+    color: black;
+    border-radius: 5px;
+    margin: 0 2px;
+    cursor: pointer;
+}
+
+.card-product__color span {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    padding: 10px;
+    margin: 0 2px;
+    border: 1px solid black;
+    cursor: pointer;
+}
+
+.card-product__color span:hover {
+    border: 1px solid black;
+    box-shadow: 0 0 5px black;
+}
+
 .card-product:hover .card-product__imgOverlay {
     opacity: 1;
     z-index: 1;
@@ -2537,6 +2573,7 @@ a {
 .filter-bar-search {
     margin-top: 10px
 }
+
 
 .filter-bar-search input {
     border: 1px solid #eee;
