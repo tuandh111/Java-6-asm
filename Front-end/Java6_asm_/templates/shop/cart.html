@@ -29,7 +29,7 @@
 
                             <th scope="col">
                                 <form>
-                                    <input type="checkbox" id="checkAll" class="mr-2" ng-model="checkAll"> All
+                                    <input type="checkbox" id="checkAll" class=" mr-2" ng-model="checkAll"> All
                                     Product
                                 </form>
                             </th>
@@ -45,7 +45,8 @@
                                 <div class="media">
                                     <div class="d-flex" ng-model="cart.product.productId">
                                         <form class="mt-3 mr-2">
-                                            <input type="checkbox" class="checkbox" ng-model="options[ $index]">
+                                            <input type="checkbox" class="checkbox" ng-change="updatePrice(cart)"
+                                                ng-model="options[ $index]" ng-value="cart.cartId">
                                         </form>
                                         <img style="width: 60px;"
                                             src="https://contents.mediadecathlon.com/p2153179/e958b22d2eccd9c7db0fea1da358fd8f/p2153179.jpg?format=auto&quality=70&f=650x0"
@@ -100,7 +101,12 @@
                                 </p>
                                 <div ng-repeat="discount in discounts">
                                     <div ng-if="discount.product.productId == cart.product.productId">
-                                        Giá giảm: <span style="color: #010101;"> {{ discount.discountedPrice | number :
+                                        Giá còn:<br> <span style="color: #010101;"> {{
+                                            discount.discountedPrice | number :
+                                            fractionSize }} VNĐ</span>
+                                        <div class="mt-3"></div>
+                                        Tiết kiệm được:<br> <span style="color: #010101;">{{cart.product.price -
+                                            discount.discountedPrice| number :
                                             fractionSize }} VNĐ</span>
                                     </div>
                                 </div>
