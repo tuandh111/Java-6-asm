@@ -67,6 +67,7 @@ public class Product {
     private List<ProductImage> productImages;
 
     @OneToMany(mappedBy = "detailsColorId")
+    @JsonIgnore
     private List<DetailsColor> detailsColors;
 
     @OneToMany(mappedBy = "detailsSizeId")

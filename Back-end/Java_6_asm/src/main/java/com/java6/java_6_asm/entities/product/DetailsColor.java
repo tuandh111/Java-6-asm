@@ -27,6 +27,6 @@ public class DetailsColor {
 
     @ManyToOne
     @JoinColumn(name = "productId")
-    @JsonIgnore
+
     private Product product;
 }

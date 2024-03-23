@@ -2,7 +2,18 @@ console.log("this is cartController");
 app.controller("CartCtrl", cartController);
 
 function cartController($scope, $http, $rootScope) {
-  var selectedOptions = [];
+  $scope.openModel = function (productId) {
+    // Gán productId vào $scope để hiển thị trong model
+    $scope.productId = productId;
+    console.log("productId: " + productId);
+    document.getElementById(String(productId)).style.display = "block";
+  }
+
+  $scope.closeModel = function (productId) {
+    document.getElementById(String(productId)).style.display = "none";
+  }
+  //////////////////////////////////////////////////////////////////////////
+  $rootScope.selectedOptions = [];
   $scope.discounts = [];
   $http({
     method: "GET",
@@ -35,12 +46,12 @@ function cartController($scope, $http, $rootScope) {
               var cartId = $scope.carts[index].cartId;
               if (value) {
                 console.log("Đã chọn:", "Option " + cartId);
-                selectedOptions.push(cartId);
+                $rootScope.selectedOptions.push(cartId);
               } else {
                 console.log("Đã bỏ chọn:", "Option " + cartId);
-                var selectedIndex = selectedOptions.indexOf(cartId); // Tìm chỉ số của phần tử đã chọn
+                var selectedIndex = $rootScope.selectedOptions.indexOf(cartId); // Tìm chỉ số của phần tử đã chọn
                 if (selectedIndex !== -1) {
-                  selectedOptions.splice(selectedIndex, 1); // Loại bỏ phần tử đã chọn khỏi mảng
+                  $rootScope.selectedOptions.splice(selectedIndex, 1); // Loại bỏ phần tử đã chọn khỏi mảng
                 }
               }
             }
@@ -48,12 +59,52 @@ function cartController($scope, $http, $rootScope) {
           $scope.checkAll = newValue.every(function (value) {
             return value;
           });
-          console.log("Các option đã chọn:", selectedOptions);
+          console.log("Các option đã chọn:", $rootScope.selectedOptions);
+          $scope.totalCartValue = 0;
+          $scope.totalCartAll = 0;
+          var selectedOptions = $rootScope.selectedOptions
+          console.log("selectedOptions1", selectedOptions);
+          angular.forEach($scope.carts, function (cart) {
+
+            if (selectedOptions.includes(String(cart.cartId))) {
+              console.log(1)
+              if ($scope.isDiscounted(cart.product.productId)) {
+                for (var i = 0; i < $scope.discounts.length; i++) {
+                  if ($scope.discounts[i].product.productId === cart.product.productId) {
+                    cart.totalPrice = cart.quantity * $scope.discounts[i].discountedPrice;
+                    break;
+                  }
+                }
+              } else {
+                cart.totalPrice = cart.quantity * cart.product.price;
+              }
+              $scope.totalCartValue += cart.totalPrice;
+            }
+          });
+
+          if ($scope.totalCartValue > 3000000) {
+            $scope.freeShip = 'Miễn phí giao hàng';
+            $scope.discountTitle = 'Giảm giá đơn hàng:'
+            $scope.discount = ' -150,000 VNĐ'
+            $scope.totalCartAll = $scope.totalCartValue - 150000
+          } else if ($scope.totalCartValue > 100000) {
+            if ($scope.totalCartValue > 999000) {
+              $scope.discountTitle = 'Giảm giá đơn hàng:'
+              $scope.discount = ' -80,000 VNĐ'
+              $scope.totalCartAll = $scope.totalCartValue - 80000
+            } else if ($scope.totalCartValue > 599000) {
+              $scope.discountTitle = 'Giảm giá đơn hàng:'
+              $scope.discount = ' -50,000 VNĐ'
+              $scope.totalCartAll = $scope.totalCartValue - 50000
+            }
+            $scope.freeShip = '25,000 VNĐ';
+            $scope.totalCartAll = $scope.totalCartValue + 25000
+          } else {
+            $scope.freeShip = '';
+          }
         }
       });
-      $scope.carts.forEach(function (cart) {
-        // Thực hiện hành động cho từng cart ở đây// Ví dụ: In ra thông tin của mỗi cart
-      });
+
     },
     function errorCallback(response) {
     }
@@ -122,7 +173,10 @@ function cartController($scope, $http, $rootScope) {
   $scope.calculateTotalCartValue = function () {
     $scope.totalCartValue = 0;
     $scope.totalCartAll = 0;
+    var selectedOptions = $rootScope.selectedOptions
+    console.log("selectedOptions", selectedOptions);
     angular.forEach($scope.carts, function (cart) {
+
       if (selectedOptions.includes(String(cart.cartId))) {
         console.log(1)
         if ($scope.isDiscounted(cart.product.productId)) {
@@ -142,9 +196,11 @@ function cartController($scope, $http, $rootScope) {
     if ($scope.totalCartValue > 3000000) {
       $scope.freeShip = 'Miễn phí giao hàng';
       $scope.totalCartAll = $scope.totalCartValue
-    } else {
+    } else if ($scope.totalCartValue > 100000) {
       $scope.freeShip = '25,000 VNĐ';
       $scope.totalCartAll = $scope.totalCartValue + 25000
+    } else {
+      $scope.freeShip = '';
     }
   };
 
