@@ -82,10 +82,11 @@
                                                 <span ng-if="dtColor.detailsColorId == cart.colorId">
                                                     {{dtColor.color.colorName}}
                                                     <div class="model-overlay" id="{{cart.product.productId}}">
-                                                        <div class="model">
+                                                        <div class="model"><span class="close"
+                                                                ng-click="closeModel(cart.product.productId)">&times;</span>
                                                             <div class="model-header">
-                                                                <h2> {{cart.product.productName}}</h2>
 
+                                                                <h2> {{cart.product.productName}}</h2>
                                                             </div>
                                                             <div class="model-content">
                                                                 <h3>Chọn màu sản phẩm</h3>
@@ -93,15 +94,19 @@
                                                                     <div ng-repeat="dtColor in detailsColor">
                                                                         <span
                                                                             ng-if="dtColor.product.productId == cart.product.productId">
-                                                                            <input type="radio" name="" id="">
+                                                                            <input type="radio"
+                                                                                name="cart.product.productId" id="">
+                                                                            <img style="width: 90px; margin-top: 20px; margin-left:20px ;margin-right: 20px;"
+                                                                                src="https://contents.mediadecathlon.com/p2153179/e958b22d2eccd9c7db0fea1da358fd8f/p2153179.jpg?format=auto&quality=70&f=650x0"
+                                                                                alt="">
                                                                             {{dtColor.color.colorName}}
+
                                                                         </span>
                                                                     </div>
                                                                 </form>
                                                             </div>
-                                                            <button class="btn btn-danger"
-                                                                ng-click="closeModel(cart.product.productId)">Đóng</button>
-                                                            <button class="btn btn-primary" style="float: right;"
+
+                                                            <button class="btn btn-primary"
                                                                 ng-click="closeModel(cart.product.productId)">Xác
                                                                 nhận</button>
                                                         </div>
@@ -117,9 +122,44 @@
                                             <span style="color: #010101;" ng-repeat="dtSize in detailsSize">
                                                 <span ng-if="dtSize.detailsSizeId == cart.sizeId">
                                                     {{dtSize.size.sizeName}}
+                                                    <div class="model-overlay" id="{{cart.product.productId}}_size">
+                                                        <div class="model">
+                                                            <span class="close"
+                                                                ng-click="closeModelSize(cart.product.productId)">&times;</span>
+                                                            <div class="model-header">
+
+                                                                <h2> {{cart.product.productName}}</h2>
+                                                            </div>
+                                                            <div class="model-content">
+                                                                <h3>Chọn kích thước sản phẩm</h3>
+                                                                <form>
+                                                                    <div class="row">
+                                                                        <div ng-repeat="dtSize in detailsSize">
+                                                                            <div class="col-lg-6 mt-2"
+                                                                                ng-if="dtSize.product.productId == cart.product.productId">
+                                                                                <input type="radio" class="mr-4 "
+                                                                                    name="cart.product.productId" id="">
+                                                                                {{dtSize.size.sizeName}}
+                                                                                <img style="width: 90px;  "
+                                                                                    src="https://contents.mediadecathlon.com/p2153179/e958b22d2eccd9c7db0fea1da358fd8f/p2153179.jpg?format=auto&quality=70&f=650x0"
+                                                                                    alt="">
+                                                                                <hr>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+
+                                                            <button class="btn btn-primary"
+                                                                ng-click="closeModelSize(cart.product.productId)">Xác
+                                                                nhận</button>
+                                                        </div>
+                                                    </div>
+                                                    <span style="float: right;">Chọn size: <i
+                                                            ng-click="openModelSize(cart.product.productId)"
+                                                            class="bi bi-pencil-square"></i></span>
                                                 </span>
-                                            </span><span style="float: right;">Chọn size: <i
-                                                    class="bi bi-pencil-square"></span></i>
+                                            </span>
                                         </p>
                                     </div>
                                 </div>
@@ -170,16 +210,19 @@
                                 <div class="shipping_box">
                                     <h2>Mã giảm giá</h2>
                                     <div class="row">
-                                        <div class="col-lg-3">
+                                        <div class="col-lg-3 mb-3" ng-repeat="voucher in vouchers">
                                             <div class="card" style="width: 100%">
                                                 <div class="card-body">
                                                     <h5 class="card-title text-danger">Mã: <span
-                                                            class="btn btn-secondary" id="code">TUSGVJ</span></h5>
-                                                    <h3>Giảm: 40k</h3>
+                                                            class="btn btn-secondary"
+                                                            id="{{voucher.voucherName}}">{{voucher.voucherName}}</span>
+                                                    </h5>
+                                                    <h3>Giảm: {{voucher.condition}}k</h3>
                                                     <p class="card-text">Some quick example text to build on the card
                                                         title and
                                                         make up the bulk of the card's content.</p>
-                                                    <button class="btn btn-warning" onclick="copyCode()">Sao
+                                                    <button class="btn btn-warning"
+                                                        ng-click="copyVoucher(voucher.voucherName)">Sao
                                                         chép</button>
                                                 </div>
                                             </div>

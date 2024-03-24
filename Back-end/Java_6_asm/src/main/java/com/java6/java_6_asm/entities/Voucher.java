@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,6 +28,12 @@ public class Voucher {
     private String condition;
 
     private String description;
+
+    @Temporal(TemporalType.DATE)
+    private Date effectiveDate;
+
+    @Temporal(TemporalType.DATE)
+    private Date ExpirationDate;
 
     @ManyToOne
     @JoinColumn(name="userId")

@@ -2,6 +2,8 @@ console.log("this is cartController");
 app.controller("CartCtrl", cartController);
 
 function cartController($scope, $http, $rootScope) {
+
+  //color
   $scope.openModel = function (productId) {
     // Gán productId vào $scope để hiển thị trong model
     $scope.productId = productId;
@@ -11,6 +13,17 @@ function cartController($scope, $http, $rootScope) {
 
   $scope.closeModel = function (productId) {
     document.getElementById(String(productId)).style.display = "none";
+  }
+  //size
+  $scope.openModelSize = function (detailsSizeId) {
+    // Gán productId vào $scope để hiển thị trong model
+
+    console.log("productIdSize: " + detailsSizeId);
+    document.getElementById(String(detailsSizeId + '_size')).style.display = "block";
+  }
+
+  $scope.closeModelSize = function (detailsSizeId) {
+    document.getElementById(String(detailsSizeId + '_size')).style.display = "none";
   }
   //////////////////////////////////////////////////////////////////////////
   $rootScope.selectedOptions = [];
@@ -101,6 +114,7 @@ function cartController($scope, $http, $rootScope) {
             $scope.totalCartAll = $scope.totalCartValue + 25000
           } else {
             $scope.freeShip = '';
+            $scope.discount = ''
           }
         }
       });
@@ -109,6 +123,49 @@ function cartController($scope, $http, $rootScope) {
     function errorCallback(response) {
     }
   );
+  //////////////////getAll voucher
+  $http({
+    method: "GET",
+    headers: {
+      Authorization: "Bearer " + localStorage.getItem("accessToken"),
+      "X-Refresh-Token": localStorage.getItem("refreshToken"),
+    },
+    url: "http://localhost:8080/api/v1/voucher",
+  }).then(
+    function successCallback(response) {
+      $scope.vouchers = response.data;
+      $scope.copyVoucher = function copyCode(voucherName) {
+        console.log('copyCode', voucherName)
+        // Lấy mã từ phần tử có id="code"
+        var codeElement = document.getElementById(voucherName);
+        var code = codeElement.innerText;
+
+        // Tạo một input ẩn để sao chép mã
+        var tempInput = document.createElement('input');
+        tempInput.setAttribute('type', 'text');
+        tempInput.setAttribute('value', code);
+        document.body.appendChild(tempInput);
+
+        // Chọn và sao chép mã vào clipboard
+        tempInput.select();
+        document.execCommand('copy');
+        // Xóa input tạm thời
+        document.body.removeChild(tempInput);
+        Swal.fire({
+          title: "Thành công!",
+          text: "Sao chép mã " + code + " thành công",
+          icon: "success"
+        });
+        // Hiển thị thông báo đã sao chép
+      }
+
+    },
+    function errorCallback(response) {
+      // called asynchronously if an error occurs
+      // or server returns response with an error status.
+    }
+  );
+  ////
   //////////////////getAll DetailsColor
   $http({
     method: "GET",
@@ -195,11 +252,23 @@ function cartController($scope, $http, $rootScope) {
 
     if ($scope.totalCartValue > 3000000) {
       $scope.freeShip = 'Miễn phí giao hàng';
-      $scope.totalCartAll = $scope.totalCartValue
+      $scope.discountTitle = 'Giảm giá đơn hàng:'
+      $scope.discount = ' -150,000 VNĐ'
+      $scope.totalCartAll = $scope.totalCartValue - 150000
     } else if ($scope.totalCartValue > 100000) {
+      if ($scope.totalCartValue > 999000) {
+        $scope.discountTitle = 'Giảm giá đơn hàng:'
+        $scope.discount = ' -80,000 VNĐ'
+        $scope.totalCartAll = $scope.totalCartValue - 80000
+      } else if ($scope.totalCartValue > 599000) {
+        $scope.discountTitle = 'Giảm giá đơn hàng:'
+        $scope.discount = ' -50,000 VNĐ'
+        $scope.totalCartAll = $scope.totalCartValue - 50000
+      }
       $scope.freeShip = '25,000 VNĐ';
       $scope.totalCartAll = $scope.totalCartValue + 25000
     } else {
+      $scope.discount = ''
       $scope.freeShip = '';
     }
   };
@@ -301,29 +370,4 @@ function cartController($scope, $http, $rootScope) {
     }
   };
 
-}
-
-function copyCode() {
-  // Lấy mã từ phần tử có id="code"
-  var codeElement = document.getElementById('code');
-  var code = codeElement.innerText;
-
-  // Tạo một input ẩn để sao chép mã
-  var tempInput = document.createElement('input');
-  tempInput.setAttribute('type', 'text');
-  tempInput.setAttribute('value', code);
-  document.body.appendChild(tempInput);
-
-  // Chọn và sao chép mã vào clipboard
-  tempInput.select();
-  document.execCommand('copy');
-  Swal.fire({
-    title: "Thành công!",
-    text: "Sao chép mã " + code + " thành công",
-    icon: "success"
-  });
-  // Xóa input tạm thời
-  document.body.removeChild(tempInput);
-
-  // Hiển thị thông báo đã sao chép
 }

@@ -71,6 +71,7 @@ public class Product {
     private List<DetailsColor> detailsColors;
 
     @OneToMany(mappedBy = "detailsSizeId")
+    @JsonIgnore
     private List<DetailsSize> detailsSizes;
 
     @OneToMany(mappedBy = "cartId")

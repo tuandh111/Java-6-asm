@@ -27,6 +27,5 @@ public class DetailsSize {
 
     @ManyToOne
     @JoinColumn(name = "productId")
-    @JsonIgnore
     private Product product;
 }
