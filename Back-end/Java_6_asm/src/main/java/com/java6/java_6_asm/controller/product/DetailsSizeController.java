@@ -19,7 +19,7 @@ import java.util.List;
 public class DetailsSizeController {
     @Autowired
     DetailsSizeService detailsSizeService;
-    @GetMapping("/details-size")
+    @GetMapping("/auth/details-size")
     public ResponseEntity<List<DetailsSize>> findAllDetailsSize(HttpServletRequest httpServletRequest){
         return  ResponseEntity.ok(detailsSizeService.findAllDetailSize());
     }

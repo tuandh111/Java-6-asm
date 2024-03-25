@@ -19,7 +19,7 @@ public class DetailsColorController {
     @Autowired
     DetailsColorService detailsColorService;
 
-    @GetMapping("/details-color")
+    @GetMapping("/auth/details-color")
     public ResponseEntity<List<DetailsColor>> findAllDetailsColor(HttpServletRequest httpServletRequest) {
         return ResponseEntity.ok(detailsColorService.findAllDetailsColor());
     }

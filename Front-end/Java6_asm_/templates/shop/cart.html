@@ -81,7 +81,7 @@
                                             <span style="color: #010101;" ng-repeat="dtColor in detailsColor">
                                                 <span ng-if="dtColor.detailsColorId == cart.colorId">
                                                     {{dtColor.color.colorName}}
-                                                    <div class="model-overlay" id="{{cart.product.productId}}">
+                                                    <div class="model-overlay" id="{{cart.product.productId}}_color">
                                                         <div class="model"><span class="close"
                                                                 ng-click="closeModel(cart.product.productId)">&times;</span>
                                                             <div class="model-header">
@@ -138,9 +138,10 @@
                                                                             <div class="col-lg-6 mt-2"
                                                                                 ng-if="dtSize.product.productId == cart.product.productId">
                                                                                 <input type="radio" class="mr-4 "
-                                                                                    name="cart.product.productId" id="">
+                                                                                    name="cart.product.productId"
+                                                                                    id="{{dtSize.size.sizeId}}">
                                                                                 {{dtSize.size.sizeName}}
-                                                                                <img style="width: 90px;  "
+                                                                                <img style="width: 90px;"
                                                                                     src="https://contents.mediadecathlon.com/p2153179/e958b22d2eccd9c7db0fea1da358fd8f/p2153179.jpg?format=auto&quality=70&f=650x0"
                                                                                     alt="">
                                                                                 <hr>
@@ -208,67 +209,81 @@
                         <tr>
                             <td colspan="6">
                                 <div class="shipping_box">
-                                    <h2>Mã giảm giá</h2>
+                                    <h2>Mã giảm giá cho tất cả</h2>
                                     <div class="row">
-                                        <div class="col-lg-3 mb-3" ng-repeat="voucher in vouchers">
-                                            <div class="card" style="width: 100%">
-                                                <div class="card-body">
-                                                    <h5 class="card-title text-danger">Mã: <span
-                                                            class="btn btn-secondary"
-                                                            id="{{voucher.voucherName}}">{{voucher.voucherName}}</span>
-                                                    </h5>
-                                                    <h3>Giảm: {{voucher.condition}}k</h3>
-                                                    <p class="card-text">Some quick example text to build on the card
-                                                        title and
-                                                        make up the bulk of the card's content.</p>
-                                                    <button class="btn btn-warning"
-                                                        ng-click="copyVoucher(voucher.voucherName)">Sao
-                                                        chép</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <div class="card" style="width:  100%">
-                                                <div class="card-body">
-                                                    <h5 class="card-title text-danger">Mã: <span
-                                                            class="btn btn-secondary code">TUDGVD</span></h5>
-                                                    <h3>Giảm: 50k</h3>
-                                                    <p class="card-text">Some quick example text to build on the card
-                                                        title and
-                                                        make up the bulk of the card's content.</p>
-                                                    <button class="btn btn-warning">Sao
-                                                        chép</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <div class="card" style="width:  100%">
-                                                <div class="card-body">
-                                                    <h5 class="card-title text-danger">Mã: <span
-                                                            class="btn btn-secondary">J8THFG</span></h5>
-                                                    <h3>Giảm: 10k</h3>
-                                                    <p class="card-text">Some quick example text to build on the card
-                                                        title and
-                                                        make up the bulk of the card's content.</p>
-                                                    <a href="#" class="btn btn-warning">Sao chép</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <div class="card" style="width:  100%">
-                                                <div class="card-body">
-                                                    <h5 class="card-title text-danger">Mã: <span
-                                                            class="btn btn-secondary">JUTHFG</span></h5>
-                                                    <h3>Giảm: 10k</h3>
-                                                    <p class="card-text">Some quick example text to build on the card
-                                                        title and
-                                                        make up the bulk of the card's content.</p>
-                                                    <a href="#" class="btn btn-warning">Sao chép</a>
+                                        <div ng-repeat="voucher in vouchers">
+                                            <div class="mb-3">
+                                                <div ng-if="voucher.type ==='ALL'">
+                                                    <div class="card mr-2" style="width:240px;height: 330px;">
+                                                        <div class="card-body">
+                                                            <h5 class="card-title text-danger">Mã: <span
+                                                                    class="btn btn-secondary"
+                                                                    id="{{voucher.voucherName}}">{{voucher.voucherName}}</span>
+                                                            </h5>
+                                                            <h4>Giảm: {{voucher.condition | number : fractionSize}} VNĐ
+                                                            </h4>
+                                                            <p class="card-text">{{voucher.description}}</p>
+                                                            <p>Áp dụng từ ngày: {{voucher.expirationDate |date}}</p>
+                                                            <p>Ngày hết hạn: {{voucher.effectiveDate |date}}</p>
+                                                            <button class="btn btn-warning"
+                                                                ng-click="copyVoucher(voucher.voucherName)">Sao
+                                                                chép</button>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-
+                                    <h2>Mã giảm giá phần trăm</h2>
+                                    <div class="row">
+                                        <div ng-repeat="voucher in vouchers">
+                                            <div class=" mb-3" style="float: left;">
+                                                <div ng-if="voucher.type ==='PT'">
+                                                    <div class="card mr-2" style="width:240px;height: 330px;">
+                                                        <div class="card-body">
+                                                            <h5 class="card-title text-danger">Mã: <span
+                                                                    class="btn btn-secondary"
+                                                                    id="{{voucher.voucherName}}">{{voucher.voucherName}}</span>
+                                                            </h5>
+                                                            <h4>Giảm: {{voucher.amountPercentage }} %
+                                                            </h4>
+                                                            <p class="card-text">{{voucher.description}}</p>
+                                                            <p>Áp dụng từ ngày: {{voucher.expirationDate |date}}</p>
+                                                            <p>Ngày hết hạn: {{voucher.effectiveDate |date}}</p>
+                                                            <button class="btn btn-warning"
+                                                                ng-click="copyVoucher(voucher.voucherName)">Sao
+                                                                chép</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h2>Mã giảm giá tiền</h2>
+                                    <div class="row">
+                                        <div ng-repeat="voucher in vouchers">
+                                            <div class=" mb-3">
+                                                <div ng-if="voucher.type ==='TM'">
+                                                    <div class="card mr-2" style="width:240px;height: 330px;">
+                                                        <div class="card-body">
+                                                            <h5 class="card-title text-danger">Mã: <span
+                                                                    class="btn btn-secondary"
+                                                                    id="{{voucher.voucherName}}">{{voucher.voucherName}}</span>
+                                                            </h5>
+                                                            <h4>Giảm: {{voucher.condition | number : fractionSize}} VNĐ
+                                                            </h4>
+                                                            <p class="card-text">{{voucher.description}}</p>
+                                                            <p>Áp dụng từ ngày: {{voucher.expirationDate |date}}</p>
+                                                            <p>Ngày hết hạn: {{voucher.effectiveDate |date}}</p>
+                                                            <button class="btn btn-warning"
+                                                                ng-click="copyVoucher(voucher.voucherName)">Sao
+                                                                chép</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </td>
                         </tr>
@@ -283,7 +298,7 @@
                             </td>
                             <td>
                                 <div class="cupon_text d-flex" style="float: right;">
-                                    <input type="text" placeholder="Coupon Code">
+                                    <input type="text" style="color: rgb(3, 3, 3);" placeholder="Nhập mã giảm giá">
                                     <a class="primary-btn" href="#">Apply</a>
                                     <a class="button" href="#">Have a Coupon?</a>
                                 </div>

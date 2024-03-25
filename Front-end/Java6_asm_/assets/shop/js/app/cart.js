@@ -8,11 +8,11 @@ function cartController($scope, $http, $rootScope) {
     // Gán productId vào $scope để hiển thị trong model
     $scope.productId = productId;
     console.log("productId: " + productId);
-    document.getElementById(String(productId)).style.display = "block";
+    document.getElementById(String(productId + "_color")).style.display = "block";
   }
 
   $scope.closeModel = function (productId) {
-    document.getElementById(String(productId)).style.display = "none";
+    document.getElementById(String(productId + "_color")).style.display = "none";
   }
   //size
   $scope.openModelSize = function (detailsSizeId) {
@@ -173,7 +173,7 @@ function cartController($scope, $http, $rootScope) {
       Authorization: "Bearer " + localStorage.getItem("accessToken"),
       "X-Refresh-Token": localStorage.getItem("refreshToken"),
     },
-    url: "http://localhost:8080/api/v1/details-color",
+    url: "http://localhost:8080/api/v1/auth/details-color",
   }).then(
     function successCallback(response) {
       $scope.detailsColor = response.data;
@@ -190,7 +190,7 @@ function cartController($scope, $http, $rootScope) {
       Authorization: "Bearer " + localStorage.getItem("accessToken"),
       "X-Refresh-Token": localStorage.getItem("refreshToken"),
     },
-    url: "http://localhost:8080/api/v1/details-size",
+    url: "http://localhost:8080/api/v1/auth/details-size",
   }).then(
     function successCallback(response) {
       $scope.detailsSize = response.data;
