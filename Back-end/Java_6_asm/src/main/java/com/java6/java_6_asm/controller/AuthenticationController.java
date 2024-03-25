@@ -3,6 +3,7 @@ package com.java6.java_6_asm.controller;
 import com.java6.java_6_asm.entities.User;
 import com.java6.java_6_asm.entities._enum.Role;
 import com.java6.java_6_asm.model.request.AuthenticationRequest;
+import com.java6.java_6_asm.model.request.ProductRequest;
 import com.java6.java_6_asm.model.response.AuthenticationResponse;
 import com.java6.java_6_asm.model.request.RegisterRequest;
 import com.java6.java_6_asm.exception.BadRequestException;
@@ -10,6 +11,7 @@ import com.java6.java_6_asm.security.service.AuthenticationService;
 import com.java6.java_6_asm.security.service.GetTokenRefreshToken;
 import com.java6.java_6_asm.security.service.JwtService;
 import com.java6.java_6_asm.service.service.UserService;
+import com.java6.java_6_asm.service.service.product.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -77,4 +79,5 @@ public class AuthenticationController {
         if (user.isPresent()) return true;
         return false;
     }
+
 }

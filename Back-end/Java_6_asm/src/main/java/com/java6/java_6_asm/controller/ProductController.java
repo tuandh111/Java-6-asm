@@ -11,13 +11,9 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*")
+@RequestMapping("/api/v1/auth")
 public class ProductController {
     @Autowired ProductService productService;
-
-//    @GetMapping("/twobee/products")
-//    public ResponseEntity<List<Product>> getAll(){
-//        return  ResponseEntity.ok(productService.findAll());
-//    }
     @GetMapping("/twobee/products")
     public ResponseEntity<List<ProductRequest>> getAll(){
         return  ResponseEntity.ok(productService.findAllProduct());

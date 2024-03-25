@@ -29,6 +29,7 @@ public class ProductRequest {
             ProductRequest productRequest = new ProductRequest();
             Product p = (Product) o[0];
             String brandName = (String) o[1];
+
             String imageName = (String) o[2];
             String[] imageNameArray = imageName.split(",");
 
@@ -38,14 +39,12 @@ public class ProductRequest {
             String colorName = (String) o[4];
             String[] colorNameArray=colorName.split(",");
 
+
             productRequest.setProduct(p);
             productRequest.setBrandName(brandName);
             productRequest.setImageNames(Arrays.asList(imageNameArray));
             productRequest.setSizeName(Arrays.asList(sizeNameArray));
             productRequest.setColorName(Arrays.asList(colorNameArray));
-//            productRequest.getImageNames().add(imageName);
-//            productRequest.getSizeName().add(sizeName);
-//            productRequest.getColorName().add(colorName);
             finalList.add(productRequest);
         }
         return finalList;
