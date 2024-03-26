@@ -1,5 +1,6 @@
 package com.java6.java_6_asm.entities;
 
+import com.java6.java_6_asm.entities._enum.Type;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -13,7 +14,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "Voucher")
+@Table(name = "voucher")
 public class Voucher {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +25,11 @@ public class Voucher {
 
     private String amountPercentage;
 
-    private String type;
+    @Enumerated(EnumType.STRING)
+    private Type type;
+    
+    @Nationalized
+    private String event;
 
     private String condition;
 

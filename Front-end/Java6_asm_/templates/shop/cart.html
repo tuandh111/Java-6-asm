@@ -90,25 +90,27 @@
                                                             </div>
                                                             <div class="model-content">
                                                                 <h3>Chọn màu sản phẩm</h3>
-                                                                <form>
+                                                                <form action="javascript:void(0)">
                                                                     <div ng-repeat="dtColor in detailsColor">
-                                                                        <span
+                                                                        <div
                                                                             ng-if="dtColor.product.productId == cart.product.productId">
-                                                                            <input type="radio"
-                                                                                name="cart.product.productId" id="">
+                                                                            <input type="radio" ng-model="selectedColor"
+                                                                                name="color"
+                                                                                value="{{dtColor.detailsColorId}}">
+
                                                                             <img style="width: 90px; margin-top: 20px; margin-left:20px ;margin-right: 20px;"
                                                                                 src="https://contents.mediadecathlon.com/p2153179/e958b22d2eccd9c7db0fea1da358fd8f/p2153179.jpg?format=auto&quality=70&f=650x0"
                                                                                 alt="">
-                                                                            {{dtColor.color.colorName}}
-
-                                                                        </span>
+                                                                            {{dtColor.color.colorName}} <button
+                                                                                class="btn btn-primary"
+                                                                                ng-click="discolor(selectedColor)">Xác
+                                                                                nhận</button>
+                                                                        </div>
                                                                     </div>
                                                                 </form>
                                                             </div>
 
-                                                            <button class="btn btn-primary"
-                                                                ng-click="closeModel(cart.product.productId)">Xác
-                                                                nhận</button>
+
                                                         </div>
                                                     </div>
                                                     <span style="float: right;">Chọn màu: <i
@@ -330,41 +332,46 @@
                         </tr>
                         <tr class="shipping_area">
                             <td colspan="2">
-                                <h1>Sản phẩm đề xuất</h1>
+                                <h1>Khuyến mãi sự kiện</h1>
                                 <div class="row">
-                                    <div class="col-lg-3">tuan</div>
-                                    <div class="col-lg-3">tuan2</div>
-                                    <div class="col-lg-3">tuan3</div>
-                                    <div class="col-lg-3">tuan3</div>
+                                    <div ng-repeat="voucher in vouchers">
+                                        <div class=" mb-3">
+                                            <div ng-if="voucher.type ==='EVENT'">
+                                                <div class="card mr-2" style="width:240px;height: 330px;">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title text-danger">Mã: <span
+                                                                class="btn btn-secondary"
+                                                                id="{{voucher.voucherName}}">{{voucher.voucherName}}</span>
+                                                        </h5>
+                                                        <h4>Giảm: {{voucher.condition | number : fractionSize}} VNĐ
+                                                        </h4>
+                                                        <p class="card-text">{{voucher.description}}</p>
+                                                        <p>Áp dụng từ ngày: {{voucher.expirationDate |date}}</p>
+                                                        <p>Ngày hết hạn: {{voucher.effectiveDate |date}}</p>
+                                                        <button class="btn btn-warning"
+                                                            ng-click="copyVoucher(voucher.voucherName)">Sao
+                                                            chép</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </td>
 
                             <td>
 
                             </td>
-                            <td>
-                                <div class="shipping_box">
-                                    <h2>Hình thức khuyến mãi</h2>
-                                    <ul class="list">
-                                        <li><a href="#">Flat Rate: $5.00</a></li>
-                                        <li><a href="#">Free Shipping</a></li>
-                                        <li><a href="#">Flat Rate: $10.00</a></li>
-                                        <li class="active"><a href="#">Local Delivery: $2.00</a></li>
-                                    </ul>
-                                    <h6>Calculate Shipping <i class="fa fa-caret-down" aria-hidden="true"></i></h6>
-                                    <select class="shipping_select">
-                                        <option value="1">Bangladesh</option>
-                                        <option value="2">India</option>
-                                        <option value="4">Pakistan</option>
-                                    </select>
-                                    <select class="shipping_select">
-                                        <option value="1">Select a State</option>
-                                        <option value="2">Select a State</option>
-                                        <option value="4">Select a State</option>
-                                    </select>
-                                    <input type="text" placeholder="Postcode/Zipcode">
-                                    <a class="gray_btn" href="#">Update Details</a>
-                                </div>
+                            <td colspan="2">
+                                <h4 class="mt-5">Sự kiện đang diễn ra</h4>
+                                <form action="">
+                                    <div ng-repeat="voucher in vouchers">
+                                        <div ng-if="voucher.type =='EVENT'">
+                                            {{voucher.event}}
+                                        </div>
+                                    </div>
+
+                                </form>
                             </td>
                         </tr>
                         <tr class="out_button_area">

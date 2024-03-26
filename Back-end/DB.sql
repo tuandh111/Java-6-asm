@@ -640,5 +640,41 @@ insert into favorites(create_at,is_delete, product_id,user_id) values (GETDATE()
 insert into favorites(create_at,is_delete, product_id,user_id) values (GETDATE(),1,9,2);
 insert into favorites(create_at,is_delete, product_id,user_id) values (GETDATE(),1,10,2);
 insert into favorites(create_at,is_delete, product_id,user_id) values (GETDATE(),1,11,2);
---Thêm dữ liệu bảng voucher
+--Thêm dữ liệu bảng voucher create database java6
+insert into voucher(expiration_date,amount_percentage,condition,event,description,effective_date,type,voucher_name,user_id)
+values('2025-01-01', 10,NULL, NULL,N'Sản phẩm được khuyến','2024-01-01','PT','IHERTEPROIH',1)
+insert into voucher(expiration_date,amount_percentage,condition,event,description,effective_date,type,voucher_name,user_id)
+values('2025-01-01', 10,NULL, NULL,N'Sản phẩm được khuyến','2024-01-01','PT','IHERTEPROIE',1)
+insert into voucher(expiration_date,amount_percentage,condition,event,description,effective_date,type,voucher_name,user_id)
+values('2025-01-01', 10,NULL, NULL,N'Sản phẩm được khuyến','2024-01-01','PT','IHERTEPRIHA',1)
+insert into voucher(expiration_date,amount_percentage,condition,event,description,effective_date,type,voucher_name,user_id)
+values('2025-01-01', 10,NULL, NULL,N'Sản phẩm được khuyến','2024-01-01','PT','IHERTEPROIHT',1)
+
+insert into voucher(expiration_date,amount_percentage,condition,event,description,effective_date,type,voucher_name,user_id)
+values('2025-01-01', NULL,10000, NULL,N'Sản phẩm được khuyến','2024-01-01','TM','IHERTEPROI1',1)
+insert into voucher(expiration_date,amount_percentage,condition,event,description,effective_date,type,voucher_name,user_id)
+values('2025-01-01', NULL,79000, NULL,N'Sản phẩm được khuyến','2024-01-01','TM','IHERTEPROI2',1)
+insert into voucher(expiration_date,amount_percentage,condition,event,description,effective_date,type,voucher_name,user_id)
+values('2025-01-01', NULL,20000, NULL,N'Sản phẩm được khuyến','2024-01-01','TM','IHERTEPROI3',1)
+insert into voucher(expiration_date,amount_percentage,condition,event,description,effective_date,type,voucher_name,user_id)
+values('2025-01-01', NULL,12000, NULL,N'Sản phẩm được khuyến','2024-01-01','TM','IHERTEPROI4',1)
+
+insert into voucher(expiration_date,amount_percentage,condition,event,description,effective_date,type,voucher_name,user_id)
+values('2025-01-01', NULL,10000, NULL,N'Sản phẩm được khuyến','2024-01-01','ALL','IHERTEPROI5',1)
+insert into voucher(expiration_date,amount_percentage,condition,event,description,effective_date,type,voucher_name,user_id)
+values('2025-01-01', NULL,79000, NULL,N'Sản phẩm được khuyến','2024-01-01','ALL','IHERTEPROI6',1)
+insert into voucher(expiration_date,amount_percentage,condition,event,description,effective_date,type,voucher_name,user_id)
+values('2025-01-01', NULL,20000, NULL,N'Sản phẩm được khuyến','2024-01-01','ALL','IHERTEPROI7',1)
+insert into voucher(expiration_date,amount_percentage,condition,event,description,effective_date,type,voucher_name,user_id)
+values('2025-01-01', NULL,12000, NULL,N'Sản phẩm được khuyến','2024-01-01','ALL','IHERTEPROI8',1)
+
+insert into voucher(expiration_date,amount_percentage,condition,event,description,effective_date,type,voucher_name,user_id)
+values('2024-04-30', NULL,12000, N'Sự kiện lễ 30/4',N'Sản phẩm được khuyến','2024-04-30','EVENT','IHERTEPROI9',1)
+insert into voucher(expiration_date,amount_percentage,condition,event,description,effective_date,type,voucher_name,user_id)
+values('2025-05-01', NULL,12000, N'Sự kiện lễ 1/5',N'Sản phẩm được khuyến','2024-05-01','EVENT','IHERTPROI10',1)
+
+
+
+
+
 

@@ -26,6 +26,13 @@ function cartController($scope, $http, $rootScope) {
     document.getElementById(String(detailsSizeId + '_size')).style.display = "none";
   }
   //////////////////////////////////////////////////////////////////////////
+
+  //Đổi màu
+  $scope.discolor = function (selectedColor) {
+    // Lấy mã màu được chọn
+    alert("Please select" + selectedColor);
+    // ... your logic to process selectedColor ...
+  };
   $rootScope.selectedOptions = [];
   $scope.discounts = [];
   $http({
