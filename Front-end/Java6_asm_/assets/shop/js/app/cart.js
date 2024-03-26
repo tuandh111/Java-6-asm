@@ -28,11 +28,170 @@ function cartController($scope, $http, $rootScope) {
   //////////////////////////////////////////////////////////////////////////
 
   //Đổi màu
-  $scope.discolor = function (selectedColor) {
-    // Lấy mã màu được chọn
-    alert("Please select" + selectedColor);
-    // ... your logic to process selectedColor ...
+  $scope.selectedColor = {};
+
+  // Hàm xử lý sự kiện khi nhấn nút "Xác nhận"
+  $scope.discolor = function (cart) {
+    // Lấy giá trị mà người dùng đã chọn từ $scope.selectedColor và cart
+    var selectedColorId = $scope.selectedColor[cart.product.productId];
+
+    var requestData = {
+      productId: cart.product.productId,
+      colorId: selectedColorId,
+      userId: 4,
+    };
+    $http({
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("accessToken"),
+        "X-Refresh-Token": localStorage.getItem("refreshToken"),
+      },
+      data: JSON.stringify(requestData),
+      url: "http://localhost:8080/api/v1/update-cart-color/" + cart.cartId,
+    }).then(function (response) {
+      $scope.loadData()
+      Swal.fire({
+        title: "Thành công!",
+        text: "Thay đổi màu thành công",
+        icon: "success"
+      });
+
+    });
+
   };
+  $scope.selectedSize = {};
+  //update Size
+  $scope.dissize = function (cart) {
+    console.log("dissize")
+    // Lấy giá trị mà người dùng đã chọn từ $scope.selectedColor và cart
+    var selectedSizeId = $scope.selectedSize[cart.product.productId];
+    console.log('is', selectedSizeId)
+    var requestData = {
+      productId: cart.product.productId,
+      sizeId: selectedSizeId,
+      userId: 4,
+    };
+    $http({
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("accessToken"),
+        "X-Refresh-Token": localStorage.getItem("refreshToken"),
+      },
+      data: JSON.stringify(requestData),
+      url: "http://localhost:8080/api/v1/update-cart-size/" + cart.cartId,
+    }).then(function (response) {
+      $scope.loadData()
+      Swal.fire({
+        title: "Thành công!",
+        text: "Thay đổi size thành công",
+        icon: "success"
+      });
+
+    });
+
+  };
+  //loadData
+  $scope.loadData = function () {
+    $http({
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("accessToken"),
+        "X-Refresh-Token": localStorage.getItem("refreshToken"),
+      },
+      url: "http://localhost:8080/api/v1/cart",
+    }).then(
+      function successCallback(response) {
+        $scope.carts = response.data;
+        $scope.checkAll = false;
+        $scope.options = [];
+        for (var i = 0; i < $scope.carts.length; i++) {
+          $scope.options[i] = false;
+        }
+
+        $scope.$watch("checkAll", function (newValue, oldValue) {
+          if (newValue !== oldValue) {
+            $scope.options = $scope.options.map(function () {
+              return newValue;
+            });
+          }
+        });
+        $scope.$watchCollection("options", function (newValue, oldValue) {
+          console.log("options", newValue, oldValue);
+          if (newValue !== oldValue) {
+            newValue.forEach(function (value, index) {
+              if (value !== oldValue[index]) {
+                var cartId = $scope.carts[index].cartId;
+                if (value) {
+                  console.log("Đã chọn:", "Option " + cartId);
+                  $rootScope.selectedOptions.push(cartId);
+                } else {
+                  console.log("Đã bỏ chọn:", "Option " + cartId);
+                  var selectedIndex = $rootScope.selectedOptions.indexOf(cartId); // Tìm chỉ số của phần tử đã chọn
+                  if (selectedIndex !== -1) {
+                    $rootScope.selectedOptions.splice(selectedIndex, 1); // Loại bỏ phần tử đã chọn khỏi mảng
+                  }
+                }
+              }
+            });
+            $scope.checkAll = newValue.every(function (value) {
+              return value;
+            });
+            console.log("Các option đã chọn:", $rootScope.selectedOptions);
+            $scope.totalCartValue = 0;
+            $scope.totalCartAll = 0;
+            var selectedOptions = $rootScope.selectedOptions
+            console.log("selectedOptions1", selectedOptions);
+            angular.forEach($scope.carts, function (cart) {
+
+              if (selectedOptions.includes(String(cart.cartId))) {
+                console.log(1)
+                if ($scope.isDiscounted(cart.product.productId)) {
+                  for (var i = 0; i < $scope.discounts.length; i++) {
+                    if ($scope.discounts[i].product.productId === cart.product.productId) {
+                      cart.totalPrice = cart.quantity * $scope.discounts[i].discountedPrice;
+                      break;
+                    }
+                  }
+                } else {
+                  cart.totalPrice = cart.quantity * cart.product.price;
+                }
+                $scope.totalCartValue += cart.totalPrice;
+              }
+            });
+
+            if ($scope.totalCartValue > 3000000) {
+              $scope.freeShip = 'Miễn phí giao hàng';
+              $scope.discountTitle = 'Giảm giá đơn hàng:'
+              $scope.discount = ' -150,000 VNĐ'
+              $scope.totalCartAll = $scope.totalCartValue - 150000
+            } else if ($scope.totalCartValue > 100000) {
+              if ($scope.totalCartValue > 999000) {
+                $scope.discountTitle = 'Giảm giá đơn hàng:'
+                $scope.discount = ' -80,000 VNĐ'
+                $scope.totalCartAll = $scope.totalCartValue - 80000
+              } else if ($scope.totalCartValue > 599000) {
+                $scope.discountTitle = 'Giảm giá đơn hàng:'
+                $scope.discount = ' -50,000 VNĐ'
+                $scope.totalCartAll = $scope.totalCartValue - 50000
+              }
+              $scope.freeShip = '25,000 VNĐ';
+              $scope.totalCartAll = $scope.totalCartValue + 25000
+            } else {
+              $scope.freeShip = '';
+              $scope.discount = ''
+            }
+          }
+        });
+
+      },
+      function errorCallback(response) {
+      }
+    );
+  }
+
+
+
+
   $rootScope.selectedOptions = [];
   $scope.discounts = [];
   $http({

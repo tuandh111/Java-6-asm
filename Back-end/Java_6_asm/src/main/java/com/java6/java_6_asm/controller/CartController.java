@@ -6,7 +6,9 @@ import com.java6.java_6_asm.entities.Cart;
 import com.java6.java_6_asm.entities.User;
 import com.java6.java_6_asm.entities.product.Product;
 import com.java6.java_6_asm.exception.NotFoundException;
+import com.java6.java_6_asm.model.request.CartColorRequest;
 import com.java6.java_6_asm.model.request.CartRequest;
+import com.java6.java_6_asm.model.request.CartSizeRequest;
 import com.java6.java_6_asm.security.service.GetTokenRefreshToken;
 import com.java6.java_6_asm.security.service.JwtService;
 import com.java6.java_6_asm.service.service.CartService;
@@ -36,24 +38,37 @@ public class CartController {
 
     @GetMapping("/cart")
     public ResponseEntity<List<Cart>> getAllCartByUser(HttpServletRequest httpServletRequest) {
-        return ResponseEntity.ok( cartService.findAllByUser(httpServletRequest));
+        return ResponseEntity.ok(cartService.findAllByUser(httpServletRequest));
     }
 
     @PostMapping("/update-cart/{id}")
     public ResponseEntity<Cart> updateCartByUser(@PathVariable("id") String cartId, @RequestBody CartRequest cartRequest) {
         return ResponseEntity.ok(cartService.updateCart(cartId, cartRequest));
     }
+
+    @PostMapping("/update-cart-color/{id}")
+    public ResponseEntity<Cart> updateCartColorByUser(@PathVariable("id") String cartId, @RequestBody CartColorRequest cartColorRequest) {
+        return ResponseEntity.ok(cartService.updateCartColor(cartId, cartColorRequest));
+    }
+
+    @PostMapping("/update-cart-size/{id}")
+    public ResponseEntity<Cart> updateCartSizeByUser(@PathVariable("id") String cartId, @RequestBody CartSizeRequest cartSizeRequest) {
+        return ResponseEntity.ok(cartService.updateCartSize(cartId, cartSizeRequest));
+    }
+
     @PostMapping("/create-cart")
-    public  ResponseEntity<Cart> createCartByUser(@RequestBody CartRequest cartRequest){
-        return  ResponseEntity.ok(cartService.saveCart(cartRequest));
+    public ResponseEntity<Cart> createCartByUser(@RequestBody CartRequest cartRequest) {
+        return ResponseEntity.ok(cartService.saveCart(cartRequest));
     }
+
     @DeleteMapping("/delete-cart")
-    public  ResponseEntity<String> deleteCartByUser(@RequestBody CartRequest cartRequest){
-        cartService.deleteByUserAndProduct(cartRequest.getUserId(),cartRequest.getProductId());
-        return ResponseEntity.ok("Delete cart successfully by productId: "+ cartRequest.getProductId()+" and userId: "+ cartRequest.getUserId());
+    public ResponseEntity<String> deleteCartByUser(@RequestBody CartRequest cartRequest) {
+        cartService.deleteByUserAndProduct(cartRequest.getUserId(), cartRequest.getProductId());
+        return ResponseEntity.ok("Delete cart successfully by productId: " + cartRequest.getProductId() + " and userId: " + cartRequest.getUserId());
     }
+
     @GetMapping("/cartUserIdAndProductId")
-    public ResponseEntity<Cart> getCartUserIdAndProductId(@RequestBody CartRequest cartRequest){
+    public ResponseEntity<Cart> getCartUserIdAndProductId(@RequestBody CartRequest cartRequest) {
         return ResponseEntity.ok(cartService.findByProductIDAndAndUserID(cartRequest.getUserId(), cartRequest.getProductId()));
     }
 
