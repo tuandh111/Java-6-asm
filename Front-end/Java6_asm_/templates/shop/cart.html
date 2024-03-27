@@ -1,5 +1,7 @@
 <!-- ================ start banner area ================= -->
 <section class="blog-banner-area" id="category">
+    <img src="/assets/shop/images/home/240319_Voucher-Extra_Homepage_Top-Banner_Desktop.gif"
+        style="width: 100%;height:30px;" alt="">
     <div class="container h-100">
         <div class="blog-banner">
             <div class="text-center">
@@ -23,10 +25,10 @@
     <div class="container" ng-controller="CartCtrl">
         <div class="cart_inner">
             <div class="table-responsive">
+
                 <table class="table">
                     <thead>
                         <tr>
-
                             <th scope="col">
                                 <form>
                                     <input type="checkbox" id="checkAll" class=" mr-2" ng-model="checkAll"> All
@@ -102,7 +104,7 @@
                                                                             ng-model="selectedColor[dtColor.product.productId]"
                                                                             name="color"
                                                                             value="{{dtColor.detailsColorId}}">
-                                                                        {{dtColor.detailsColorId}}
+
                                                                         <img style="width: 90px; margin-top: 20px; margin-left:20px ;margin-right: 20px;"
                                                                             src="https://contents.mediadecathlon.com/p2153179/e958b22d2eccd9c7db0fea1da358fd8f/p2153179.jpg?format=auto&quality=70&f=650x0"
                                                                             alt="">
@@ -302,8 +304,9 @@
                             </td>
                             <td>
                                 <div class="cupon_text d-flex" style="float: right;">
-                                    <input type="text" style="color: rgb(3, 3, 3);" placeholder="Nhập mã giảm giá">
-                                    <a class="primary-btn" href="#">Apply</a>
+                                    <input type="text" style="color: rgb(3, 3, 3);" ng-model="voucherName"
+                                        placeholder="Nhập mã giảm giá">
+                                    <button class="primary-btn" ng-click="apply()">Apply</button>
                                     <a class="button" href="#">Have a Coupon?</a>
                                 </div>
                             </td>

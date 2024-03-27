@@ -90,6 +90,33 @@ function cartController($scope, $http, $rootScope) {
     });
 
   };
+  //add voucher
+  $scope.apply = function () {
+    console.log("apply")
+    // Lấy giá trị mà người dùng đã chọn từ $scope.selectedColor và cart
+    var requestData = {
+      voucherName: $scope.voucherName
+    };
+    console.log(requestData);
+    // $http({
+    //   method: "POST",
+    //   headers: {
+    //     Authorization: "Bearer " + localStorage.getItem("accessToken"),
+    //     "X-Refresh-Token": localStorage.getItem("refreshToken"),
+    //   },
+    //   data: JSON.stringify(requestData),
+    //   url: "http://localhost:8080/api/v1/update-cart-size/" + cart.cartId,
+    // }).then(function (response) {
+    //   $scope.loadData()
+    //   Swal.fire({
+    //     title: "Thành công!",
+    //     text: "Thay đổi size thành công",
+    //     icon: "success"
+    //   });
+
+    // });
+
+  };
   //loadData
   $scope.loadData = function () {
     $http({
