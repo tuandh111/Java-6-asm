@@ -6,6 +6,7 @@ import com.java6.java_6_asm.entities.product.Product;
 import com.java6.java_6_asm.model.request.CartColorRequest;
 import com.java6.java_6_asm.model.request.CartRequest;
 import com.java6.java_6_asm.model.request.CartSizeRequest;
+import com.java6.java_6_asm.model.request.DeleteCartUserAnhProductRequest;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.data.repository.query.Param;
 
@@ -14,7 +15,7 @@ import java.util.List;
 public interface CartService {
     List<Cart> findAllByUser(HttpServletRequest httpServletRequest);
 
-    void deleteByUserAndProduct(Integer userID, Integer productID);
+    void deleteByUserAndProduct(DeleteCartUserAnhProductRequest deleteCartUserAnhProductRequest);
 
     Cart findByProductIDAndAndUserID(Integer userID, Integer productID);
 
@@ -25,4 +26,6 @@ public interface CartService {
     Cart updateCartColor(String cartId, CartColorRequest cartColorRequest);
 
     Cart updateCartSize(String cartId, CartSizeRequest cartSizeRequest);
+
+    void DeleteCart(String cartId);
 }

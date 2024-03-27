@@ -9,6 +9,7 @@ import com.java6.java_6_asm.exception.NotFoundException;
 import com.java6.java_6_asm.model.request.CartColorRequest;
 import com.java6.java_6_asm.model.request.CartRequest;
 import com.java6.java_6_asm.model.request.CartSizeRequest;
+import com.java6.java_6_asm.model.request.DeleteCartUserAnhProductRequest;
 import com.java6.java_6_asm.repositories.CartRepository;
 import com.java6.java_6_asm.repositories.UserRepository;
 import com.java6.java_6_asm.repositories.product.ProductRepository;
@@ -45,14 +46,8 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void deleteByUserAndProduct(Integer userID, Integer productID) {
-        if (userID == null) {
-            new BadRequestException("not found user with userId: " + userID);
-        }
-        if (productID == null) {
-            new BadRequestException("not found product with product: " + productID);
-        }
-        cartRepository.deleteByUserAndProduct(userID, productID);
+    public void deleteByUserAndProduct(DeleteCartUserAnhProductRequest deleteCartUserAnhProductRequest) {
+        cartRepository.deleteByUserAndProduct(deleteCartUserAnhProductRequest.getUserId(), deleteCartUserAnhProductRequest.getProductId());
     }
 
     @Override
@@ -115,5 +110,10 @@ public class CartServiceImpl implements CartService {
         cart.setCheckPay(false);
         cartRepository.save(cart);
         return cart;
+    }
+
+    @Override
+    public void DeleteCart(String cartId) {
+        cartRepository.deleteById(cartId);
     }
 }

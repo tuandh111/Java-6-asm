@@ -102,6 +102,13 @@ function cartController($scope, $http, $rootScope) {
     }).then(
       function successCallback(response) {
         $scope.carts = response.data;
+        if ($scope.carts.length === 0) {
+          // $scope.carts là một mảng rỗng
+          $scope.ContinueProduct = 'Tiếp tục mua sắm'
+        } else {
+          // $scope.carts không rỗng
+          $scope.ContinueProduct = ''
+        }
         $scope.checkAll = false;
         $scope.options = [];
         for (var i = 0; i < $scope.carts.length; i++) {
@@ -204,6 +211,13 @@ function cartController($scope, $http, $rootScope) {
   }).then(
     function successCallback(response) {
       $scope.carts = response.data;
+      if ($scope.carts.length === 0) {
+        // $scope.carts là một mảng rỗng
+        $scope.ContinueProduct = 'Tiếp tục mua sắm'
+      } else {
+        // $scope.carts không rỗng
+        $scope.ContinueProduct = ''
+      }
       $scope.checkAll = false;
       $scope.options = [];
       for (var i = 0; i < $scope.carts.length; i++) {
@@ -392,6 +406,51 @@ function cartController($scope, $http, $rootScope) {
       // or server returns response with an error status.
     }
   );
+  //////DELETE CART
+  $scope.deleteCart = function (cart) {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        $http({
+          method: "DELETE",
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("accessToken"),
+            "X-Refresh-Token": localStorage.getItem("refreshToken"),
+          },
+          url: "http://localhost:8080/api/v1/delete-cart/" + cart.cartId,
+        }).then(
+          function successCallback(response) {
+            console.log(response);
+            Swal.fire({
+              title: "Thành công!",
+              text: "Xóa sản phẩm ra khỏi giỏ hàng thành công",
+              icon: "success"
+            });
+            $scope.loadData()
+          },
+          function errorCallback(response) {
+
+            Swal.fire({
+              title: "Lỗi!",
+              text: "Xóa sản phẩm ra khỏi giỏ hàng thành công",
+              icon: "error"
+            });
+          }
+        );
+
+      }
+    });
+
+  }
+
+
   // Hàm để tính tổng tiền của giỏ hàng
   $scope.calculateTotalCartValue = function () {
     $scope.totalCartValue = 0;

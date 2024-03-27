@@ -40,6 +40,11 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <tr ng-if="carts.length ==0">
+                            <td>
+                                <h1><a href="#">{{ContinueProduct}}</a></h1>
+                            </td>
+                        </tr>
                         <tr ng-repeat="cart in carts">
                             <td>
                                 <div class="media">
@@ -162,6 +167,7 @@
                                         </p>
                                     </div>
                                 </div>
+
                             </td>
                             <td>
                                 <p>
@@ -202,7 +208,7 @@
                                 <h5 style="color: red;">{{ calculateTotalPrice(cart) | number : fractionSize}} VNĐ</h5>
 
                             </td>
-                            <td><i class="bi bi-trash"></i></td>
+                            <td><i class="bi bi-trash" ng-click="deleteCart(cart)"></i></td>
                         </tr>
                         <tr>
                             <td colspan="6">

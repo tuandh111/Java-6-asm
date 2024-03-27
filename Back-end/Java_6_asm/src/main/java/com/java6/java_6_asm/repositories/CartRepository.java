@@ -25,4 +25,6 @@ public interface CartRepository extends JpaRepository<Cart, String> {
 
     @Query("select  p from  Cart p where  p.user.id = :userID and  p.product.productId = :productID and p.checkPay = false")
     Optional<Cart> findByProductIDAndAndUserID(@Param("userID") Integer userID, @Param("productID") Integer productID);
+
+
 }

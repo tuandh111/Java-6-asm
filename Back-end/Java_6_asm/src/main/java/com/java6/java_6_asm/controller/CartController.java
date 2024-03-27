@@ -9,6 +9,8 @@ import com.java6.java_6_asm.exception.NotFoundException;
 import com.java6.java_6_asm.model.request.CartColorRequest;
 import com.java6.java_6_asm.model.request.CartRequest;
 import com.java6.java_6_asm.model.request.CartSizeRequest;
+import com.java6.java_6_asm.model.request.DeleteCartUserAnhProductRequest;
+import com.java6.java_6_asm.model.response.MessageResponse;
 import com.java6.java_6_asm.security.service.GetTokenRefreshToken;
 import com.java6.java_6_asm.security.service.JwtService;
 import com.java6.java_6_asm.service.service.CartService;
@@ -61,10 +63,10 @@ public class CartController {
         return ResponseEntity.ok(cartService.saveCart(cartRequest));
     }
 
-    @DeleteMapping("/delete-cart")
-    public ResponseEntity<String> deleteCartByUser(@RequestBody CartRequest cartRequest) {
-        cartService.deleteByUserAndProduct(cartRequest.getUserId(), cartRequest.getProductId());
-        return ResponseEntity.ok("Delete cart successfully by productId: " + cartRequest.getProductId() + " and userId: " + cartRequest.getUserId());
+    @DeleteMapping("/delete-cart/{id}")
+    public ResponseEntity<?> deleteCartByUser(@PathVariable String id) {
+        cartService.DeleteCart(id);
+        return ResponseEntity.ok(new MessageResponse("Xóa thành công"));
     }
 
     @GetMapping("/cartUserIdAndProductId")
