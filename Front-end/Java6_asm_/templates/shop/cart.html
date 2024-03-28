@@ -59,7 +59,6 @@
                                             src="https://contents.mediadecathlon.com/p2153179/e958b22d2eccd9c7db0fea1da358fd8f/p2153179.jpg?format=auto&quality=70&f=650x0"
                                             alt="">
                                         <div ng-repeat="discount in discounts">
-
                                             <div style="position: absolute; top: 0; right: 30px; background-color: rgba(255, 0, 0, 0.7); color: white; padding: 5px;font-size: 10px;width: 50px;"
                                                 ng-if="discount.product.productId == cart.product.productId">
                                                 {{(cart.product.price- discount.discountedPrice)/cart.product.price *
