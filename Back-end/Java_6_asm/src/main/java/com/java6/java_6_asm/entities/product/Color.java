@@ -37,4 +37,6 @@ public class Color {
     @OneToMany(mappedBy = "detailsColorId")
     @JsonIgnore
     private List<DetailsColor> detailsColor;
+
+
 }

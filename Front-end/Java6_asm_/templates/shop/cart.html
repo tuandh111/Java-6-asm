@@ -2,7 +2,7 @@
 <section class="blog-banner-area" id="category">
     <img src="/assets/shop/images/home/240319_Voucher-Extra_Homepage_Top-Banner_Desktop.gif"
         style="width: 100%;height:30px;" alt="">
-    <div class="container h-100">
+    <div class="container h-100 ">
         <div class="blog-banner">
             <div class="text-center">
                 <h1>Shopping Cart</h1>
@@ -55,9 +55,13 @@
                                             <input type="checkbox" class="checkbox" ng-change="updatePrice(cart)"
                                                 ng-model="options[ $index]" ng-value="cart.cartId">
                                         </form>
-                                        <img style="width: 120px;"
-                                            src="https://contents.mediadecathlon.com/p2153179/e958b22d2eccd9c7db0fea1da358fd8f/p2153179.jpg?format=auto&quality=70&f=650x0"
-                                            alt="">
+                                        <div ng-repeat="image in images">
+                                            <div ng-if="image.productImageId == cart.imageId">
+                                                <img style="width: 120px;"
+                                                    src="/assets/shop/images/product/{{image.imageName}}" alt="">
+                                            </div>
+                                        </div>
+
                                         <div ng-repeat="discount in discounts">
                                             <div style="position: absolute; top: 0; right: 30px; background-color: rgba(255, 0, 0, 0.7); color: white; padding: 5px;font-size: 10px;width: 50px;"
                                                 ng-if="discount.product.productId == cart.product.productId">
@@ -96,21 +100,30 @@
                                                             </div>
                                                             <div class="model-content">
                                                                 <h3>Chọn màu sản phẩm</h3>
-                                                                <div ng-repeat="dtColor in detailsColor">
-                                                                    <div
-                                                                        ng-if="dtColor.product.productId == cart.product.productId">
-                                                                        <input type="radio"
-                                                                            ng-model="selectedColor[dtColor.product.productId]"
-                                                                            name="color"
-                                                                            value="{{dtColor.detailsColorId}}">
+                                                                <div class="row">
+                                                                    <div ng-repeat="dtColor in detailsColor">
+                                                                        <div
+                                                                            ng-if="dtColor.product.productId == cart.product.productId">
+                                                                            <input type="radio"
+                                                                                ng-model="selectedColor[dtColor.product.productId]"
+                                                                                ng-checked="cart.colorId == dtColor.detailsColorId"
+                                                                                name="color"
+                                                                                value="{{dtColor.detailsColorId}}">
+                                                                            {{dtColor.color.colorName}}
+                                                                            <div ng-repeat="image in images">
+                                                                                <div
+                                                                                    ng-if="image.productImageId == dtColor.imageId">
+                                                                                    <img style="width: 90px; margin-top: 20px ;margin-right: 20px;"
+                                                                                        src="/assets/shop/images/product/{{image.imageName}}"
+                                                                                        class="mb-3"
+                                                                                        alt="Đang chờ cập nhật hình ảnh">
 
-                                                                        <img style="width: 90px; margin-top: 20px; margin-left:20px ;margin-right: 20px;"
-                                                                            src="https://contents.mediadecathlon.com/p2153179/e958b22d2eccd9c7db0fea1da358fd8f/p2153179.jpg?format=auto&quality=70&f=650x0"
-                                                                            alt="">
-                                                                        {{dtColor.color.colorName}}
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
-                                                                <button class="btn btn-primary"
+                                                                <button class="btn btn-primary mt-4"
                                                                     ng-click="discolor(cart)">Xác
                                                                     nhận</button>
                                                             </div>
@@ -140,17 +153,25 @@
 
                                                                 <div class="row">
                                                                     <div ng-repeat="dtSize in detailsSize">
-                                                                        <div class="col-lg-6 mt-2"
+                                                                        <div class="mr-3"
                                                                             ng-if="dtSize.product.productId == cart.product.productId">
-                                                                            <input type="radio" class="mr-4"
+                                                                            <input type="radio" class=""
                                                                                 ng-model="selectedSize[dtSize.product.productId]"
                                                                                 name="size"
+                                                                                ng-checked="cart.sizeId == dtSize.detailsSizeId"
                                                                                 value="{{dtSize.detailsSizeId}}">
-                                                                            {{dtSize.size.sizeName}}
-                                                                            <img style="width: 90px;"
-                                                                                src="https://contents.mediadecathlon.com/p2153179/e958b22d2eccd9c7db0fea1da358fd8f/p2153179.jpg?format=auto&quality=70&f=650x0"
-                                                                                alt="">
-                                                                            <hr>
+                                                                            Size: {{dtSize.size.sizeName}}
+                                                                            <div ng-repeat="image in images">
+                                                                                <div
+                                                                                    ng-if="image.productImageId == cart.imageId">
+                                                                                    <img style="width: 100px; margin-top: 20px; margin-right: 20px;"
+                                                                                        class="mb-3"
+                                                                                        src="/assets/shop/images/product/{{image.imageName}}"
+                                                                                        alt="Đang chờ cập nhật hình ảnh">
+
+                                                                                </div>
+                                                                            </div>
+
                                                                         </div>
                                                                     </div>
                                                                 </div>

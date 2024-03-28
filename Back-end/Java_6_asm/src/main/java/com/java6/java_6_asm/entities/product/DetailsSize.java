@@ -28,4 +28,5 @@ public class DetailsSize {
     @ManyToOne
     @JoinColumn(name = "productId")
     private Product product;
+    
 }

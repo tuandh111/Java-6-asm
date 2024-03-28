@@ -198,19 +198,29 @@ function cartController($scope, $http, $rootScope) {
               $scope.discountTitle = 'Giảm giá đơn hàng:'
               $scope.discount = ' -150,000 VNĐ'
               $scope.totalCartAll = $scope.totalCartValue - 150000
+
             } else if ($scope.totalCartValue > 100000) {
               if ($scope.totalCartValue > 999000) {
                 $scope.discountTitle = 'Giảm giá đơn hàng:'
                 $scope.discount = ' -80,000 VNĐ'
                 $scope.totalCartAll = $scope.totalCartValue - 80000
+
               } else if ($scope.totalCartValue > 599000) {
                 $scope.discountTitle = 'Giảm giá đơn hàng:'
                 $scope.discount = ' -50,000 VNĐ'
                 $scope.totalCartAll = $scope.totalCartValue - 50000
+
+              } else {
+                $scope.discountTitle = ''
+                $scope.discount = ''
+
               }
               $scope.freeShip = '25,000 VNĐ';
               $scope.totalCartAll = $scope.totalCartValue + 25000
             } else {
+
+              $scope.discountTitle = ''
+              $scope.discount = ''
               $scope.freeShip = '';
               $scope.discount = ''
             }
@@ -317,9 +327,15 @@ function cartController($scope, $http, $rootScope) {
               $scope.discount = ' -50,000 VNĐ'
               $scope.totalCartAll = $scope.totalCartValue - 50000
             }
+            else {
+              $scope.discountTitle = ''
+              $scope.discount = ''
+            }
             $scope.freeShip = '25,000 VNĐ';
             $scope.totalCartAll = $scope.totalCartValue + 25000
           } else {
+            $scope.discountTitle = ''
+            $scope.discount = ''
             $scope.freeShip = '';
             $scope.discount = ''
           }
@@ -384,6 +400,20 @@ function cartController($scope, $http, $rootScope) {
   }).then(
     function successCallback(response) {
       $scope.detailsColor = response.data;
+    },
+    function errorCallback(response) {
+      // called asynchronously if an error occurs
+      // or server returns response with an error status.
+    }
+  );
+  ////////////////////getAll productImages
+  $http({
+    method: "GET",
+    url: "http://localhost:8080/api/v1/auth/images",
+  }).then(
+    function successCallback(response) {
+      $scope.images = response.data;
+
     },
     function errorCallback(response) {
       // called asynchronously if an error occurs
@@ -516,6 +546,9 @@ function cartController($scope, $http, $rootScope) {
         $scope.discountTitle = 'Giảm giá đơn hàng:'
         $scope.discount = ' -50,000 VNĐ'
         $scope.totalCartAll = $scope.totalCartValue - 50000
+      } else {
+        $scope.discountTitle = ''
+        $scope.discount = ''
       }
       $scope.freeShip = '25,000 VNĐ';
       $scope.totalCartAll = $scope.totalCartValue + 25000

@@ -29,4 +29,6 @@ public class DetailsColor {
     @JoinColumn(name = "productId")
 
     private Product product;
+
+    private Integer imageId;
 }
