@@ -13,11 +13,14 @@ import org.springframework.web.bind.annotation.*;
 public class BrandController {
     @Autowired
     BrandService brandService;
-    @GetMapping("/twobee/brands")
-    public ResponseEntity<?> getAll(){
+    @GetMapping("/twobee/brands-active")
+    public ResponseEntity<?> getAllBrandActive(){
         return  ResponseEntity.ok(brandService.findAllBrandActive());
     }
-
+    @GetMapping("/twobee/brands")
+    public ResponseEntity<?> getAll(){
+        return  ResponseEntity.ok(brandService.findAll());
+    }
     @PostMapping("/twobee/brands")
     public ResponseEntity<?> post(@RequestBody Brand brand){
         Brand response = brandService.save(brand);

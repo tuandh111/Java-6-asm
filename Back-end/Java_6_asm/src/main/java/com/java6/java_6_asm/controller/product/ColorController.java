@@ -14,11 +14,14 @@ import org.springframework.web.bind.annotation.*;
 public class ColorController {
     @Autowired
     ColorService colorService;
-    @GetMapping("/twobee/colors")
-    public ResponseEntity<?> getAll(){
+    @GetMapping("/twobee/colors-active")
+    public ResponseEntity<?> getAllColorActive(){
         return  ResponseEntity.ok(colorService.findAllColorActive());
     }
-
+    @GetMapping("/twobee/colors")
+    public ResponseEntity<?> getAll(){
+        return  ResponseEntity.ok(colorService.findAll());
+    }
     @PostMapping("/twobee/colors")
     public ResponseEntity<?> post(@RequestBody Color color){
         Color response = colorService.save(color);

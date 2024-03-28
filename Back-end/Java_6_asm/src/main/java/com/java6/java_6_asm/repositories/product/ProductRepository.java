@@ -16,6 +16,6 @@ public interface ProductRepository extends JpaRepository<Product,Integer> {
             "(SELECT STRING_AGG(s.sizeName, ',') FROM DetailsSize ds JOIN ds.product dp JOIN ds.size s WHERE dp = p), " +
             "(SELECT STRING_AGG(c.colorName, ',') FROM DetailsColor dc JOIN dc.product dp JOIN dc.color c WHERE dp = p) " +
             "FROM Product p " +
-            "JOIN p.brand b where p.isActive=true and p.quantityInStock>0")
+            "JOIN p.brand b where p.isActive=true and p.quantityInStock>0 order by p.createDate desc")
     List<Object[]> findAllProduct();
 }
