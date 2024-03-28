@@ -21,7 +21,7 @@ app
             }
         };
     });
-app.controller('ProductController', function ($scope, $http, $rootScope, $location) {
+app.controller('ProductController', function ($scope, $http, $rootScope) {
     let url = "http://localhost:8080"
     // let token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0cnVuMTIyODk0QGdtYWlsLmNvbSIsImlhdCI6MTcxMTA4ODY0NywiZXhwIjoxNzExMTc1MDQ3fQ.5QgVoSX08SBI3GuYZW22dhg3CTrFz9LphMu-fUVaf9U";
     // let header = {
@@ -87,6 +87,7 @@ app.controller('ProductController', function ($scope, $http, $rootScope, $locati
         )
     }
     $scope.getFiltersProduct = function () {
+
         $scope.filterByProductName = function () {
             $scope.filteredProducts = $scope.listProductsFilter.filter(function (prod) {
                 return prod.product.productName.toLowerCase().includes($scope.searchProductName.toLowerCase());
@@ -96,17 +97,11 @@ app.controller('ProductController', function ($scope, $http, $rootScope, $locati
             $rootScope.firtPageProduct();
         };
         $scope.filterByProductPrice = function () {
-            if ($scope.searchProductPrice === '') {
-                $scope.listProducts = $scope.listProductsFilter;
-            } else {
-                $scope.filteredProducts = $scope.listProductsFilter.filter(function (prod) {
-                    return prod.product.price <= parseFloat($scope.searchProductPrice);
-                }).sort(function (prod1, prod2) {
-                    return prod2.product.price - prod1.product.price;
-                });
-                $scope.pageCount = Math.ceil($scope.filteredProducts.length / $scope.pageSize);
-                $scope.listProducts = $scope.filteredProducts;
-            }
+            $scope.filteredProducts = $scope.listProductsFilter.filter(function (prod) {
+                return prod.product.price <= parseFloat($scope.searchProductPrice);
+            });
+            $scope.pageCount = Math.ceil($scope.filteredProducts.length / $scope.pageSize);
+            $scope.listProducts = $scope.filteredProducts;
             $rootScope.firtPageProduct();
         };
         $scope.countAllProductInBrand = function (brandName) {
@@ -136,6 +131,7 @@ app.controller('ProductController', function ($scope, $http, $rootScope, $locati
             $scope.pageCount = Math.ceil($scope.filteredProducts.length / $scope.pageSize);
             $rootScope.firtPageProduct();
         }
+
         $scope.countAllProductInColor = function (colorName) {
             var count = $scope.listProductsFilter.filter(function (prod) {
                 return prod.colorName.map(function (color) {
@@ -165,10 +161,7 @@ app.controller('ProductController', function ($scope, $http, $rootScope, $locati
             $scope.pageCount = Math.ceil($scope.filteredProducts.length / $scope.pageSize);
             $rootScope.firtPageProduct();
         }
-        $scope.redirectToSingleProduct = function (productId) {
-            $location.path('/shop/single-product/' + productId);
-            // console.log($location.path('/shop/single-product/' + productId));
-        };
+
     }
 
 

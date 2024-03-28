@@ -87,6 +87,7 @@ app.controller('ProductController', function ($scope, $http, $rootScope, $locati
         )
     }
     $scope.getFiltersProduct = function () {
+
         $scope.filterByProductName = function () {
             $scope.filteredProducts = $scope.listProductsFilter.filter(function (prod) {
                 return prod.product.productName.toLowerCase().includes($scope.searchProductName.toLowerCase());

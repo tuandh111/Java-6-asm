@@ -87,6 +87,7 @@ app.controller('ProductController', function ($scope, $http, $rootScope, $locati
         )
     }
     $scope.getFiltersProduct = function () {
+
         $scope.filterByProductName = function () {
             $scope.filteredProducts = $scope.listProductsFilter.filter(function (prod) {
                 return prod.product.productName.toLowerCase().includes($scope.searchProductName.toLowerCase());
@@ -136,6 +137,7 @@ app.controller('ProductController', function ($scope, $http, $rootScope, $locati
             $scope.pageCount = Math.ceil($scope.filteredProducts.length / $scope.pageSize);
             $rootScope.firtPageProduct();
         }
+
         $scope.countAllProductInColor = function (colorName) {
             var count = $scope.listProductsFilter.filter(function (prod) {
                 return prod.colorName.map(function (color) {

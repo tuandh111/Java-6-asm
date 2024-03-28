@@ -86,10 +86,9 @@
                 <div class="card-product__img">
                   <img class="card-img" src="../../assets/shop/images/product/product1.png" alt="">
                   <ul class="card-product__imgOverlay">
+                    <li><button><i class="ti-search"></i></button></li>
                     <li><button><i class="ti-shopping-cart"></i></button></li>
                     <li><button><i class="ti-heart"></i></button></li>
-                    <li><button ng-click="redirectToSingleProduct(product.product.productId)"><i
-                          class="ti-arrow-right"></i></button></li>
                   </ul>
                 </div>
                 <div class="card-body">
@@ -97,11 +96,10 @@
                     <p>{{ product.brandName }}</p>
                   </div>
                   <div class="d-flex">
-                    <h6 title="{{ product.product.productName}}" class="card-product__title">
-                      <a href="#!/shop/single-product/{{ product.product.productId}}">
-                        {{ product.product.productName |truncateWordsHTML:4 }}
-                      </a>
-                    </h6>
+                    <h6 title="{{ product.product.productName}}" class="card-product__title"><a href="#!/shop/single-product/{{ product.product.productId
+                        }}">{{ product.product.productName |
+                        truncateWordsHTML:4
+                        }}</a></h6>
                   </div>
                   <div class="d-flex">
                     <p class="card-product__price">{{ product.product.price |formatPrice }}</p>

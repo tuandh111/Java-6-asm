@@ -2658,7 +2658,7 @@ a {
     font-size: 14px;
     color: #999999;
     height: 38px;
-
+    padding-left: 15px
 }
 
 .price-range-area input:focus {

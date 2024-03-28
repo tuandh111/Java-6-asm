@@ -21,6 +21,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<Product> findTopTen() {
+        return productRepository.findTopTenProduct();
+    }
+
+    @Override
     public List<ProductRequest> findAllProduct() {
         return ProductRequest.convert(productRepository.findAllProduct());
     }
