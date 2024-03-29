@@ -116,7 +116,7 @@
 						<span ng-if="dtColor.product.productId == detailsProductId1.productId">
 							<!-- <input type="radio" class="mr-2">{{dtColor.color.colorName}} -->
 							<span ng-if="dtColor.product.productId == detailsProductId1.productId">
-								<input type="radio" ng-model="selectedColorDetailsProduct[detailsProductId1.productId]"
+								<input type="radio" ng-model="selectedColorDetailsProduct[dtColor.product.productId]"
 									name="color" value="{{dtColor.detailsColorId}}">
 								<span class="border " style="background-color:{{dtColor.color.colorName}} ;  display: inline-block;
 									width: 20px;
@@ -145,9 +145,9 @@
 					<br>
 					<span class="mt-1">Nhập số lượng:</span>
 					<div class="product_count mt-1">
-						<input type="number" name="qty" id="sst" ng-model="cart.quantity" ng-change="updatePrice(cart)"
-							value="1" ng-blur="updatePrice(cart)" title="Quantity:" class="input-number qty "
-							style="padding: 5px 10px;text-align: center;">
+						<input type="number" name="qty" id="sst" ng-model="cart.quantity =1"
+							ng-change="updatePrice(cart)" ng-value="1" ng-blur="updatePrice(cart)" title="Quantity:"
+							class="input-number qty " style="padding: 5px 10px;text-align: center;">
 						<button class="increase items-count" type="button" ng-click="incrementQuantity(cart)"><i
 								class="bi bi-caret-up-fill"></i></button>
 						<button class="reduced items-count" type="button" ng-click="decrementQuantity(cart)"><i

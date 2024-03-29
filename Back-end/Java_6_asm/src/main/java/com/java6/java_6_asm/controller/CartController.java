@@ -60,6 +60,7 @@ public class CartController {
 
     @PostMapping("/create-cart")
     public ResponseEntity<Cart> createCartByUser(@RequestBody CartRequest cartRequest) {
+        System.out.println("run create successfully");
         return ResponseEntity.ok(cartService.saveCart(cartRequest));
     }
 

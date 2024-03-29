@@ -66,12 +66,17 @@ public class CartServiceImpl implements CartService {
     @Override
     public Cart saveCart(CartRequest cartRequest) {
         Product product = productRepository.findById(cartRequest.getProductId()).orElseThrow(() -> new NotFoundException("Not found product with Id: " + cartRequest.getProductId()));
-        User user = userRepository.findById(cartRequest.getUserId()).orElseThrow(() -> new NotFoundException("Not found userId with Id: " + cartRequest.getUserId()));
+        User user = userRepository.findById(4).orElseThrow(() -> new NotFoundException("Not found userId with Id: " + cartRequest.getUserId()));
+        DetailsColor detailsColor = detailsColorRepository.findById(cartRequest.getColorId()).orElseThrow(null);
+
         Cart cart = new Cart();
         cart.setCartId(ConfigVNPay.getRandomString(12));
         cart.setUser(user);
         cart.setProduct(product);
         cart.setQuantity(cartRequest.getQuantity());
+        cart.setColorId(detailsColor.getDetailsColorId());
+        cart.setImageId(detailsColor.getImageId());
+        cart.setSizeId(null);
         cart.setCheckPay(false);
         cartRepository.save(cart);
         return cart;
