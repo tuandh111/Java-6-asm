@@ -46,7 +46,6 @@ public class Product {
     @Min(value = 0, message = "Số lượng phải lớn 0")
     private Double price;
 
-
     @Nationalized
     @Column(columnDefinition = "nvarchar(MAX)")
     private String description;
