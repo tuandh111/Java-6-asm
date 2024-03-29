@@ -71,7 +71,10 @@
                                         </div>
                                     </div>
                                     <div class="media-body" style="width: 350px;">
-                                        <h5><a href="#" style="color: #010101;">{{ cart.product.productName }} </a></h5>
+                                        <h5><a ng-click="ProductClick(cart.product.productId)"
+                                                href="#!/shop/single-product/{{cart.product.productId}}"
+                                                style="color: #010101;">{{ cart.product.productName }} </a>
+                                        </h5>
                                         <p>Thương hiệu:
                                             <span style="color: #010101;" class="mr-5">{{cart.product.brand.nameBrand}}
                                             </span>

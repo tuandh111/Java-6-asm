@@ -66,5 +66,4 @@ app.controller('ProductController', function ($scope, $http, $rootScope) {
     }).catch(err => {
         console.log("error", err);
     })
-
 })

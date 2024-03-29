@@ -255,6 +255,7 @@ function cartController($scope, $http, $rootScope) {
         // $scope.carts không rỗng
         $scope.ContinueProduct = ''
       }
+
       $scope.checkAll = false;
       $scope.options = [];
       for (var i = 0; i < $scope.carts.length; i++) {
@@ -353,7 +354,7 @@ function cartController($scope, $http, $rootScope) {
       Authorization: "Bearer " + localStorage.getItem("accessToken"),
       "X-Refresh-Token": localStorage.getItem("refreshToken"),
     },
-    url: "http://localhost:8080/api/v1/voucher",
+    url: "http://localhost:8080/api/v1/auth/voucher",
   }).then(
     function successCallback(response) {
       $scope.vouchers = response.data;
@@ -389,6 +390,28 @@ function cartController($scope, $http, $rootScope) {
     }
   );
   ////
+  //clickProduct Details
+
+
+  var uri = window.location.href;
+  var parts = uri.split('/');
+  var id = parts[parts.length - 1];
+  console.log(id);
+  $http({
+    method: "GET",
+    url: "http://localhost:8080/api/v1/auth/twobee/products/" + id,
+  }).then(
+    function successCallback(response) {
+      $scope.detailsProductId1 = response.data;
+      console.table($scope.detailsProductId1)
+    },
+    function errorCallback(response) {
+      console.log("ok")
+      // called asynchronously if an error occurs
+      // or server returns response with an error status.
+    }
+  );
+
   //////////////////getAll DetailsColor
   $http({
     method: "GET",
@@ -654,5 +677,4 @@ function cartController($scope, $http, $rootScope) {
       });
     }
   };
-
 }
