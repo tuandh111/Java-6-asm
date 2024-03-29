@@ -21,6 +21,11 @@ public class ColorServiceImpl implements ColorService {
     }
 
     @Override
+    public List<Color> findAll() {
+        return colorRepository.findAll();
+    }
+
+    @Override
     public Color save(Color color) {
         if(colorRepository.existsById(color.getColorId())){
             return null;

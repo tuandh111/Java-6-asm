@@ -2653,6 +2653,23 @@ a {
     color: #999999
 }
 
+.price-range-area input {
+    border: 1px solid #eee;
+    font-size: 14px;
+    color: #999999;
+    height: 38px;
+
+}
+
+.price-range-area input:focus {
+    outline: 0;
+    box-shadow: none
+}
+
+.price-range-area input::placeholder {
+    color: #999999
+}
+
 .sorting {
     margin-top: 10px;
     margin-right: 10px

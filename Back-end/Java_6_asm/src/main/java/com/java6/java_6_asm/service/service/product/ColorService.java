@@ -8,6 +8,7 @@ import java.util.Optional;
 
 public interface ColorService {
     List<Color> findAllColorActive();
+    List<Color> findAll();
     Color save(Color color);
     Color update(Integer colorId,Color color);
     Color delete(Integer colorId);

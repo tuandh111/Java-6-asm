@@ -19,6 +19,11 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
+    public List<Brand> findAll() {
+        return brandRepository.findAll();
+    }
+
+    @Override
     public Brand save(Brand brand) {
         if(brandRepository.existsById(brand.getBrandId())){
             return null;

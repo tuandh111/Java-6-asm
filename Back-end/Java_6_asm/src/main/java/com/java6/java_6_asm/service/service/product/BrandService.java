@@ -7,6 +7,7 @@ import java.util.Optional;
 
 public interface BrandService {
     List<Brand> findAllBrandActive();
+    List<Brand> findAll();
     Brand save(Brand brand);
     Brand update(Integer brandId,Brand brand);
     Brand delete(Integer brandId);

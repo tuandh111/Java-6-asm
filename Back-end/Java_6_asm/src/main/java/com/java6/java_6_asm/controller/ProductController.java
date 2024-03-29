@@ -18,6 +18,12 @@ public class ProductController {
     public ResponseEntity<List<ProductRequest>> getAll(){
         return  ResponseEntity.ok(productService.findAllProduct());
     }
+
+    @GetMapping("/twobee/top-products")
+    public ResponseEntity<List<Product>> getTopTen(){
+        return  ResponseEntity.ok(productService.findTopTen());
+    }
+
     @GetMapping("/twobee/products/{id}")
     public ResponseEntity<Product> getOne(@PathVariable("id") Integer id){
         if(productService.findById(id).isEmpty()){
