@@ -2,6 +2,7 @@ package com.java6.java_6_asm.service.impl.product;
 
 import com.java6.java_6_asm.entities.product.Product;
 import com.java6.java_6_asm.model.request.ProductRequest;
+import com.java6.java_6_asm.model.request.TopProductRequest;
 import com.java6.java_6_asm.repositories.product.ProductRepository;
 import com.java6.java_6_asm.service.service.product.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> findTopTen() {
-        return productRepository.findTopTenProduct();
+    public List<TopProductRequest> findTopTen() {
+        return TopProductRequest.convert(productRepository.findTopTenProduct());
     }
 
     @Override

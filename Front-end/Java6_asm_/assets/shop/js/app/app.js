@@ -42,6 +42,9 @@ app.config(function ($routeProvider) {
         .when("/shop/single-product/:id", {
             templateUrl: "templates/shop/single-product.html",
         })
+        .when("/shop/single-product/:id", {
+            templateUrl: "templates/shop/single-product.html",
+        })
         .when("/shop/tracking-order", {
             templateUrl: "templates/shop/tracking-order.html",
         })

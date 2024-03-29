@@ -2,6 +2,7 @@ package com.java6.java_6_asm.controller;
 
 import com.java6.java_6_asm.entities.product.Product;
 import com.java6.java_6_asm.model.request.ProductRequest;
+import com.java6.java_6_asm.model.request.TopProductRequest;
 import com.java6.java_6_asm.service.service.product.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class ProductController {
     }
 
     @GetMapping("/twobee/top-products")
-    public ResponseEntity<List<Product>> getTopTen(){
+    public ResponseEntity<List<TopProductRequest>> getTopTen(){
         return  ResponseEntity.ok(productService.findTopTen());
     }
 
