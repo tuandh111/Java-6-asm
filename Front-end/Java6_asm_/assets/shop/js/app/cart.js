@@ -677,4 +677,29 @@ function cartController($scope, $http, $rootScope) {
       });
     }
   };
+
+  //////////////////////////////////////////////////////////////Thêm mới sản phẩm vào giỏ hàng
+  $scope.saveCart = function (detailsProductId1) {
+    console.log("Thông tin: " + detailsProductId1.productId);
+    var selectedSizeId = $scope.selectedColorDetailsProduct[detailsProductId1.productId];
+    console.log("Cart Id: " + selectedSizeId);
+    // var requestData = {
+    //   productId: detailsProductId1.productId,
+    //   quantity: detailsProductId1.quantity,
+    //   userId: null,
+    //   colorId: cart.product.productId,
+    //   userId: 4,
+    // };
+    // $http({
+    //   method: "POST",
+    //   headers: {
+    //     Authorization: "Bearer " + localStorage.getItem("accessToken"),
+    //     "X-Refresh-Token": localStorage.getItem("refreshToken"),
+    //   },
+    //   data: JSON.stringify(requestData),
+    //   url: "http://localhost:8080/api/v1/update-cart/" + cart.cartId,
+    // }).then(function (response) {
+
+    // });
+  };
 }
