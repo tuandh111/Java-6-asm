@@ -39,7 +39,7 @@ app.config(function ($routeProvider) {
         .when("/shop/single-blog", {
             templateUrl: "templates/shop/single-blog.html",
         })
-        .when("/shop/single-product", {
+        .when("/shop/single-product/:id", {
             templateUrl: "templates/shop/single-product.html",
         })
         .when("/shop/tracking-order", {

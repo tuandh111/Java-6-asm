@@ -3,7 +3,9 @@ package com.java6.java_6_asm.service.impl;
 import com.java6.java_6_asm.config.ConfigVNPay;
 import com.java6.java_6_asm.entities.Cart;
 import com.java6.java_6_asm.entities.User;
+import com.java6.java_6_asm.entities.product.DetailsColor;
 import com.java6.java_6_asm.entities.product.Product;
+import com.java6.java_6_asm.entities.product.ProductImage;
 import com.java6.java_6_asm.exception.BadRequestException;
 import com.java6.java_6_asm.exception.NotFoundException;
 import com.java6.java_6_asm.model.request.CartColorRequest;
@@ -12,6 +14,8 @@ import com.java6.java_6_asm.model.request.CartSizeRequest;
 import com.java6.java_6_asm.model.request.DeleteCartUserAnhProductRequest;
 import com.java6.java_6_asm.repositories.CartRepository;
 import com.java6.java_6_asm.repositories.UserRepository;
+import com.java6.java_6_asm.repositories.product.DetailsColorRepository;
+import com.java6.java_6_asm.repositories.product.ProductImageRepository;
 import com.java6.java_6_asm.repositories.product.ProductRepository;
 import com.java6.java_6_asm.security.service.GetTokenRefreshToken;
 import com.java6.java_6_asm.security.service.JwtService;
@@ -36,6 +40,10 @@ public class CartServiceImpl implements CartService {
     JwtService jwtService;
     @Autowired
     UserService userService;
+    @Autowired
+    ProductImageRepository productImageRepository;
+    @Autowired
+    DetailsColorRepository detailsColorRepository;
 
     @Override
     public List<Cart> findAllByUser(HttpServletRequest httpServletRequest) {
@@ -89,9 +97,12 @@ public class CartServiceImpl implements CartService {
         Cart cart = cartRepository.findById(cartId).orElseThrow(() -> new NotFoundException("Not Found cartId With Id:" + cartId));
         Product product = productRepository.findById(cartColorRequest.getProductId()).orElseThrow(() -> new NotFoundException("Not found product with Id: " + cartColorRequest.getProductId()));
         User user = userRepository.findById(cartColorRequest.getUserId()).orElseThrow(() -> new NotFoundException("Not found userId with Id: " + cartColorRequest.getUserId()));
+        DetailsColor detailsColor = detailsColorRepository.findById(cartColorRequest.getColorId()).orElseThrow(null);
+        System.out.println("clId: "+detailsColor.getDetailsColorId()+ detailsColor.getImageId());
         cart.setCartId(cartId);
         cart.setColorId(cartColorRequest.getColorId());
         cart.setUser(user);
+        cart.setImageId(detailsColor.getImageId());
         cart.setProduct(product);
         cart.setCheckPay(false);
         cartRepository.save(cart);
