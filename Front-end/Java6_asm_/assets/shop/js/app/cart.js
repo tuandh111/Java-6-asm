@@ -7,7 +7,6 @@ function cartController($scope, $http, $rootScope) {
   $scope.openModel = function (productId) {
     // Gán productId vào $scope để hiển thị trong model
     $scope.productId = productId;
-    console.log("productId: " + productId);
     document.getElementById(String(productId + "_color")).style.display = "block";
   }
 
@@ -17,8 +16,6 @@ function cartController($scope, $http, $rootScope) {
   //size
   $scope.openModelSize = function (detailsSizeId) {
     // Gán productId vào $scope để hiển thị trong model
-
-    console.log("productIdSize: " + detailsSizeId);
     document.getElementById(String(detailsSizeId + '_size')).style.display = "block";
   }
 
@@ -27,8 +24,19 @@ function cartController($scope, $http, $rootScope) {
   }
   //////////////////////////////////////////////////////////////////////////
 
-  //Đổi màu
+  //Khai báo biến
   $scope.selectedColor = {};
+  $scope.isDiscounted;
+  $scope.selectedColorDetailsProduct = {};
+  $scope.selectedDetailsSizeId = {};
+  $scope.quantityProduct = 1;
+  $scope.selectedSize = {};
+  $scope.countCart = 0
+  $rootScope.selectedOptions = [];
+  $scope.discounts = [];
+  var uri = window.location.href;
+  var parts = uri.split('/');
+  var id = parts[parts.length - 1];
 
   // Hàm xử lý sự kiện khi nhấn nút "Xác nhận"
   $scope.discolor = function (cart) {
@@ -48,22 +56,28 @@ function cartController($scope, $http, $rootScope) {
       data: JSON.stringify(requestData),
       url: "http://localhost:8080/api/v1/update-cart-color/" + cart.cartId,
     }).then(function (response) {
-      $scope.loadData()
-      Swal.fire({
-        title: "Thành công!",
-        text: "Thay đổi màu thành công",
-        icon: "success"
-      });
+      var json = response.data;
+      if (json.message == 'ErrorCart') {
+        Swal.fire({
+          title: "Thất bại!",
+          text: "Sản phẩm này đã tồn tại trong giỏ hàng",
+          icon: "error"
+        });
+      } else {
+        Swal.fire({
+          title: "Thành công!",
+          text: "Thay đổi màu thành công",
+          icon: "success"
+        });
+        $scope.loadData()
+      }
 
     });
 
   };
-  $scope.selectedSize = {};
   //update Size
   $scope.dissize = function (cart) {
-    console.log("dissize")
     var selectedSizeId = $scope.selectedSize[cart.product.productId];
-    console.log('is', selectedSizeId)
     var requestData = {
       productId: cart.product.productId,
       sizeId: selectedSizeId,
@@ -78,23 +92,29 @@ function cartController($scope, $http, $rootScope) {
       data: JSON.stringify(requestData),
       url: "http://localhost:8080/api/v1/update-cart-size/" + cart.cartId,
     }).then(function (response) {
-      $scope.loadData()
-      Swal.fire({
-        title: "Thành công!",
-        text: "Thay đổi size thành công",
-        icon: "success"
-      });
-
+      var json = response.data
+      if (json.message == 'ErrorCart') {
+        Swal.fire({
+          title: "Thất bại!",
+          text: "Sản phẩm này đã tồn tại trong giỏ hàng",
+          icon: "error"
+        });
+      } else {
+        Swal.fire({
+          title: "Thành công!",
+          text: "Thay đổi size thành công",
+          icon: "success"
+        });
+        $scope.loadData()
+      }
     });
 
   };
   //add voucher
   $scope.apply = function () {
-    console.log("apply")
     var requestData = {
       voucherName: $scope.voucherName
     };
-    console.log(requestData);
     // $http({
     //   method: "POST",
     //   headers: {
@@ -128,7 +148,7 @@ function cartController($scope, $http, $rootScope) {
 
         $scope.carts = response.data;
         $scope.countCart = $scope.carts.length
-        console.log("==================" + $scope.countCart);
+        $('.nav-shop__circle').html($scope.carts.length);
         if ($scope.carts.length === 0) {
           // $scope.carts là một mảng rỗng
           $scope.ContinueProduct = 'Tiếp tục mua sắm'
@@ -150,16 +170,13 @@ function cartController($scope, $http, $rootScope) {
           }
         });
         $scope.$watchCollection("options", function (newValue, oldValue) {
-          console.log("options", newValue, oldValue);
           if (newValue !== oldValue) {
             newValue.forEach(function (value, index) {
               if (value !== oldValue[index]) {
                 var cartId = $scope.carts[index].cartId;
                 if (value) {
-                  console.log("Đã chọn:", "Option " + cartId);
                   $rootScope.selectedOptions.push(cartId);
                 } else {
-                  console.log("Đã bỏ chọn:", "Option " + cartId);
                   var selectedIndex = $rootScope.selectedOptions.indexOf(cartId); // Tìm chỉ số của phần tử đã chọn
                   if (selectedIndex !== -1) {
                     $rootScope.selectedOptions.splice(selectedIndex, 1); // Loại bỏ phần tử đã chọn khỏi mảng
@@ -170,15 +187,11 @@ function cartController($scope, $http, $rootScope) {
             $scope.checkAll = newValue.every(function (value) {
               return value;
             });
-            console.log("Các option đã chọn:", $rootScope.selectedOptions);
             $scope.totalCartValue = 0;
             $scope.totalCartAll = 0;
-            var selectedOptions = $rootScope.selectedOptions
-            console.log("selectedOptions1", selectedOptions);
+            var selectedOptions = $rootScope.selectedOptions;
             angular.forEach($scope.carts, function (cart) {
-
               if (selectedOptions.includes(String(cart.cartId))) {
-                console.log(1)
                 if ($scope.isDiscounted(cart.product.productId)) {
                   for (var i = 0; i < $scope.discounts.length; i++) {
                     if ($scope.discounts[i].product.productId === cart.product.productId) {
@@ -234,9 +247,6 @@ function cartController($scope, $http, $rootScope) {
   }
 
 
-  $scope.countCart = 0
-  $rootScope.selectedOptions = [];
-  $scope.discounts = [];
   $http({
     method: "GET",
     headers: {
@@ -270,16 +280,13 @@ function cartController($scope, $http, $rootScope) {
         }
       });
       $scope.$watchCollection("options", function (newValue, oldValue) {
-        console.log("options", newValue, oldValue);
         if (newValue !== oldValue) {
           newValue.forEach(function (value, index) {
             if (value !== oldValue[index]) {
               var cartId = $scope.carts[index].cartId;
               if (value) {
-                console.log("Đã chọn:", "Option " + cartId);
                 $rootScope.selectedOptions.push(cartId);
               } else {
-                console.log("Đã bỏ chọn:", "Option " + cartId);
                 var selectedIndex = $rootScope.selectedOptions.indexOf(cartId); // Tìm chỉ số của phần tử đã chọn
                 if (selectedIndex !== -1) {
                   $rootScope.selectedOptions.splice(selectedIndex, 1); // Loại bỏ phần tử đã chọn khỏi mảng
@@ -290,15 +297,11 @@ function cartController($scope, $http, $rootScope) {
           $scope.checkAll = newValue.every(function (value) {
             return value;
           });
-          console.log("Các option đã chọn:", $rootScope.selectedOptions);
           $scope.totalCartValue = 0;
           $scope.totalCartAll = 0;
           var selectedOptions = $rootScope.selectedOptions
-          console.log("selectedOptions1", selectedOptions);
           angular.forEach($scope.carts, function (cart) {
-
             if (selectedOptions.includes(String(cart.cartId))) {
-              console.log(1)
               if ($scope.isDiscounted(cart.product.productId)) {
                 for (var i = 0; i < $scope.discounts.length; i++) {
                   if ($scope.discounts[i].product.productId === cart.product.productId) {
@@ -359,7 +362,6 @@ function cartController($scope, $http, $rootScope) {
     function successCallback(response) {
       $scope.vouchers = response.data;
       $scope.copyVoucher = function copyCode(voucherName) {
-        console.log('copyCode', voucherName)
         // Lấy mã từ phần tử có id="code"
         var codeElement = document.getElementById(voucherName);
         var code = codeElement.innerText;
@@ -393,20 +395,15 @@ function cartController($scope, $http, $rootScope) {
   //clickProduct Details
 
 
-  var uri = window.location.href;
-  var parts = uri.split('/');
-  var id = parts[parts.length - 1];
-  console.log(id);
+
   $http({
     method: "GET",
     url: "http://localhost:8080/api/v1/auth/twobee/products/" + id,
   }).then(
     function successCallback(response) {
       $scope.detailsProductId1 = response.data;
-      console.table($scope.detailsProductId1)
     },
     function errorCallback(response) {
-      console.log("ok")
       // called asynchronously if an error occurs
       // or server returns response with an error status.
     }
@@ -508,7 +505,6 @@ function cartController($scope, $http, $rootScope) {
           url: "http://localhost:8080/api/v1/delete-cart/" + cart.cartId,
         }).then(
           function successCallback(response) {
-            console.log(response);
             Swal.fire({
               title: "Thành công!",
               text: "Xóa sản phẩm ra khỏi giỏ hàng thành công",
@@ -537,11 +533,8 @@ function cartController($scope, $http, $rootScope) {
     $scope.totalCartValue = 0;
     $scope.totalCartAll = 0;
     var selectedOptions = $rootScope.selectedOptions
-    console.log("selectedOptions", selectedOptions);
     angular.forEach($scope.carts, function (cart) {
-
       if (selectedOptions.includes(String(cart.cartId))) {
-        console.log(1)
         if ($scope.isDiscounted(cart.product.productId)) {
           for (var i = 0; i < $scope.discounts.length; i++) {
             if ($scope.discounts[i].product.productId === cart.product.productId) {
@@ -641,12 +634,21 @@ function cartController($scope, $http, $rootScope) {
         text: "Số lượng không được lớn hơn số lượng trong kho!",
         icon: "error"
       });
-      cart.quantity = cart.product.quantityInStock
+      console.log("sl: " + cart.quantity);
+
     }
     $scope.updateCart(cart);
   };
   //////////////// updateCart
   $scope.updateCart = function (cart) {
+    if (cart.product.quantityInStock <= 0) {
+      Swal.fire({
+        title: "Thất bại!",
+        text: "Sản phẩm này đã hết hàng!",
+        icon: "error"
+      });
+      return;
+    }
     var requestData = {
       quantity: cart.quantity,
       productId: cart.product.productId,
@@ -680,9 +682,6 @@ function cartController($scope, $http, $rootScope) {
   };
 
   //////////////////////////////////////////////////////////////Thêm mới sản phẩm vào giỏ hàng
-  $scope.selectedColorDetailsProduct = {};
-  $scope.selectedDetailsSizeId = {};
-  $scope.quantityProduct = 1
   $scope.saveCart = function (detailsProductId1) {
     var selectedColorId = $scope.selectedColorDetailsProduct[detailsProductId1.productId];
     if (selectedColorId === undefined || selectedColorId == '') {
@@ -697,6 +696,29 @@ function cartController($scope, $http, $rootScope) {
       return;
     } else {
       $scope.errorSelectedSizeId = ''
+    }
+    if (parseInt(detailsProductId1.quantityInStock) - parseInt($scope.quantityProduct) < 0) {
+      Swal.fire({
+        title: "Thất bại!",
+        text: "Số lượng bạn nhập vào không được vượt qua số lượng hàng tồn kho",
+        icon: "error",
+      });
+      var result = document.getElementById('sst_quantity');
+      var sst = parseInt(result.value);
+      if (!isNaN(sst)) {
+        result.value = detailsProductId1.quantityInStock;
+        // Đảm bảo cập nhật giá trị trong model
+        angular.element(result).triggerHandler('input');
+      }
+      return;
+    }
+    if (detailsProductId1.quantityInStock <= 0) {
+      Swal.fire({
+        title: "Thất bại!",
+        text: "Sản phẩm này đã hết hàng!",
+        icon: "error"
+      });
+      return;
     }
     var requestData = {
       productId: detailsProductId1.productId,
@@ -715,31 +737,33 @@ function cartController($scope, $http, $rootScope) {
       data: JSON.stringify(requestData),
       url: "http://localhost:8080/api/v1/create-cart",
     }).then(function (response) {
-      console.log("successfully")
       Swal.fire({
         title: "Thành công!",
         text: "Thêm vào giỏ hàng thành công",
         icon: "success",
       });
+      $('#quantity_in_stock').html(parseInt(detailsProductId1.quantityInStock) - parseInt($scope.quantityProduct));
       $scope.loadData();
     });
   };
 }
 
-var quantityInput = document.getElementById("sst");
-var increaseButton = document.querySelector(".increase");
-var decreaseButton = document.querySelector(".reduced");
-
-// Xử lý sự kiện khi người dùng nhấp vào nút tăng
-increaseButton.addEventListener("click", function () {
-  // Tăng giá trị của input lên 1
-  quantityInput.value = parseInt(quantityInput.value) + 1;
-});
-
-// Xử lý sự kiện khi người dùng nhấp vào nút giảm
-decreaseButton.addEventListener("click", function () {
-  // Kiểm tra nếu giá trị hiện tại của input lớn hơn 1 thì mới giảm
-  if (parseInt(quantityInput.value) > 1) {
-    quantityInput.value = parseInt(quantityInput.value) - 1;
+function increaseQuantity() {
+  var result = document.getElementById('sst_quantity');
+  var sst = parseInt(result.value);
+  if (!isNaN(sst)) {
+    result.value++;
+    // Đảm bảo cập nhật giá trị trong model
+    angular.element(result).triggerHandler('input');
   }
-});
+}
+
+function decreaseQuantity() {
+  var result = document.getElementById('sst_quantity');
+  var sst = parseInt(result.value);
+  if (!isNaN(sst) && sst > 0) {
+    result.value--;
+    // Đảm bảo cập nhật giá trị trong model
+    angular.element(result).triggerHandler('input');
+  }
+}

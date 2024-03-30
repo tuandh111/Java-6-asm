@@ -49,23 +49,35 @@ public class CartController {
     }
 
     @PostMapping("/update-cart-color/{id}")
-    public ResponseEntity<Cart> updateCartColorByUser(@PathVariable("id") String cartId, @RequestBody CartColorRequest cartColorRequest) {
-        return ResponseEntity.ok(cartService.updateCartColor(cartId, cartColorRequest));
+    public ResponseEntity<?> updateCartColorByUser(@PathVariable("id") String cartId, @RequestBody CartColorRequest cartColorRequest) {
+        Cart cart = cartService.updateCartColor(cartId, cartColorRequest);
+        Map<String, Object> jsonError = new HashMap<>();
+        if (cart == null) {
+            jsonError.put("message", "ErrorCart");
+            return ResponseEntity.ok(jsonError);
+        }
+        return ResponseEntity.ok(cart);
     }
 
     @PostMapping("/update-cart-size/{id}")
-    public ResponseEntity<Cart> updateCartSizeByUser(@PathVariable("id") String cartId, @RequestBody CartSizeRequest cartSizeRequest) {
-        return ResponseEntity.ok(cartService.updateCartSize(cartId, cartSizeRequest));
+    public ResponseEntity<?> updateCartSizeByUser(@PathVariable("id") String cartId, @RequestBody CartSizeRequest cartSizeRequest) {
+        Cart cart = cartService.updateCartSize(cartId, cartSizeRequest);
+        Map<String, Object> jsonError = new HashMap<>();
+        if (cart == null) {
+            jsonError.put("message", "ErrorCart");
+            return ResponseEntity.ok(jsonError);
+        }
+        return ResponseEntity.ok(cart);
     }
 
     @PostMapping("/create-cart")
-    public ResponseEntity<Cart> createCartByUser(HttpServletRequest httpServletRequest,@RequestBody CartRequest cartRequest) {
+    public ResponseEntity<Cart> createCartByUser(HttpServletRequest httpServletRequest, @RequestBody CartRequest cartRequest) {
         System.out.println("run create successfully");
-        return ResponseEntity.ok(cartService.saveCart(httpServletRequest,cartRequest));
+        return ResponseEntity.ok(cartService.saveCart(httpServletRequest, cartRequest));
     }
 
     @DeleteMapping("/delete-cart/{id}")
-    public ResponseEntity<?> deleteCartByUser(@PathVariable String id) {
+    public ResponseEntity<?> deleteCartByUser(@PathVariable("id") String id) {
         cartService.DeleteCart(id);
         return ResponseEntity.ok(new MessageResponse("Xóa thành công"));
     }

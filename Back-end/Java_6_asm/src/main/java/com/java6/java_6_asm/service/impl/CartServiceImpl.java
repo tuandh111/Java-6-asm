@@ -84,6 +84,8 @@ public class CartServiceImpl implements CartService {
             cart.setSizeId(cartRequest.getSizeId());
             cart.setCheckPay(false);
             cartRepository.save(cart);
+            product.setQuantityInStock(product.getQuantityInStock() - cartRequest.getQuantity());
+            productRepository.save(product);
             return cart;
         } else {
             checkCart.setUser(user);
@@ -94,6 +96,8 @@ public class CartServiceImpl implements CartService {
             checkCart.setSizeId(cartRequest.getSizeId());
             checkCart.setCheckPay(false);
             cartRepository.save(checkCart);
+            product.setQuantityInStock(product.getQuantityInStock() - cartRequest.getQuantity());
+            productRepository.save(product);
             return checkCart;
         }
 
@@ -120,15 +124,20 @@ public class CartServiceImpl implements CartService {
         Product product = productRepository.findById(cartColorRequest.getProductId()).orElseThrow(() -> new NotFoundException("Not found product with Id: " + cartColorRequest.getProductId()));
         User user = userRepository.findById(cartColorRequest.getUserId()).orElseThrow(() -> new NotFoundException("Not found userId with Id: " + cartColorRequest.getUserId()));
         DetailsColor detailsColor = detailsColorRepository.findById(cartColorRequest.getColorId()).orElseThrow(null);
-        System.out.println("clId: " + detailsColor.getDetailsColorId() + detailsColor.getImageId());
-        cart.setCartId(cartId);
-        cart.setColorId(cartColorRequest.getColorId());
-        cart.setUser(user);
-        cart.setImageId(detailsColor.getImageId());
-        cart.setProduct(product);
-        cart.setCheckPay(false);
-        cartRepository.save(cart);
-        return cart;
+        Cart checkCart = cartRepository.findByProductIDAndAndUserID(user.getId(), product.getProductId(), cartColorRequest.getColorId(), cart.getSizeId());
+        System.out.println("checkCartColor: "+ checkCart);
+        if (checkCart == null) {
+            cart.setCartId(cartId);
+            cart.setColorId(cartColorRequest.getColorId());
+            cart.setUser(user);
+            cart.setImageId(detailsColor.getImageId());
+            cart.setProduct(product);
+            cart.setCheckPay(false);
+            cartRepository.save(cart);
+            return cart;
+        }
+        return null;
+
     }
 
     @Override
@@ -136,17 +145,26 @@ public class CartServiceImpl implements CartService {
         Cart cart = cartRepository.findById(cartId).orElseThrow(() -> new NotFoundException("Not Found cartId With Id:" + cartId));
         Product product = productRepository.findById(cartSizeRequest.getProductId()).orElseThrow(() -> new NotFoundException("Not found product with Id: " + cartSizeRequest.getProductId()));
         User user = userRepository.findById(cartSizeRequest.getUserId()).orElseThrow(() -> new NotFoundException("Not found userId with Id: " + cartSizeRequest.getUserId()));
-        cart.setCartId(cartId);
-        cart.setSizeId(cartSizeRequest.getSizeId());
-        cart.setUser(user);
-        cart.setProduct(product);
-        cart.setCheckPay(false);
-        cartRepository.save(cart);
-        return cart;
+        Cart checkCart = cartRepository.findByProductIDAndAndUserID(user.getId(), product.getProductId(), cart.getColorId(), cartSizeRequest.getSizeId());
+        System.out.println("checkCartSize: "+ checkCart);
+        if (checkCart == null) {
+            cart.setCartId(cartId);
+            cart.setSizeId(cartSizeRequest.getSizeId());
+            cart.setUser(user);
+            cart.setProduct(product);
+            cart.setCheckPay(false);
+            cartRepository.save(cart);
+            return cart;
+        }
+        return null;
     }
 
     @Override
     public void DeleteCart(String cartId) {
+        Cart cart = cartRepository.findById(cartId).orElseThrow();
+        Product product = productRepository.findById(cart.getProduct().getProductId()).orElseThrow();
+        product.setQuantityInStock(product.getQuantityInStock() + cart.getQuantity());
+        productRepository.save(product);
         cartRepository.deleteById(cartId);
     }
 }

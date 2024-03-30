@@ -148,14 +148,12 @@
 					<br>
 					<span class="mt-1">Nhập số lượng:</span>
 					<div class="product_count mt-1">
-						<input type="number" name="qty" id="sst" ng-model="quantityProduct " value="1" title="Quantity:"
-							class="input-number qty " style="padding: 5px 10px;text-align: center;">
-						<button
-							onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
-							class="increase items-count" type="button"><i class="bi bi-caret-up-fill"></i></button>
-						<button
-							onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
-							class="reduced items-count" type="button"><i class="bi bi-caret-down-fill"></i></button>
+						<input type="number" name="qty" id="sst_quantity" ng-model="quantityProduct" value="1"
+							title="Quantity:" class="input-number qty" style="padding: 5px 10px;text-align: center;">
+						<button onclick="increaseQuantity()" class="increase items-count" type="button"><i
+								class="bi bi-caret-up-fill"></i></button>
+						<button onclick="decreaseQuantity()" class="reduced items-count" type="button"><i
+								class="bi bi-caret-down-fill"></i></button>
 
 					</div>
 
@@ -166,8 +164,10 @@
 					<ul class="list" style="padding-left:0px">
 						<li><a class="active" href="#"><span>Thương hiệu</span>:
 								{{detailsProductId1.brand.nameBrand}}</a></li>
-						<li><span>Số lượng còn lại:</span> {{detailsProductId1.quantityInStock}} <span
-								ng-if="detailsProductId1.quantityInStock ==0 ">Hết hàng</span></li>
+						<li><span>Số lượng còn lại:</span> <span
+								id="quantity_in_stock">{{detailsProductId1.quantityInStock}}</span>
+							<span ng-if="detailsProductId1.quantityInStock ==0 " class="btn btn-danger ">Hết hàng</span>
+						</li>
 					</ul>
 					<p>{{detailsProductId1.description}}</p>
 					<div class="card_area d-flex align-items-center">
