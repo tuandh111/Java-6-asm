@@ -60,26 +60,43 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public Cart findByProductIDAndAndUserID(Integer userID, Integer productID) {
-        return cartRepository.findByProductIDAndAndUserID(userID, productID).orElseThrow(() -> new NotFoundException("Not found product with user"));
+        return cartRepository.findByProductIDAndAndUserID(userID, productID, userID, productID);
     }
 
     @Override
-    public Cart saveCart(CartRequest cartRequest) {
+    public Cart saveCart(HttpServletRequest httpServletRequest, CartRequest cartRequest) {
+        String token = GetTokenRefreshToken.getToken(httpServletRequest);
+        String email = jwtService.extractUsername(token);
         Product product = productRepository.findById(cartRequest.getProductId()).orElseThrow(() -> new NotFoundException("Not found product with Id: " + cartRequest.getProductId()));
-        User user = userRepository.findById(4).orElseThrow(() -> new NotFoundException("Not found userId with Id: " + cartRequest.getUserId()));
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("Not found userId with Id: " + cartRequest.getUserId()));
         DetailsColor detailsColor = detailsColorRepository.findById(cartRequest.getColorId()).orElseThrow(null);
+        System.out.println("checkcart: " + user.getId() + " " + product.getProductId() + " " + cartRequest.getColorId() + " " + cartRequest.getSizeId() + " - " + detailsColor.getDetailsColorId());
+        Cart checkCart = cartRepository.findByProductIDAndAndUserID(user.getId(), product.getProductId(), cartRequest.getColorId(), cartRequest.getSizeId());
+        System.out.println("chc: " + checkCart);
+        if (checkCart == null) {
+            Cart cart = new Cart();
+            cart.setCartId(ConfigVNPay.getRandomString(12));
+            cart.setUser(user);
+            cart.setProduct(product);
+            cart.setQuantity(cartRequest.getQuantity());
+            cart.setColorId(detailsColor.getDetailsColorId());
+            cart.setImageId(detailsColor.getImageId());
+            cart.setSizeId(cartRequest.getSizeId());
+            cart.setCheckPay(false);
+            cartRepository.save(cart);
+            return cart;
+        } else {
+            checkCart.setUser(user);
+            checkCart.setProduct(product);
+            checkCart.setQuantity(checkCart.getQuantity() + cartRequest.getQuantity());
+            checkCart.setColorId(detailsColor.getDetailsColorId());
+            checkCart.setImageId(detailsColor.getImageId());
+            checkCart.setSizeId(cartRequest.getSizeId());
+            checkCart.setCheckPay(false);
+            cartRepository.save(checkCart);
+            return checkCart;
+        }
 
-        Cart cart = new Cart();
-        cart.setCartId(ConfigVNPay.getRandomString(12));
-        cart.setUser(user);
-        cart.setProduct(product);
-        cart.setQuantity(cartRequest.getQuantity());
-        cart.setColorId(detailsColor.getDetailsColorId());
-        cart.setImageId(detailsColor.getImageId());
-        cart.setSizeId(null);
-        cart.setCheckPay(false);
-        cartRepository.save(cart);
-        return cart;
     }
 
     @Override
@@ -103,7 +120,7 @@ public class CartServiceImpl implements CartService {
         Product product = productRepository.findById(cartColorRequest.getProductId()).orElseThrow(() -> new NotFoundException("Not found product with Id: " + cartColorRequest.getProductId()));
         User user = userRepository.findById(cartColorRequest.getUserId()).orElseThrow(() -> new NotFoundException("Not found userId with Id: " + cartColorRequest.getUserId()));
         DetailsColor detailsColor = detailsColorRepository.findById(cartColorRequest.getColorId()).orElseThrow(null);
-        System.out.println("clId: "+detailsColor.getDetailsColorId()+ detailsColor.getImageId());
+        System.out.println("clId: " + detailsColor.getDetailsColorId() + detailsColor.getImageId());
         cart.setCartId(cartId);
         cart.setColorId(cartColorRequest.getColorId());
         cart.setUser(user);

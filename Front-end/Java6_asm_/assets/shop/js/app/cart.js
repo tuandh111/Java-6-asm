@@ -32,7 +32,6 @@ function cartController($scope, $http, $rootScope) {
 
   // Hàm xử lý sự kiện khi nhấn nút "Xác nhận"
   $scope.discolor = function (cart) {
-    // Lấy giá trị mà người dùng đã chọn từ $scope.selectedColor và cart
     var selectedColorId = $scope.selectedColor[cart.product.productId];
 
     var requestData = {
@@ -63,7 +62,6 @@ function cartController($scope, $http, $rootScope) {
   //update Size
   $scope.dissize = function (cart) {
     console.log("dissize")
-    // Lấy giá trị mà người dùng đã chọn từ $scope.selectedColor và cart
     var selectedSizeId = $scope.selectedSize[cart.product.productId];
     console.log('is', selectedSizeId)
     var requestData = {
@@ -93,7 +91,6 @@ function cartController($scope, $http, $rootScope) {
   //add voucher
   $scope.apply = function () {
     console.log("apply")
-    // Lấy giá trị mà người dùng đã chọn từ $scope.selectedColor và cart
     var requestData = {
       voucherName: $scope.voucherName
     };
@@ -128,7 +125,10 @@ function cartController($scope, $http, $rootScope) {
       url: "http://localhost:8080/api/v1/cart",
     }).then(
       function successCallback(response) {
+
         $scope.carts = response.data;
+        $scope.countCart = $scope.carts.length
+        console.log("==================" + $scope.countCart);
         if ($scope.carts.length === 0) {
           // $scope.carts là một mảng rỗng
           $scope.ContinueProduct = 'Tiếp tục mua sắm'
@@ -234,8 +234,7 @@ function cartController($scope, $http, $rootScope) {
   }
 
 
-
-
+  $scope.countCart = 0
   $rootScope.selectedOptions = [];
   $scope.discounts = [];
   $http({
@@ -248,6 +247,7 @@ function cartController($scope, $http, $rootScope) {
   }).then(
     function successCallback(response) {
       $scope.carts = response.data;
+      $scope.countCart = $scope.carts.length
       if ($scope.carts.length === 0) {
         // $scope.carts là một mảng rỗng
         $scope.ContinueProduct = 'Tiếp tục mua sắm'
@@ -681,16 +681,30 @@ function cartController($scope, $http, $rootScope) {
 
   //////////////////////////////////////////////////////////////Thêm mới sản phẩm vào giỏ hàng
   $scope.selectedColorDetailsProduct = {};
+  $scope.selectedDetailsSizeId = {};
+  $scope.quantityProduct = 1
   $scope.saveCart = function (detailsProductId1) {
-    console.log("Thông tin: " + detailsProductId1.productId);
-    var selectedSizeId = $scope.selectedColorDetailsProduct[detailsProductId1.productId];
-    console.log("Cart Id: " + selectedSizeId);
+    var selectedColorId = $scope.selectedColorDetailsProduct[detailsProductId1.productId];
+    if (selectedColorId === undefined || selectedColorId == '') {
+      $scope.errorSelectedColorId = '(*) Vui lòng chọn màu'
+      return;
+    } else {
+      $scope.errorSelectedColorId = ''
+    }
+    var selectedSizeId = $scope.selectedDetailsSizeId[detailsProductId1.productId];
+    if (selectedSizeId === undefined || selectedSizeId == '') {
+      $scope.errorSelectedSizeId = '(*) Vui lòng chọn size'
+      return;
+    } else {
+      $scope.errorSelectedSizeId = ''
+    }
     var requestData = {
       productId: detailsProductId1.productId,
-      quantity: detailsProductId1.quantity,
+      quantity: $scope.quantityProduct,
       userId: null,
-      colorId: parseInt(selectedSizeId),
+      colorId: parseInt(selectedColorId),
       imageId: null,
+      sizeId: parseInt(selectedSizeId)
     };
     $http({
       method: "POST",
@@ -702,6 +716,30 @@ function cartController($scope, $http, $rootScope) {
       url: "http://localhost:8080/api/v1/create-cart",
     }).then(function (response) {
       console.log("successfully")
+      Swal.fire({
+        title: "Thành công!",
+        text: "Thêm vào giỏ hàng thành công",
+        icon: "success",
+      });
+      $scope.loadData();
     });
   };
 }
+
+var quantityInput = document.getElementById("sst");
+var increaseButton = document.querySelector(".increase");
+var decreaseButton = document.querySelector(".reduced");
+
+// Xử lý sự kiện khi người dùng nhấp vào nút tăng
+increaseButton.addEventListener("click", function () {
+  // Tăng giá trị của input lên 1
+  quantityInput.value = parseInt(quantityInput.value) + 1;
+});
+
+// Xử lý sự kiện khi người dùng nhấp vào nút giảm
+decreaseButton.addEventListener("click", function () {
+  // Kiểm tra nếu giá trị hiện tại của input lớn hơn 1 thì mới giảm
+  if (parseInt(quantityInput.value) > 1) {
+    quantityInput.value = parseInt(quantityInput.value) - 1;
+  }
+});

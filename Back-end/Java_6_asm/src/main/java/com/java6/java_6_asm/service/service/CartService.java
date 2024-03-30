@@ -19,7 +19,7 @@ public interface CartService {
 
     Cart findByProductIDAndAndUserID(Integer userID, Integer productID);
 
-    Cart saveCart(CartRequest cart);
+    Cart saveCart(HttpServletRequest httpServletRequest,CartRequest cart);
 
     Cart updateCart(String cartId, CartRequest cartRequest);
 

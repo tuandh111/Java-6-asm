@@ -59,9 +59,9 @@ public class CartController {
     }
 
     @PostMapping("/create-cart")
-    public ResponseEntity<Cart> createCartByUser(@RequestBody CartRequest cartRequest) {
+    public ResponseEntity<Cart> createCartByUser(HttpServletRequest httpServletRequest,@RequestBody CartRequest cartRequest) {
         System.out.println("run create successfully");
-        return ResponseEntity.ok(cartService.saveCart(cartRequest));
+        return ResponseEntity.ok(cartService.saveCart(httpServletRequest,cartRequest));
     }
 
     @DeleteMapping("/delete-cart/{id}")
