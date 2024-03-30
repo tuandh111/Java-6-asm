@@ -1687,15 +1687,15 @@ a {
     width: 100%;
     height: 200px;
     padding: 5px 20px;
-    /* background: transparent; */
-    background: rgba(93, 95, 145, 0.2);
-    backdrop-filter: blur(5px);
+    background: transparent;
+    /* background: rgba(93, 95, 145, 0.2); */
+    backdrop-filter: blur(1px);
     /* border-top: 1px solid rgb(238, 77, 45); */
     border-radius: 0 0 20px 20px;
-    transform: translateY(30px);
+    /* transform: translateY(30px);
     opacity: 0;
     z-index: -1;
-    transition: all .48s ease
+    transition: all .48s ease */
 }
 
 .blog-banner:hover .swiper .swiper-slide .overlay {

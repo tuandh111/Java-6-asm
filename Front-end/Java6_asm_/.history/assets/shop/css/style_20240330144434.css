@@ -1603,7 +1603,7 @@ a {
     color: #fff
 }
 
-.blog-banner {
+.swiper-container {
     background-image: radial-gradient(circle at 20% 100%,
             rgba(184, 184, 184, 0.1) 0%,
             rgba(184, 184, 184, 0.1) 33%,
@@ -1616,7 +1616,7 @@ a {
     height: 100%;
 }
 
-.blog-banner>section {
+.swiper-container>section {
     display: grid;
     grid-template-columns: 50% 45%;
     place-items: center;
@@ -1625,31 +1625,31 @@ a {
     width: 100%;
 }
 
-.blog-banner>section>.content {
+.swiper-container>section>.content {
     max-width: 600px;
 }
 
-.blog-banner>section>.content h4 {
+.swiper-container>section>.content h4 {
     color: #fff;
     font-weight: 700;
     line-height: 1.2;
     letter-spacing: 1px;
 }
 
-.blog-banner>section>.content p {
+.swiper-container>section>.content p {
     font-size: clamp(1rem, 4vw, 1.1rem);
     font-weight: 300;
     line-height: 1.5;
     color: #fff;
 }
 
-.blog-banner .swiper {
+.swiper-container .swiper {
     position: relative;
     width: 400px;
     height: 100%;
 }
 
-.blog-banner .swiper .swiper-slide {
+.swiper-container .swiper .swiper-slide {
     position: relative;
     background-position: center;
     background-size: cover;
@@ -1658,13 +1658,13 @@ a {
     border-radius: 20px;
 }
 
-.blog-banner .swiper .swiper-slide img {
+.swiper-container .swiper .swiper-slide img {
     width: 100%;
     height: 100%;
     border-radius: 20px;
 }
 
-.blog-banner .swiper .swiper-slide .prrice {
+.swiper-container .swiper .swiper-slide .prrice {
     position: absolute;
     top: 8px;
     right: 6px;
@@ -1673,62 +1673,19 @@ a {
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
     border-radius: 30px;
     padding: 6px 10px;
-    color: rgb(238, 77, 45);
+    color: #fff;
     font-weight: 600;
-}
-
-.blog-banner .swiper .swiper-slide .overlay {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 200px;
-    padding: 5px 20px;
-    /* background: transparent; */
-    background: rgba(93, 95, 145, 0.2);
-    backdrop-filter: blur(5px);
-    /* border-top: 1px solid rgb(238, 77, 45); */
-    border-radius: 0 0 20px 20px;
-    transform: translateY(30px);
-    opacity: 0;
-    z-index: -1;
-    transition: all .48s ease
-}
-
-.blog-banner:hover .swiper .swiper-slide .overlay {
-    opacity: 1;
-    z-index: 1;
-}
-
-.blog-banner .swiper .swiper-slide .overlay h3 {
-    font-weight: 600;
-    letter-spacing: 2px;
-}
-
-.blog-banner .swiper .swiper-slide .overlay p {
-    font-weight: 500;
-    letter-spacing: 2px;
-    line-height: 1.2;
-}
-
-.blog-banner .swiper .swiper-slide .overlay .details {
-    display: flex;
-    column-gap: 10px;
-    margin-top: 10px;
 }
 
 @media(max-width:1050px) {
-    .blog-banner .swiper {
+    .swiper-container .swiper {
         width: 350px;
         height: 90%;
     }
 }
 
 @media(max-width:930px) {
-    .blog-banner>section {
+    .swiper-container>section {
         grid-template-columns: 100%;
         grid-template-rows: 55% 40%;
         grid-template-areas: "slider" "content";
@@ -1737,18 +1694,18 @@ a {
         padding: 60px;
     }
 
-    .blog-banner .swiper {
+    .swiper-container .swiper {
         grid-area: content;
         text-align: center;
     }
 }
 
 @media(max-width:470px) {
-    .blog-banner>section {
+    .swiper-container>section {
         padding: 40px 40px 60px;
     }
 
-    .blog-banner .swiper {
+    .swiper-container .swiper {
         width: 300px;
         height: 80%;
     }
