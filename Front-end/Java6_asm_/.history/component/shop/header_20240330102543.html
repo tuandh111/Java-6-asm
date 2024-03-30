@@ -1,0 +1,62 @@
+<div class="main_menu" ng-controller="CartCtrl">
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a title="TwoBee Shop" class="navbar-brand logo_h" href="#!/index"><img src="/assets/shop/images/logo.jpg"
+                    style="width: 50px; height: 50px; border-radius: 50%;" alt=""></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+                <ul class="nav navbar-nav menu_nav ml-auto mr-auto">
+                    <li class="nav-item active"><a class="nav-link" href="#!/index">Home</a></li>
+                    <li class="nav-item submenu dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+                            aria-haspopup="true" aria-expanded="false" onclick="event.preventDefault()">Shop</a>
+                        <ul class="dropdown-menu">
+                            <li class="nav-item"><a class="nav-link" href="#!/shop/category">Shop
+                                    Category</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#!/shop/single-product">Product
+                                    Details</a>
+                            </li>
+                            <li class="nav-item"><a class="nav-link" href="#!/shop/checkout">Product
+                                    Checkout</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#!/shop/confirmation">Confirmation</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#!/shop/cart">Shopping Cart</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item submenu dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+                            aria-haspopup="true" aria-expanded="false" onclick="event.preventDefault()">Blog</a>
+                        <ul class="dropdown-menu">
+                            <li class="nav-item"><a class="nav-link" href="#!/shop/blog">Blog</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#!/shop/single-blog">Blog
+                                    Details</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item submenu dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+                            aria-haspopup="true" aria-expanded="false" onclick="event.preventDefault()">Pages</a>
+                        <ul class="dropdown-menu">
+                            <li class="nav-item"><a class="nav-link" href="#!/shop/login">Login</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#!/shop/register">Register</a>
+                            </li>
+                            <li class="nav-item"><a class="nav-link" href="#!/shop/tracking-order">Tracking</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="#!/shop/contact">Contact</a></li>
+                </ul>
+
+                <ul class="nav-shop">
+                    <li class="nav-item"><button><i class="ti-search"></i></button></li>
+                    <li class="nav-item"><button><a href="#!/shop/cart"><i class="ti-shopping-cart"></i></a><span
+                                class="nav-shop__circle">{{carts.length}}</span></button> </li>
+                    <li class="nav-item"><a class="button button-header" href="#">Đăng nhập</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
