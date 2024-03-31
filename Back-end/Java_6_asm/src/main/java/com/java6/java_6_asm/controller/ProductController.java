@@ -58,4 +58,11 @@ public class ProductController {
         }
         return ResponseEntity.ok(response);
     }
+    @GetMapping("/twobee/products/brand/{id}")
+    public ResponseEntity<List<Product>> getAllBrand(@PathVariable("id") String id){
+        if(productService.findAllCategory(id).isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        return  ResponseEntity.ok(productService.findAllCategory(id));
+    }
 }

@@ -68,5 +68,9 @@ public class ProductServiceImpl implements ProductService {
 //        return 1;
     }
 
+    @Override
+    public List<Product> findAllCategory(String id) {
+        return productRepository.findAllByBrand(id);
+    }
 
 }

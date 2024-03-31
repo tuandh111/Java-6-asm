@@ -18,4 +18,6 @@ public interface ProductService {
     Product update(Integer productId, Product product);
 
     Product delete(Integer productId);
+
+    List<Product> findAllCategory(String id);
 }

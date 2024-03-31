@@ -93,60 +93,65 @@
                                         <p>Màu:
                                             <span style="color: #010101;" ng-repeat="dtColor in detailsColor">
                                                 <span ng-if="dtColor.detailsColorId == cart.colorId">
-                                                    <span class="">{{dtColor.color.colorName}}</span>
-                                                    <div class="model-overlay" id="{{cart.product.productId}}_color">
-                                                        <div class="model"><span class="close"
-                                                                ng-click="closeModel(cart.product.productId)">&times;</span>
-                                                            <div class="model-header">
+                                                    <!-- <span class="">{{dtColor.color.colorName}}</span> -->
+                                                    <span class="border rounded-circle" style="background-color:{{dtColor.color.colorName}} ;  display: inline-block;
+									width: 20px;
+									height: 20px;
+									margin-top: 25px; ">
+                                                        <div class="model-overlay" id="{{cart.cartId}}_color">
+                                                            <div class="model"><span class="close"
+                                                                    ng-click="closeModel(cart.cartId)">&times;</span>
+                                                                <div class="model-header">
 
-                                                                <h2> {{cart.product.productName}}</h2>
-                                                            </div>
-                                                            <div class="model-content">
-                                                                <h3>Chọn màu sản phẩm</h3>
-                                                                <div class="row">
-                                                                    <div ng-repeat="dtColor in detailsColor">
-                                                                        <div
-                                                                            ng-if="dtColor.product.productId == cart.product.productId">
-                                                                            <input type="radio"
-                                                                                ng-model="selectedColor[dtColor.product.productId]"
-                                                                                ng-checked="cart.colorId == dtColor.detailsColorId"
-                                                                                name="color"
-                                                                                value="{{dtColor.detailsColorId}}">
-                                                                            {{dtColor.color.colorName}}
-                                                                            <div ng-repeat="image in images">
-                                                                                <div
-                                                                                    ng-if="image.productImageId == dtColor.imageId">
-                                                                                    <img style="width: 90px; margin-top: 20px ;margin-right: 20px;"
-                                                                                        src="/assets/shop/images/product/{{image.imageName}}"
-                                                                                        class="mb-3"
-                                                                                        alt="Đang chờ cập nhật hình ảnh">
+                                                                    <h2> {{cart.product.productName}}</h2>
+                                                                </div>
+                                                                <div class="model-content">
+                                                                    <h3>Chọn màu sản phẩm</h3>
+                                                                    <div class="row">
+                                                                        <div ng-repeat="dtColor in detailsColor">
+                                                                            <div
+                                                                                ng-if="dtColor.product.productId == cart.product.productId">
+                                                                                <input type="radio"
+                                                                                    ng-checked="cart.colorId == dtColor.detailsColorId"
+                                                                                    ng-model="selectedColor[dtColor.product.productId]"
+                                                                                    name="color"
+                                                                                    ng-value="{{dtColor.detailsColorId}}">
+                                                                                {{dtColor.color.colorName}}
+                                                                                <div ng-repeat="image in images">
+                                                                                    <div
+                                                                                        ng-if="image.productImageId == dtColor.imageId">
+                                                                                        <img style="width: 90px; margin-top: 20px ;margin-right: 20px;"
+                                                                                            src="/assets/shop/images/product/{{image.imageName}}"
+                                                                                            class="mb-3"
+                                                                                            alt="Đang chờ cập nhật hình ảnh">
 
+                                                                                    </div>
                                                                                 </div>
+
                                                                             </div>
                                                                         </div>
                                                                     </div>
+                                                                    <button class="btn btn-primary mt-4"
+                                                                        ng-click="discolor(cart)">Xác
+                                                                        nhận</button>
                                                                 </div>
-                                                                <button class="btn btn-primary mt-4"
-                                                                    ng-click="discolor(cart)">Xác
-                                                                    nhận</button>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <span style="float: right;">Chọn màu: <i
-                                                            ng-click="openModel(cart.product.productId)"
-                                                            class="bi bi-pencil-square"></i></span>
+                                                        <span style="float: right;">Chọn màu: <i
+                                                                ng-click="openModel(cart.cartId)"
+                                                                class="bi bi-pencil-square"></i></span>
+                                                    </span>
+                                                    <!-- Model -->
                                                 </span>
-                                                <!-- Model -->
-                                            </span>
                                         </p>
                                         <p>Kích thước:
                                             <span style="color: #010101;" ng-repeat="dtSize in detailsSize">
                                                 <span ng-if="dtSize.detailsSizeId == cart.sizeId">
                                                     {{dtSize.size.sizeName}}
-                                                    <div class="model-overlay" id="{{cart.product.productId}}_size">
+                                                    <div class="model-overlay" id="{{cart.cartId}}_size">
                                                         <div class="model">
                                                             <span class="close"
-                                                                ng-click="closeModelSize(cart.product.productId)">&times;</span>
+                                                                ng-click="closeModelSize(cart.cartId)">&times;</span>
                                                             <div class="model-header">
 
                                                                 <h2> {{cart.product.productName}}</h2>
@@ -180,12 +185,12 @@
                                                                 </div>
                                                                 <button class="btn btn-primary"
                                                                     ng-click="dissize(cart)">Xác
-                                                                    nhận</button>
+                                                                    nhận </button>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <span style="float: right;">Chọn size: <i
-                                                            ng-click="openModelSize(cart.product.productId)"
+                                                            ng-click="openModelSize(cart.cartId)"
                                                             class="bi bi-pencil-square"></i></span>
                                                 </span>
                                             </span>

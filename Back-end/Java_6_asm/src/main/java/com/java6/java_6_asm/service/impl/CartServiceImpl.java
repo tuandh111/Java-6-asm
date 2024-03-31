@@ -104,11 +104,20 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public Cart updateCart(String cartId, CartRequest cartRequest) {
+    public Cart updateCart(String cartId, CartRequest cartRequest, HttpServletRequest httpServletRequest) {
         System.out.println("CartId: " + cartRepository.findById(cartId));
         Cart cart = cartRepository.findById(cartId).orElseThrow(() -> new NotFoundException("Not Found cartId With Id:" + cartId));
         Product product = productRepository.findById(cartRequest.getProductId()).orElseThrow(() -> new NotFoundException("Not found product with Id: " + cartRequest.getProductId()));
-        User user = userRepository.findById(cartRequest.getUserId()).orElseThrow(() -> new NotFoundException("Not found userId with Id: " + cartRequest.getUserId()));
+        String token = GetTokenRefreshToken.getToken(httpServletRequest);
+        String email = jwtService.extractUsername(token);
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("Not found userId with Id: " + cartRequest.getUserId()));
+        if (cartRequest.getQuantity() > cart.getQuantity()) {
+            product.setQuantityInStock(product.getQuantityInStock() - (cartRequest.getQuantity() - cart.getQuantity()));
+            productRepository.save(product);
+        } else if (cartRequest.getQuantity() < cart.getQuantity()) {
+            product.setQuantityInStock(product.getQuantityInStock() + (cart.getQuantity() - cartRequest.getQuantity()));
+            productRepository.save(product);
+        }
         cart.setCartId(cartId);
         cart.setUser(user);
         cart.setProduct(product);
@@ -119,13 +128,15 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public Cart updateCartColor(String cartId, CartColorRequest cartColorRequest) {
+    public Cart updateCartColor(String cartId, CartColorRequest cartColorRequest, HttpServletRequest httpServletRequest) {
         Cart cart = cartRepository.findById(cartId).orElseThrow(() -> new NotFoundException("Not Found cartId With Id:" + cartId));
         Product product = productRepository.findById(cartColorRequest.getProductId()).orElseThrow(() -> new NotFoundException("Not found product with Id: " + cartColorRequest.getProductId()));
-        User user = userRepository.findById(cartColorRequest.getUserId()).orElseThrow(() -> new NotFoundException("Not found userId with Id: " + cartColorRequest.getUserId()));
+        String token = GetTokenRefreshToken.getToken(httpServletRequest);
+        String email = jwtService.extractUsername(token);
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("Not found userId with Id: " + cartColorRequest.getUserId()));
         DetailsColor detailsColor = detailsColorRepository.findById(cartColorRequest.getColorId()).orElseThrow(null);
         Cart checkCart = cartRepository.findByProductIDAndAndUserID(user.getId(), product.getProductId(), cartColorRequest.getColorId(), cart.getSizeId());
-        System.out.println("checkCartColor: "+ checkCart);
+        System.out.println("checkCartColor: " + checkCart);
         if (checkCart == null) {
             cart.setCartId(cartId);
             cart.setColorId(cartColorRequest.getColorId());
@@ -141,12 +152,14 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public Cart updateCartSize(String cartId, CartSizeRequest cartSizeRequest) {
+    public Cart updateCartSize(String cartId, CartSizeRequest cartSizeRequest, HttpServletRequest httpServletRequest) {
         Cart cart = cartRepository.findById(cartId).orElseThrow(() -> new NotFoundException("Not Found cartId With Id:" + cartId));
         Product product = productRepository.findById(cartSizeRequest.getProductId()).orElseThrow(() -> new NotFoundException("Not found product with Id: " + cartSizeRequest.getProductId()));
-        User user = userRepository.findById(cartSizeRequest.getUserId()).orElseThrow(() -> new NotFoundException("Not found userId with Id: " + cartSizeRequest.getUserId()));
+        String token = GetTokenRefreshToken.getToken(httpServletRequest);
+        String email = jwtService.extractUsername(token);
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("Not found userId with Id: " + cartSizeRequest.getUserId()));
         Cart checkCart = cartRepository.findByProductIDAndAndUserID(user.getId(), product.getProductId(), cart.getColorId(), cartSizeRequest.getSizeId());
-        System.out.println("checkCartSize: "+ checkCart);
+        System.out.println("checkCartSize: " + checkCart);
         if (checkCart == null) {
             cart.setCartId(cartId);
             cart.setSizeId(cartSizeRequest.getSizeId());

@@ -21,11 +21,11 @@ public interface CartService {
 
     Cart saveCart(HttpServletRequest httpServletRequest,CartRequest cart);
 
-    Cart updateCart(String cartId, CartRequest cartRequest);
+    Cart updateCart(String cartId, CartRequest cartRequest,HttpServletRequest httpServletRequest);
 
-    Cart updateCartColor(String cartId, CartColorRequest cartColorRequest);
+    Cart updateCartColor(String cartId, CartColorRequest cartColorRequest,HttpServletRequest httpServletRequest);
 
-    Cart updateCartSize(String cartId, CartSizeRequest cartSizeRequest);
+    Cart updateCartSize(String cartId, CartSizeRequest cartSizeRequest,HttpServletRequest httpServletRequest);
 
     void DeleteCart(String cartId);
 }

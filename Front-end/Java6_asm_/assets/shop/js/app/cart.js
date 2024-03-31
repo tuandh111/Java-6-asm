@@ -22,10 +22,29 @@ function cartController($scope, $http, $rootScope) {
   $scope.closeModelSize = function (detailsSizeId) {
     document.getElementById(String(detailsSizeId + '_size')).style.display = "none";
   }
+  //address
+  $scope.openModelAddress = function (detailsSizeId) {
+    // Gán productId vào $scope để hiển thị trong model
+    document.getElementById(String(detailsSizeId)).style.display = "block";
+  }
+
+  $scope.closeModelAddress = function (detailsSizeId) {
+    document.getElementById(String(detailsSizeId)).style.display = "none";
+  }
+  //OptionSize
+  $scope.openModelOptionSize = function (detailsSizeId) {
+    // Gán productId vào $scope để hiển thị trong model
+    document.getElementById(String(detailsSizeId + '_size')).style.display = "block";
+  }
+
+  $scope.closeModelOptionSize = function (detailsSizeId) {
+    document.getElementById(String(detailsSizeId + '_size')).style.display = "none";
+  }
   //////////////////////////////////////////////////////////////////////////
 
   //Khai báo biến
   $scope.selectedColor = {};
+  $scope.carts = {};
   $scope.isDiscounted;
   $scope.selectedColorDetailsProduct = {};
   $scope.selectedDetailsSizeId = {};
@@ -77,12 +96,14 @@ function cartController($scope, $http, $rootScope) {
   };
   //update Size
   $scope.dissize = function (cart) {
+
     var selectedSizeId = $scope.selectedSize[cart.product.productId];
     var requestData = {
       productId: cart.product.productId,
       sizeId: selectedSizeId,
       userId: 4,
     };
+
     $http({
       method: "POST",
       headers: {
@@ -245,7 +266,6 @@ function cartController($scope, $http, $rootScope) {
       }
     );
   }
-
 
   $http({
     method: "GET",
@@ -465,7 +485,7 @@ function cartController($scope, $http, $rootScope) {
       Authorization: "Bearer " + localStorage.getItem("accessToken"),
       "X-Refresh-Token": localStorage.getItem("refreshToken"),
     },
-    url: "http://localhost:8080/api/v1/discount",
+    url: "http://localhost:8080/api/v1/auth/discount",
   }).then(
     function successCallback(response) {
       $scope.discounts = response.data;
@@ -595,7 +615,9 @@ function cartController($scope, $http, $rootScope) {
         text: "Số lượng không được lớn hơn số lượng trong kho!",
         icon: "error"
       });
+      console.table($scope.carts)
       cart.quantity = cart.product.quantityInStock
+      return;
     } else if (cart.quantity < 1) {
       Swal.fire({
         title: "Lỗi!",
@@ -634,21 +656,11 @@ function cartController($scope, $http, $rootScope) {
         text: "Số lượng không được lớn hơn số lượng trong kho!",
         icon: "error"
       });
-      console.log("sl: " + cart.quantity);
-
     }
     $scope.updateCart(cart);
   };
   //////////////// updateCart
   $scope.updateCart = function (cart) {
-    if (cart.product.quantityInStock <= 0) {
-      Swal.fire({
-        title: "Thất bại!",
-        text: "Sản phẩm này đã hết hàng!",
-        icon: "error"
-      });
-      return;
-    }
     var requestData = {
       quantity: cart.quantity,
       productId: cart.product.productId,
@@ -670,7 +682,6 @@ function cartController($scope, $http, $rootScope) {
   $scope.decrementQuantity = function (cart) {
     if (cart.quantity > 1) {
       cart.quantity--;
-      $scope.updatePrice(cart);
       $scope.updateCart(cart);
     } else {
       Swal.fire({
@@ -744,6 +755,7 @@ function cartController($scope, $http, $rootScope) {
       });
       $('#quantity_in_stock').html(parseInt(detailsProductId1.quantityInStock) - parseInt($scope.quantityProduct));
       $scope.loadData();
+      detailsProductId1.quantityInStock = (parseInt(detailsProductId1.quantityInStock) - parseInt($scope.quantityProduct));
     });
   };
 }

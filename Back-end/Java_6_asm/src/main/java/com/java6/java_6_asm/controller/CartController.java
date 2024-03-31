@@ -44,13 +44,13 @@ public class CartController {
     }
 
     @PostMapping("/update-cart/{id}")
-    public ResponseEntity<Cart> updateCartByUser(@PathVariable("id") String cartId, @RequestBody CartRequest cartRequest) {
-        return ResponseEntity.ok(cartService.updateCart(cartId, cartRequest));
+    public ResponseEntity<Cart> updateCartByUser(@PathVariable("id") String cartId, @RequestBody CartRequest cartRequest,HttpServletRequest httpServletRequest) {
+        return ResponseEntity.ok(cartService.updateCart(cartId, cartRequest,httpServletRequest));
     }
 
     @PostMapping("/update-cart-color/{id}")
-    public ResponseEntity<?> updateCartColorByUser(@PathVariable("id") String cartId, @RequestBody CartColorRequest cartColorRequest) {
-        Cart cart = cartService.updateCartColor(cartId, cartColorRequest);
+    public ResponseEntity<?> updateCartColorByUser(@PathVariable("id") String cartId, @RequestBody CartColorRequest cartColorRequest,HttpServletRequest httpServletRequest) {
+        Cart cart = cartService.updateCartColor(cartId, cartColorRequest,httpServletRequest);
         Map<String, Object> jsonError = new HashMap<>();
         if (cart == null) {
             jsonError.put("message", "ErrorCart");
@@ -60,8 +60,8 @@ public class CartController {
     }
 
     @PostMapping("/update-cart-size/{id}")
-    public ResponseEntity<?> updateCartSizeByUser(@PathVariable("id") String cartId, @RequestBody CartSizeRequest cartSizeRequest) {
-        Cart cart = cartService.updateCartSize(cartId, cartSizeRequest);
+    public ResponseEntity<?> updateCartSizeByUser(@PathVariable("id") String cartId, @RequestBody CartSizeRequest cartSizeRequest,HttpServletRequest httpServletRequest) {
+        Cart cart = cartService.updateCartSize(cartId, cartSizeRequest,httpServletRequest);
         Map<String, Object> jsonError = new HashMap<>();
         if (cart == null) {
             jsonError.put("message", "ErrorCart");
