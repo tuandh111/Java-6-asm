@@ -8,7 +8,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ProductService {
+
     List<Product> findAll();
+
     List<TopProductRequest> findTopTen();
     List<ProductRequest> findAllProduct();
     Optional<Product> findById(Integer productId);

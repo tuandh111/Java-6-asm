@@ -27,7 +27,7 @@ public class ProductRequest {
             ProductRequest productRequest = new ProductRequest();
             Product p = (Product) o[0];
             String brandName = (String) o[1];
-            double discountedPrice = (double) o[2];
+            double discountedPrice = o[2]==null?0:(double) o[2];
 
             String imageName = (String) o[3];
             String[] imageNameArray = imageName.split(",");

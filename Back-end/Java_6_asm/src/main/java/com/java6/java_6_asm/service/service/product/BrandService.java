@@ -1,6 +1,7 @@
 package com.java6.java_6_asm.service.service.product;
 
 import com.java6.java_6_asm.entities.product.Brand;
+import com.java6.java_6_asm.model.request.BrandAndCountProductRequest;
 
 import java.util.List;
 import java.util.Optional;
@@ -8,6 +9,7 @@ import java.util.Optional;
 public interface BrandService {
     List<Brand> findAllBrandActive();
     List<Brand> findAll();
+    List<BrandAndCountProductRequest> findAllBrandAndCountProduct();
     Brand save(Brand brand);
     Brand update(Integer brandId,Brand brand);
     Brand delete(Integer brandId);

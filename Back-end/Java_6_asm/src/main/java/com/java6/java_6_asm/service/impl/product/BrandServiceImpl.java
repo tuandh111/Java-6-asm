@@ -1,6 +1,7 @@
 package com.java6.java_6_asm.service.impl.product;
 
 import com.java6.java_6_asm.entities.product.Brand;
+import com.java6.java_6_asm.model.request.BrandAndCountProductRequest;
 import com.java6.java_6_asm.repositories.product.BrandRepository;
 import com.java6.java_6_asm.service.service.product.BrandService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +19,15 @@ public class BrandServiceImpl implements BrandService {
         return brandRepository.findAllBrandActive();
     }
 
+
     @Override
     public List<Brand> findAll() {
         return brandRepository.findAll();
+    }
+
+    @Override
+    public List<BrandAndCountProductRequest> findAllBrandAndCountProduct() {
+        return BrandAndCountProductRequest.convert(brandRepository.findAllBrandAndCountProduct()) ;
     }
 
     @Override

@@ -21,6 +21,11 @@ public class BrandController {
     public ResponseEntity<?> getAll(){
         return  ResponseEntity.ok(brandService.findAll());
     }
+
+    @GetMapping("/twobee/brands-and-count-product")
+    public ResponseEntity<?> getAllBrandAndCountProduct(){
+        return  ResponseEntity.ok(brandService.findAllBrandAndCountProduct());
+    }
     @PostMapping("/twobee/brands")
     public ResponseEntity<?> post(@RequestBody Brand brand){
         Brand response = brandService.save(brand);
