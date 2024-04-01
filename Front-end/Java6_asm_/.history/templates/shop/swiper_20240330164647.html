@@ -1,0 +1,95 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+<section class="blog-banner-area" id="category">
+    <div class="container h-100">
+        <div class="blog-banner">
+            <section>
+                <div class="content">
+                    <h4>Twobee Shop</h4>
+                    <p>Sứ mệnh của chúng tôi là cung cấp những sản phẩm giày chất lượng cao, đa dạng về kiểu
+                        dáng và
+                        phong cách, đồng thời tạo ra trải nghiệm mua sắm trực tuyến tuyệt vời, giúp khách hàng
+                        tự tin và
+                        nổi bật trong mọi bước đi.</p>
+                </div>
+                <div class="swiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <img src="../../assets/shop/images/gallery/r1.jpg" alt="">
+                            <div class="prrice">12,000,000 VND</div>
+                            <div class="overlay">
+                                <h3>Thương hiệu sản phẩm</h3>
+                                <p>Mã sản phẩm</p>
+                                <p>Mô tả</p>
+                                <div class="details">
+                                    <p>Sản phẩm 5 sao</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="swiper-slide">
+                            <img src="../../assets/shop/images/gallery/r2.jpg" alt="">
+                            <div class="prrice">12,000,000 VND</div>
+                            <div class="overlay">
+                                <h3>Thương hiệu sản phẩm</h3>
+                                <p>Mã sản phẩm</p>
+                                <p>Mô tả</p>
+                                <div class="details">
+                                    <p>Sản phẩm 5 sao</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="swiper-slide">
+                            <img src="../../assets/shop/images/gallery/r3.jpg" alt="">
+                            <div class="prrice">12,000,000 VND</div>
+                            <div class="overlay">
+                                <h3>Thương hiệu sản phẩm</h3>
+                                <p>Mã sản phẩm</p>
+                                <p>Mô tả</p>
+                                <div class="details">
+                                    <p>Sản phẩm 5 sao</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="swiper-slide">
+                            <img src="../../assets/shop/images/gallery/r5.jpg" alt="">
+                            <div class="prrice">12,000,000 VND</div>
+                            <div class="overlay">
+                                <h3>Thương hiệu sản phẩm</h3>
+                                <p>Mã sản phẩm</p>
+                                <p>Mô tả</p>
+                                <div class="details">
+                                    <p>Sản phẩm 5 sao</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+</section>
+<script type="module">
+    console.log("swiper");
+    import Swiper from 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.mjs'
+    const swiper = new Swiper(".swiper", {
+        effect: "cube",
+        grabCursor: true,
+        loop: true,
+        speed: 1000,
+        cubeEffect: {
+            shadow: false,
+            slideShadows: true,
+            shadowOffset: 10,
+            shadowScale: 0.94
+        },
+        autoplay: {
+            delay: 2400,
+            pauseOnMouseEnter: true
+        }
+    })
+    console.log("swiper", swiper);
+</script>

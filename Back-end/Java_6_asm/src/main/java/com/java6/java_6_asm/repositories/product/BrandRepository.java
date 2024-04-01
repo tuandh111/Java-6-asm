@@ -11,5 +11,10 @@ import java.util.List;
 public interface BrandRepository extends JpaRepository<Brand,Integer> {
     @Query("select b from Brand b where b.isActive=true")
     List<Brand> findAllBrandActive();
+//    @Query("Select b, (select p from Product p where p.brand=b) from Brand b ")
+//    List<Object[]> findAllBrandAndCountProduct();
+
+    @Query("SELECT b,(SELECT STRING_AGG(p.productId, ',') FROM Product p Where p.brand=b) FROM Brand b Order by b.brandId DESC")
+    List<Object[]> findAllBrandAndCountProduct();
 
 }
