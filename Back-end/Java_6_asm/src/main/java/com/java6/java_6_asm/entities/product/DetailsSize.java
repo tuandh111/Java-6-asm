@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -28,5 +29,9 @@ public class DetailsSize {
     @ManyToOne
     @JoinColumn(name = "productId")
     private Product product;
+
+//    @OneToMany(mappedBy = "detailsQuantityId")
+//    @JsonIgnore
+//    private List<DetailsQuantity> detailsQuantities;
     
 }

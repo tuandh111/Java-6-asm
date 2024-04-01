@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DetailsColorRepository extends JpaRepository<DetailsColor,Integer> {
-
+    DetailsColor findAllByDetailsColorId(Integer id);
 }

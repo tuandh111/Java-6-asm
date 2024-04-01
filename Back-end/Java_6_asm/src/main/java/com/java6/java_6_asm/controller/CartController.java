@@ -44,7 +44,8 @@ public class CartController {
     }
 
     @PostMapping("/update-cart/{id}")
-    public ResponseEntity<Cart> updateCartByUser(@PathVariable("id") String cartId, @RequestBody CartRequest cartRequest,HttpServletRequest httpServletRequest) {
+    public ResponseEntity<Cart> updateCartByUser(@PathVariable("id") String cartId,
+            @RequestBody CartRequest cartRequest,HttpServletRequest httpServletRequest) {
         return ResponseEntity.ok(cartService.updateCart(cartId, cartRequest,httpServletRequest));
     }
 

@@ -38,5 +38,4 @@ public class Color {
     @JsonIgnore
     private List<DetailsColor> detailsColor;
 
-
 }

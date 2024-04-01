@@ -73,6 +73,10 @@ public class Product {
     @JsonIgnore
     private List<DetailsSize> detailsSizes;
 
+    @OneToMany(mappedBy = "detailsQuantityId")
+    @JsonIgnore
+    private List<DetailsQuantity> detailsQuantities;
+
     @OneToMany(mappedBy = "cartId")
     @JsonIgnore
     private List<Cart> cart;
