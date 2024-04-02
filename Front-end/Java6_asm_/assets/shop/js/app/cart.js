@@ -779,3 +779,7 @@ function decreaseQuantity() {
     angular.element(result).triggerHandler('input');
   }
 }
+function handleRatingChange(selectedRating) {
+  console.log("Người dùng đã chọn " + selectedRating + " sao");
+
+}
