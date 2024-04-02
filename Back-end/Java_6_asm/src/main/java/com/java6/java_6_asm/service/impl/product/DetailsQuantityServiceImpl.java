@@ -10,6 +10,7 @@ import com.java6.java_6_asm.repositories.product.DetailsQuantityRepository;
 import com.java6.java_6_asm.repositories.product.DetailsSizeRepository;
 import com.java6.java_6_asm.repositories.product.ProductRepository;
 import com.java6.java_6_asm.service.service.product.DetailsQuantityService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,10 +35,6 @@ public class DetailsQuantityServiceImpl implements DetailsQuantityService {
 
     @Override
     public DetailsQuantity saveDetailsQuantity(DetailsQuantityRequest detailsQuantityRequest) {
-        DetailsColor detailsColor = detailsColorRepository.findById(detailsQuantityRequest.getDetailsColorId()).orElseThrow(null);
-        System.out.println("detailsColorId: " + detailsColor);
-        DetailsSize detailsSize = detailsSizeRepository.findById(detailsQuantityRequest.getDetailsSizeId()).orElseThrow(null);
-        System.out.println("detailsSizeId: " + detailsSize);
         Product product = productRepository.findById(detailsQuantityRequest.getProductId()).orElseThrow(null);
         System.out.println("productId: " + product);
         DetailsQuantity detailsQuantity = new DetailsQuantity();
@@ -49,4 +46,29 @@ public class DetailsQuantityServiceImpl implements DetailsQuantityService {
         detailsQuantityRepository.save(detailsQuantity);
         return detailsQuantity;
     }
+
+    @Override
+    public DetailsQuantity updateDetailsQuantity(Integer detailsQuantityId, DetailsQuantityRequest detailsQuantityRequest, HttpServletRequest httpServletRequest) {
+        DetailsQuantity detailsQuantity = detailsQuantityRepository.findById(detailsQuantityId).orElseThrow(null);
+        Product product = productRepository.findById(detailsQuantityRequest.getProductId()).orElseThrow(null);
+        detailsQuantity.setQuantity(detailsQuantityRequest.getQuantity());
+        detailsQuantity.setDetailsSizeId(detailsQuantityRequest.getDetailsSizeId());
+        detailsQuantity.setProductId(product);
+        detailsQuantity.setSpecialPrice(detailsQuantityRequest.getSpecialPrice());
+        detailsQuantity.setDetailsColorId(detailsQuantityRequest.getDetailsColorId());
+        detailsQuantityRepository.save(detailsQuantity);
+        return detailsQuantity;
+    }
+
+    @Override
+    public DetailsQuantity findByDetailsQuantityId(Integer id) {
+        return detailsQuantityRepository.findById(id).orElseThrow(null);
+    }
+
+    @Override
+    public void deleteById(Integer id) {
+        DetailsQuantity detailsQuantity = findByDetailsQuantityId(id);
+        detailsQuantityRepository.delete(detailsQuantity);
+    }
+
 }
