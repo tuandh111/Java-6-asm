@@ -169,7 +169,7 @@ function cartController($scope, $http, $rootScope) {
 
         $scope.carts = response.data;
         $scope.countCart = $scope.carts.length
-        $('.nav-shop__circle').html($scope.carts.length);
+        $('#nav-shop__circle').html($scope.carts.length);
         if ($scope.carts.length === 0) {
           // $scope.carts là một mảng rỗng
           $scope.ContinueProduct = 'Tiếp tục mua sắm'
@@ -414,7 +414,96 @@ function cartController($scope, $http, $rootScope) {
   ////
   //clickProduct Details
 
+  $scope.message = function (productId) {
+    $http({
+      method: "GET",
+      url: "http://localhost:8080/api/v1/auth/comment/" + productId,
+    }).then(
+      function successCallback(response) {
+        $scope.comments = response.data;
+        $scope.countMessage = 0;
+        var totalStars = 0;
+        $scope.totalStars5 = 0;
+        $scope.totalStars4 = 0;
+        $scope.totalStars3 = 0;
+        $scope.totalStars2 = 0;
+        $scope.totalStars1 = 0;
+        var numberOfComments = $scope.comments.length;
+        for (var i = 0; i < numberOfComments; i++) {
+          $scope.countMessage++;
+          totalStars += $scope.comments[i].star;
+          if ($scope.comments[i].star === 5) {
+            $scope.totalStars5++;
+          }
+          if ($scope.comments[i].star === 4) {
+            $scope.totalStars4++;
+          }
+          if ($scope.comments[i].star === 3) {
+            $scope.totalStars3++;
+          }
+          if ($scope.comments[i].star === 2) {
+            $scope.totalStars2++;
+          }
+          if ($scope.comments[i].star === 1) {
+            $scope.totalStars1++;
+          }
+        }
+        var averageStars = totalStars / numberOfComments;
+        $scope.averageStars = Math.round(averageStars * 10) / 10;
+        console.log("Trung bình số sao:", averageStars);
 
+      },
+      function errorCallback(response) {
+      }
+    );
+  }
+  ///Post comments
+  $scope.submitFormMessage = function () {
+    console.log($scope.selectedRating);
+    console.log($scope.messageContent);
+    console.log(id);
+    if ($scope.selectedRating === undefined || $scope.selectedRating == '') {
+      $scope.errorRating = '(*) Vui lòng nhập sao để trước khi đánh giá'
+      return;
+    } else {
+      $scope.errorRating = ''
+    }
+    if ($scope.messageContent === undefined || $scope.messageContent == '') {
+      $scope.errorMessage = '(*) Vui lòng nhập bình luận sản phẩm'
+      return;
+    } else {
+      $scope.errorMessage = ''
+    }
+    var requestData = {
+      star: $scope.selectedRating,
+      productId: id,
+      message: $scope.messageContent,
+    };
+
+    $http({
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("accessToken"),
+        "X-Refresh-Token": localStorage.getItem("refreshToken"),
+      },
+      data: JSON.stringify(requestData),
+      url: "http://localhost:8080/api/v1/save-comment",
+    }).then(function (response) {
+      $scope.messageContent = ''
+      $scope.handleRatingChange = undefined
+      Swal.fire({
+        title: "Thành công!",
+        text: "Bình luận sản phẩm thành công!",
+        icon: "success"
+      });
+      $scope.message(id)
+    });
+  }
+  $scope.handleRatingChange = function (selectedRating) {
+    console.log("Người dùng đã chọn " + selectedRating + " sao");
+    $scope.selectedRating = selectedRating; // Gán giá trị của selectedRating vào $scope.selectedRating
+  }
+  ///------------------------------------------------------------------------------
 
   $http({
     method: "GET",
@@ -422,12 +511,16 @@ function cartController($scope, $http, $rootScope) {
   }).then(
     function successCallback(response) {
       $scope.detailsProductId1 = response.data;
+      //comment Product
+      var productId = $scope.detailsProductId1.productId;
+      $scope.message(productId);
     },
     function errorCallback(response) {
       // called asynchronously if an error occurs
       // or server returns response with an error status.
     }
   );
+
 
   //////////////////getAll DetailsColor
   $http({
