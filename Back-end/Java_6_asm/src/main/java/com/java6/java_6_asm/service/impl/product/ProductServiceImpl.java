@@ -1,7 +1,7 @@
 package com.java6.java_6_asm.service.impl.product;
 
 import com.java6.java_6_asm.entities.product.Product;
-import com.java6.java_6_asm.model.request.ProductRequest;
+import com.java6.java_6_asm.model.response.ProductRespone;
 import com.java6.java_6_asm.model.request.TopProductRequest;
 import com.java6.java_6_asm.repositories.product.ProductRepository;
 import com.java6.java_6_asm.service.service.product.ProductService;
@@ -29,8 +29,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductRequest> findAllProduct() {
-        return ProductRequest.convert(productRepository.findAllProduct());
+    public List<ProductRespone> findAllProduct() {
+        return ProductRespone.convert(productRepository.findAllProduct());
     }
 
     @Override
