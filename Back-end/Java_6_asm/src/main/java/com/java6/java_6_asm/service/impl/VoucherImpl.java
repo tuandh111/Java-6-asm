@@ -1,6 +1,7 @@
 package com.java6.java_6_asm.service.impl;
 
 import com.java6.java_6_asm.entities.Voucher;
+import com.java6.java_6_asm.model.request.VoucherRequest;
 import com.java6.java_6_asm.repositories.VoucherRepository;
 import com.java6.java_6_asm.service.service.VoucherService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,5 +17,10 @@ public class VoucherImpl implements VoucherService {
     @Override
     public List<Voucher> findAllVoucher() {
         return voucherRepository.findAll();
+    }
+
+    @Override
+    public Voucher saveVoucher(VoucherRequest voucherRequest) {
+        return null;
     }
 }

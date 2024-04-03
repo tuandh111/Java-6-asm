@@ -1,6 +1,6 @@
 ﻿use java6
 go
---Thêm bảng brand
+--Thêm bảng brand create database java6
 insert into brand(is_active, name_brand) values(0,N'Hunter')
 insert into brand(is_active, name_brand) values(0,N'Sandal')
 insert into brand(is_active, name_brand) values(0,N'Giày thể thao')
