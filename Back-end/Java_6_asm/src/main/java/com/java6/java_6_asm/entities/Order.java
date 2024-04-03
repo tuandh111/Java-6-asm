@@ -34,8 +34,4 @@ public class Order {
     @JoinColumn(name = "userId")
     private User user;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "cartId")
-    private Cart cart;
-
 }

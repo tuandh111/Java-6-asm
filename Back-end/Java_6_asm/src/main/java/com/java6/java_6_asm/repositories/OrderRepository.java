@@ -10,11 +10,5 @@ import java.util.List;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order,String> {
-    @Query("Select o,u,(SELECT STRING_AGG(p.productId, ',') FROM Product p Where p.brand=b) "+
-    "from Order o "+
-//    "Join o.cart c "+
-//    "Join c.product p "+
-    "join o.user u "+
-    "order by o.createAt desc ")
-    List<Object[]> getAllOrderDetail();
+
 }

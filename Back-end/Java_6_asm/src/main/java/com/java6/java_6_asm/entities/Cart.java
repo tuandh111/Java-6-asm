@@ -37,4 +37,6 @@ public class Cart {
     private Integer sizeId;
 
     private Integer colorId;
+
+    private String orderId;
 }
