@@ -1,7 +1,8 @@
 package com.java6.java_6_asm.service.impl.product;
 
 import com.java6.java_6_asm.entities.product.Brand;
-import com.java6.java_6_asm.model.request.BrandAndCountProductRequest;
+import com.java6.java_6_asm.model.request.BrandRequest;
+import com.java6.java_6_asm.model.response.BrandAndCountProductRespone;
 import com.java6.java_6_asm.repositories.product.BrandRepository;
 import com.java6.java_6_asm.service.service.product.BrandService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,35 +27,87 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
-    public List<BrandAndCountProductRequest> findAllBrandAndCountProduct() {
-        return BrandAndCountProductRequest.convert(brandRepository.findAllBrandAndCountProduct()) ;
+    public List<BrandAndCountProductRespone> findAllBrandAndCountProduct() {
+        return BrandAndCountProductRespone.convert(brandRepository.findAllBrandAndCountProduct()) ;
     }
 
     @Override
-    public Brand save(Brand brand) {
-        if(brandRepository.existsById(brand.getBrandId())){
+    public Brand save(BrandRequest brandRequest) {
+//        List<Brand> listBrandToFind = this.findBrandByNameLike(brandRequest.getNameBrand());
+//        for (Brand b : listBrandToFind){
+//            if(b.getNameBrand().equalsIgnoreCase(brandRequest.getNameBrand())){
+//                return null;
+//            }
+//        }
+        if(this.existsByName(brandRequest.getNameBrand())){
             return null;
         }
-        brandRepository.save(brand);
-        return brand;
+
+        Brand brand = new Brand();
+        brand.setIsActive(brandRequest.getIsActive());
+        brand.setNameBrand(brandRequest.getNameBrand());
+        return brandRepository.save(brand);
     }
 
     @Override
-    public Brand update(Integer brandId, Brand brand) {
+    public Brand update(Integer brandId, BrandRequest brandRequest) {
+
+
+
         if(!brandRepository.existsById(brandId)){
             return null;
+        }else{
+            String getOldName = this.findById(brandId).get().getNameBrand();
+            if(!getOldName.equalsIgnoreCase(brandRequest.getNameBrand())) {
+                if (this.existsByName(brandRequest.getNameBrand())) {
+                    return null;
+                }
+            }
         }
+        Brand brand = this.findById(brandId).get();
+        brand.setIsActive(brandRequest.getIsActive());
+        brand.setNameBrand(brandRequest.getNameBrand());
         brandRepository.save(brand);
         return brand;
     }
 
     @Override
     public Brand delete(Integer brandId) {
-        if(!brandRepository.existsById(brandId)){
+//        List<BrandAndCountProductRespone> checkList = BrandAndCountProductRespone.convert(brandRepository.findAllBrandAndCountProduct());
+//        boolean flagCheck= false;
+//        if(!brandRepository.existsById(brandId)){
+//            return null;
+//        }else{
+//            Brand brand = this.findById(brandId).get();
+//            for (BrandAndCountProductRespone b:checkList){
+//                if(b.getBrand().getBrandId()==brandId){
+//                    if(b.getProductId().isEmpty()){
+//                        flagCheck= true;
+//                    }
+//                }
+//            }
+//            if(flagCheck){
+//                brandRepository.delete(brand);
+//            }else{
+//                brand.setIsActive(false);
+//            }
+//            return brand;
+//        }
+        if (!brandRepository.existsById(brandId)) {
             return null;
         }
-        Brand brand = this.findById(brandId).get();
-        brand.setIsActive(false);
+
+        boolean hasProducts = brandRepository.existsProductsByBrandId(brandId);
+
+        Brand brand = brandRepository.findById(brandId).get();
+
+        if (!hasProducts) {
+            brandRepository.delete(brand);
+        } else {
+            brand.setIsActive(false);
+            brandRepository.save(brand);
+        }
+
         return brand;
     }
 
@@ -62,4 +115,21 @@ public class BrandServiceImpl implements BrandService {
     public Optional<Brand> findById(Integer brandId) {
         return brandRepository.findById(brandId);
     }
+
+    @Override
+    public List<Brand> findBrandByNameLike(String brandName) {
+        return brandRepository.findBrandByNameLike(brandName);
+    }
+
+    @Override
+    public Boolean existsByName(String brandName) {
+        List<Brand> listBrandToFind = this.findBrandByNameLike(brandName);
+        for (Brand b : listBrandToFind){
+            if(b.getNameBrand().equalsIgnoreCase(brandName)){
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

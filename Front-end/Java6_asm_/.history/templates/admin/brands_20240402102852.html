@@ -1,0 +1,235 @@
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar"
+        ng-include="'component/admin/sidebar.html'">
+    </ul>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <!-- Topbar -->
+            <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow"
+                ng-include="'component/admin/content-nav.html'">
+            </nav>
+            <!-- End of Topbar -->
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid" ng-controller="AdminBrandController">
+
+                <!-- Page Heading -->
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <h1 class="h3 mb-0 text-gray-800">Thương hiệu sản phẩm</h1>
+                </div>
+
+                <div class="row mt-5">
+                    <ul class="nav nav-tabs" id="manageBrands" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="form-tab" data-bs-toggle="tab"
+                                data-bs-target="#form-tab-pane-manage-brands" type="button" role="tab"
+                                aria-controls="form-tab-pane-manage-brands" aria-selected="true">
+                                <i class="bi bi-pencil-square"></i> Quản lý
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="list-tab" data-bs-toggle="tab" data-bs-target="#list-tab-pane"
+                                role="tab" aria-controls="list-tab-pane" aria-selected="false">
+                                <i class="bi bi-list-check"></i> Danh sách
+                            </button>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="manageBrandsTabContent">
+                        <div class="tab-pane fade show active" id="form-tab-pane-manage-brands" role="tabpanel"
+                            aria-labelledby="form-tab" tabindex="0">
+                            <div class="card">
+                                <div class="card-header align-items-center text-center text-white bg-gradient-primary">
+                                    Quản lý thương hiệu sản phẩm
+                                </div>
+                                <div class="card-body text-center">
+                                    <c:url var="url" value="/admin"></c:url>
+                                    <form action="#">
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="form-outline mb-3">
+                                                    <label class="form-label" for="manageBrandsModalBrandsName">Tên
+                                                        thương
+                                                        hiệu</label>
+                                                    <input type="text" id="manageBrandsModalBrandsName"
+                                                        ng-model="nameBrand" ng-value="" class="form-control" required>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value=""
+                                                        id="manageBrandsModalBrandsIsActive" ng-model="isActive"
+                                                        ng-value="" checked>
+                                                    <label class="form-check-label"
+                                                        for="manageBrandsModalBrandsIsActive">
+                                                        Hoạt
+                                                        động ?
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-end">
+                                            <button formaction="${url}/create" class="btn btn-primary m-2">Tạo
+                                                mới</button>
+                                            <button formaction="${url}/update" class="btn btn-primary m-2">Cập
+                                                nhật</button>
+                                            <button formaction="${url}/delete" class="btn btn-primary m-2">Xóa</button>
+                                            <button formaction="${url}/editor-user" class="btn btn-primary m-2">Làm
+                                                mới</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="list-tab-pane" role="tabpanel" aria-labelledby="list-tab"
+                            tabindex="0">
+                            <div class="card">
+                                <div class="card-header align-items-center text-white bg-gradient-primary">
+                                    <div class="input-group-search">
+                                        <div class="input-group filter-bar-search mt-0 d-flex justify-content-end">
+                                            <input type="text" placeholder="Tìm kiếm thương hiệu"
+                                                ng-change="filterByBrandsName()" ng-model="searchBrandsName">
+                                            <div class="input-group-append">
+                                                <button type="button" ng-click="filterByBrandsName()"><i
+                                                        class="ti-search"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="table-responsive text-center">
+                                    <table class="table table-striped table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Mã thương hiệu</th>
+                                                <th>Tên thương hiệu</th>
+                                                <th>Số lượng sản phẩm phụ thuộc</th>
+                                                <th>Trạng thái</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="brand in listBrandsShow |limitTo:pageSize:begin">
+                                                <td>{{brand.brand.brandId}}</td>
+                                                <td>{{brand.brand.nameBrand}}</td>
+                                                <td>
+                                                    <a href="#" data-bs-toggle="modal"
+                                                        data-bs-target="#brandDetailModal" class="open-detail-brand"
+                                                        ng-click="filterProductByProductId(brand.productId)">Xem chi
+                                                        tiết {{brand.productId.length}} sản phẩm</a>
+                                                </td>
+                                                <td>{{brand.brand.isActive?'Hoạt động':'Ngừng hoạt động'}}</td>
+                                                <td><a href="${url}/edit/${item.idUs}" class="text-info"> Edit </a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <nav aria-label="Page navigation example"
+                                    ng-include="'../../component/shop/paginationProduct.html'">
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- End of Main Content -->
+
+        <!-- Footer -->
+        <footer class="sticky-footer bg-white">
+            <div class="container my-auto">
+                <div class="copyright text-center my-auto">
+                    <span>Copyright &copy; TwoBee 4/2024</span>
+                </div>
+            </div>
+        </footer>
+        <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+
+<!-- Logout Modal-->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <a class="btn btn-primary" href="login.html">Logout</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Detail Product in Brand Modal -->
+<div class="modal fade" id="brandDetailModal" tabindex="-1" aria-labelledby="brandDetailModalLabel" aria-hidden="true"
+    style="z-index: 10000;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="brandDetailModalLabel">Danh sách sản phẩm thuộc thương hiệu</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Ảnh sản phẩm</th>
+                            <th>Tên sản phẩm</th>
+                            <th>Số lượng</th>
+                            <th>Giá</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="prod in listProductsFilterByProductId">
+                            <td>
+                                <img src="../../assets/shop/images/product/{{prod.imageNames[0]}}" class="img-thumbnail"
+                                    alt="">
+                            </td>
+                            <td>{{prod.product.productName}}</td>
+                            <td>{{prod.product.quantityInStock}}</td>
+                            <td>{{prod.product.price | formatPrice}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap core JavaScript-->
+<script src="../../assets/admin/js/vendor/jquery/jquery.min.js"></script>
+<script src="../../assets/admin/js/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="../../assets/admin/js/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="../../assets/admin/js/sb-admin-2.min.js"></script>

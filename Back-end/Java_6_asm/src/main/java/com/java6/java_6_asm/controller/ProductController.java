@@ -1,7 +1,7 @@
 package com.java6.java_6_asm.controller;
 
 import com.java6.java_6_asm.entities.product.Product;
-import com.java6.java_6_asm.model.request.ProductRequest;
+import com.java6.java_6_asm.model.response.ProductRespone;
 import com.java6.java_6_asm.model.request.TopProductRequest;
 import com.java6.java_6_asm.service.service.product.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ import java.util.List;
 public class ProductController {
     @Autowired ProductService productService;
     @GetMapping("/twobee/products")
-    public ResponseEntity<List<ProductRequest>> getAll(){
+    public ResponseEntity<List<ProductRespone>> getAll(){
         return  ResponseEntity.ok(productService.findAllProduct());
     }
 
