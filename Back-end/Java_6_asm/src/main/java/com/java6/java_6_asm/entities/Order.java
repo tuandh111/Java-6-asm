@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Nationalized;
 
+import java.util.Date;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -14,6 +16,10 @@ import org.hibernate.annotations.Nationalized;
 public class Order {
     @Id
     private String orderId;
+
+    @Temporal(TemporalType.DATE)
+    @Column(name = "createAt")
+    private Date createAt = new Date();
 
     @Column
     private double totalAmount;

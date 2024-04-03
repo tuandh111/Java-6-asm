@@ -1,4 +1,4 @@
-
+console.log('adminBrandController')
 app
     .filter('truncateWordsHTML', function () {
         return function (input, limit) {

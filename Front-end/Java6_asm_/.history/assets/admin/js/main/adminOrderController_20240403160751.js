@@ -1,4 +1,4 @@
-
+console.log('AminOrderController')
 app
     .filter('truncateWordsHTML', function () {
         return function (input, limit) {
@@ -21,18 +21,21 @@ app
             }
         };
     });
-app.controller('TopProductController', function ($scope, $http, $rootScope, $location) {
+app.controller('AdminOrderController', function ($scope, $http, $rootScope, $location) {
     let url = "http://localhost:8080"
-    $scope.getTopProduct = function () {
-        $http.get(url + "/api/v1/auth/twobee/top-products").then(
-            response => {
-                $scope.listTopProduct = response.data
-                console.log("TopProduct", $scope.listTopProduct);
-            }
-        ).catch(
-            err => { console.log("error", err); }
-        )
-    }
 
-    $scope.getTopProduct();
+    $scope.listOrder5Filter = [];
+    $scope.listOrdersSho5 = [];//để chứa kết quả show lên giao diện
+    $scope.filteredOrders = [];
+    $scope.begin = 0;
+    $scope.pageSize = 5;
+    $scope.searchOrdersName = '';
+
+    $scope.listProductsFilter = [];
+    $rootScope.listProductsFilterByProductId = [];//để chứa kết quả show lên giao diện
+    $scope.filteredProducts = [];
+
+
+
 })
+

@@ -20,7 +20,7 @@
             <!-- End of Topbar -->
 
             <!-- Begin Page Content -->
-            <div class="container-fluid" ng-controller="AdminOrderController">
+            <div class="container-fluid">
 
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -31,15 +31,9 @@
 
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Danh sách đơn hàng</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
                         </div>
                         <div class="card-body">
-                            <div class="input-group filter-bar-search mb-3 d-flex justify-content-end">
-                                <input type="text" ng-model="searchText" placeholder="Nhập từ khóa tìm kiếm">
-                                <div class="input-group-append">
-                                    <button type="button"><i class="ti-search"></i></button>
-                                </div>
-                            </div>
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
@@ -83,10 +77,10 @@
                                         </tr>
                                     </tbody>
                                 </table>
+                                <nav aria-label="Page navigation example"
+                                    ng-include="'../../component/shop/paginationProduct.html'">
+                                </nav>
                             </div>
-                            <nav aria-label="Page navigation example"
-                                ng-include="'../../component/shop/paginationProduct.html'">
-                            </nav>
                         </div>
                     </div>
 
