@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Nationalized;
 
 @Data
 @NoArgsConstructor
@@ -17,6 +18,7 @@ public class Comment {
 
     private int star;
 
+    @Nationalized
     private String message;
 
     private Integer userId;

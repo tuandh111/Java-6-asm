@@ -80,7 +80,7 @@
 			</div>
 			<div class="col-lg-5 offset-lg-1">
 				<div class="s_product_text">
-					<h3>{{detailsProductId1.productName}}</h3>
+					<h3>{{detailsProductId1.productName}} </h3>
 					<span ng-if="!isDiscounted(detailsProductId1.productId)">
 						Giá gốc: <br><span style="color: #010101;font-size: 40px;">{{ detailsProductId1.price | number :
 							fractionSize }} VNĐ</span>
@@ -89,6 +89,9 @@
 						<img src="/assets/shop/images/home/Frame_638x80.png" alt="" style="width: 100%;">
 						Giá gốc: <br>{{ detailsProductId1.price | number : fractionSize }} VNĐ
 					</span>
+					<a href="javascript:void(0)" style="float: right;">Thêm vào yêu thích <span><i
+								class="bi bi-heart"></i></span></a>
+					<!-- <i class="bi bi-heart-fill"></i> -->
 					<div ng-repeat="discount in discounts">
 						<div ng-if="discount.product.productId == detailsProductId1.productId">
 							Giá còn:<br> <span style="color: #010101; font-size: 40px;"> {{
@@ -237,7 +240,7 @@
 <!--================End Single Product Area =================-->
 
 <!--================Product Description Area =================-->
-<section class="product_description_area">
+<section class="product_description_area" ng-controller="CartCtrl">
 	<div class="container">
 		<ul class="nav nav-tabs" id="myTab" role="tablist">
 			<li class="nav-item">
@@ -252,89 +255,72 @@
 						<div class="row total_rate">
 							<div class="col-6">
 								<div class="box_total">
-									<h5>Overall</h5>
-									<h4>4.0</h4>
-									<h6>(03 Reviews)</h6>
+									<h5>Thống kê đánh giá</h5>
+									<h4>{{countMessage}}</h4>
+									<h6>({{comments.length}} lượt) bình luận</h6>
 								</div>
 							</div>
 							<div class="col-6">
 								<div class="rating_list">
-									<h3>Based on 3 Reviews</h3>
+									<h3>Chi tiết đánh giá</h3>
 									<ul class="list">
+
 										<li><a href="#">5 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i
 													class="fa fa-star"></i><i class="fa fa-star"></i><i
-													class="fa fa-star"></i> 01</a></li>
+													class="fa fa-star"></i>
+												{{totalStars5}}
+											</a></li>
+
 										<li><a href="#">4 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i
-													class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
+													class="fa fa-star"></i><i class="fa fa-star"></i>
+												{{totalStars4}}</a></li>
 										<li><a href="#">3 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i
-													class="fa fa-star"></i> 01</a></li>
+													class="fa fa-star"></i> {{totalStars3}}</a></li>
 										<li><a href="#">2 Star <i class="fa fa-star"></i><i class="fa fa-star"></i>
-												01</a></li>
-										<li><a href="#">1 Star <i class="fa fa-star"></i> 01</a></li>
+												{{totalStars2}}</a></li>
+										<li><a href="#">1 Star <i class="fa fa-star"></i> {{totalStars1}}</a></li>
 									</ul>
 								</div>
 							</div>
 						</div>
 						<div class="review_list">
-							<div class="review_item">
-								<div class="media">
-									<div class="d-flex">
-										<img src="../../assets/shop/images/product/review-1.png" alt="">
+							<div ng-repeat="comment in comments">
+								<div class="review_item">
+									<div class="media">
+										<div class="d-flex">
+											<img src="../../assets/shop/images/product/review-1.png" alt="">
+										</div>
+										<div class="media-body">
+											<h4>Blake Ruiz 6</h4>
+											<div ng-if="comment.star ==  1">
+												<i class="fa fa-star"></i>
+											</div>
+											<div ng-if="comment.star ==  2">
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+											</div>
+											<div ng-if="comment.star ==  3">
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+											</div>
+											<div ng-if="comment.star ==  4">
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+											</div>
+											<div ng-if="comment.star ==  5">
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+											</div>
+										</div>
 									</div>
-									<div class="media-body">
-										<h4>Blake Ruiz</h4>
-										<i class="fa fa-star"></i>
-										<i class="fa fa-star"></i>
-										<i class="fa fa-star"></i>
-										<i class="fa fa-star"></i>
-										<i class="fa fa-star"></i>
-									</div>
+									<h2>{{comment.message}}</h2>
 								</div>
-								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-									incididunt ut labore et
-									dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-									laboris nisi ut aliquip ex ea
-									commodo</p>
-							</div>
-							<div class="review_item">
-								<div class="media">
-									<div class="d-flex">
-										<img src="../../assets/shop/images/product/review-2.png" alt="">
-									</div>
-									<div class="media-body">
-										<h4>Blake Ruiz</h4>
-										<i class="fa fa-star"></i>
-										<i class="fa fa-star"></i>
-										<i class="fa fa-star"></i>
-										<i class="fa fa-star"></i>
-										<i class="fa fa-star"></i>
-									</div>
-								</div>
-								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-									incididunt ut labore et
-									dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-									laboris nisi ut aliquip ex ea
-									commodo</p>
-							</div>
-							<div class="review_item">
-								<div class="media">
-									<div class="d-flex">
-										<img src="../../assets/shop/images/product/review-3.png" alt="">
-									</div>
-									<div class="media-body">
-										<h4>Blake Ruiz</h4>
-										<i class="fa fa-star"></i>
-										<i class="fa fa-star"></i>
-										<i class="fa fa-star"></i>
-										<i class="fa fa-star"></i>
-										<i class="fa fa-star"></i>
-									</div>
-								</div>
-								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-									incididunt ut labore et
-									dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-									laboris nisi ut aliquip ex ea
-									commodo</p>
 							</div>
 						</div>
 					</div>
@@ -342,24 +328,28 @@
 						<div class="review_box">
 							<p>Đánh giá:</p>
 							<div class="rating">
-								<input type="radio" name="rating" id="rating-5" onchange="handleRatingChange(5)">
+								<input type="radio" name="rating" id="rating-5" ng-click="handleRatingChange(5)">
 								<label for="rating-5"></label>
-								<input type="radio" name="rating" id="rating-4" onchange="handleRatingChange(4)">
+								<input type="radio" name="rating" id="rating-4" ng-click="handleRatingChange(4)">
 								<label for="rating-4"></label>
-								<input type="radio" name="rating" id="rating-3" onchange="handleRatingChange(3)">
+								<input type="radio" name="rating" id="rating-3" ng-click="handleRatingChange(3)">
 								<label for="rating-3"></label>
-								<input type="radio" name="rating" id="rating-2" onchange="handleRatingChange(2)">
+								<input type="radio" name="rating" id="rating-2" ng-click="handleRatingChange(2)">
 								<label for="rating-2"></label>
-								<input type="radio" name="rating" id="rating-1" onchange="handleRatingChange(1)">
+								<input type="radio" name="rating" id="rating-1" ng-click="handleRatingChange(1)">
 								<label for="rating-1"></label>
-							</div>
-							<form action="#/" class="form-contact form-review mt-3">
+
+							</div><span style="color: red;">{{errorRating}}</span>
+							<form class="form-contact form-review mt-3">
 								<div class="form-group">
 									<textarea class="form-control different-control w-100" name="textarea" id="textarea"
-										cols="30" rows="5" placeholder="Enter Message"></textarea>
+										ng-model="messageContent" cols="30" rows="5"
+										placeholder="Enter Message"></textarea>
+									<span style="color: red;">{{errorMessage}}</span>
 								</div>
 								<div class="form-group text-center text-md-right mt-3">
-									<button type="submit" class="button button--active button-review">Submit
+									<button type="submit" class="button button--active button-review"
+										ng-click="submitFormMessage()">Submit
 										Now</button>
 								</div>
 							</form>
