@@ -42,4 +42,132 @@ app.controller('NewArrivalProductAreaController', function ($scope, $http, $root
 
     $scope.getNewArrivalProduct();
     $scope.getFiltersProduct();
+
+    $http({
+        method: "GET",
+        headers: {
+            Authorization: "Bearer " + localStorage.getItem("accessToken"),
+            "X-Refresh-Token": localStorage.getItem("refreshToken"),
+        },
+
+        url: "http://localhost:8080/api/v1/favorites",
+    }).then(
+        function successCallback(response) {
+            $scope.favorites = response.data;
+            $('#nav-like__circle').html($scope.favorites.length)
+            $scope.isFavorite = function (productId) {
+                for (var i = 0; i < $scope.favorites.length; i++) {
+                    if ($scope.favorites[i].productId.productId === productId) {
+                        return true;
+                    }
+                }
+                return false;
+            };
+            console.log("isLiked" + $scope.isLiked)
+        },
+        function errorCallback(response) {
+        }
+    );
+    $scope.addToFavorites = function (productId) {
+        var requestData = {
+            productId: productId,
+            userId: 1,
+        };
+        $http({
+            method: "POST",
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem("accessToken"),
+                "X-Refresh-Token": localStorage.getItem("refreshToken"),
+            },
+            data: JSON.stringify(requestData),
+            url: "http://localhost:8080/api/v1/save-favorites",
+        }).then(
+            function successCallback(response) {
+                Swal.fire({
+                    title: "Thành công!",
+                    text: "Thêm vào yêu thích thành công",
+                    icon: "success"
+                });
+                $http({
+                    method: "GET",
+                    headers: {
+                        Authorization: "Bearer " + localStorage.getItem("accessToken"),
+                        "X-Refresh-Token": localStorage.getItem("refreshToken"),
+                    },
+
+                    url: "http://localhost:8080/api/v1/favorites",
+                }).then(
+                    function successCallback(response) {
+                        $scope.favorites = response.data;
+                        $('#nav-like__circle').html($scope.favorites.length)
+                        $scope.isFavorite = function (productId) {
+                            for (var i = 0; i < $scope.favorites.length; i++) {
+                                if ($scope.favorites[i].productId.productId === productId) {
+                                    return true;
+                                }
+                            }
+                            return false;
+                        };
+                        console.log("isLiked" + $scope.isLiked)
+                    },
+                    function errorCallback(response) {
+                    }
+                );
+            },
+            function errorCallback(response) {
+            }
+        );
+    };
+    $scope.removeFromFavorites = function (productId) {
+        console.log("Removing")
+        var requestData = {
+            productId: productId,
+            userId: 1,
+        };
+        $http({
+            method: "POST",
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem("accessToken"),
+                "X-Refresh-Token": localStorage.getItem("refreshToken"),
+            },
+            data: JSON.stringify(requestData),
+            url: "http://localhost:8080/api/v1/delete-favorites",
+        }).then(
+            function successCallback(response) {
+                Swal.fire({
+                    title: "Thành công!",
+                    text: "Xóa khỏi yêu thích thành công",
+                    icon: "success"
+                });
+                $http({
+                    method: "GET",
+                    headers: {
+                        Authorization: "Bearer " + localStorage.getItem("accessToken"),
+                        "X-Refresh-Token": localStorage.getItem("refreshToken"),
+                    },
+
+                    url: "http://localhost:8080/api/v1/favorites",
+                }).then(
+                    function successCallback(response) {
+                        $scope.favorites = response.data;
+                        $('#nav-like__circle').html($scope.favorites.length)
+                        $scope.isFavorite = function (productId) {
+                            for (var i = 0; i < $scope.favorites.length; i++) {
+                                if ($scope.favorites[i].productId.productId === productId) {
+                                    return true;
+                                }
+                            }
+                            return false;
+                        };
+                        console.log("isLiked" + $scope.isLiked)
+                    },
+                    function errorCallback(response) {
+                    }
+                );
+            },
+            function errorCallback(response) {
+                console.log("error")
+            }
+        );
+    };
 })

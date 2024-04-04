@@ -279,10 +279,8 @@ function cartController($scope, $http, $rootScope) {
       $scope.carts = response.data;
       $scope.countCart = $scope.carts.length
       if ($scope.carts.length === 0) {
-        // $scope.carts là một mảng rỗng
         $scope.ContinueProduct = 'Tiếp tục mua sắm'
       } else {
-        // $scope.carts không rỗng
         $scope.ContinueProduct = ''
       }
 

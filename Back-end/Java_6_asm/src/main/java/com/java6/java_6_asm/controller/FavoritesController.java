@@ -28,7 +28,6 @@ public class FavoritesController {
 
     @PostMapping("/check-favorites")
     public ResponseEntity<List<Favorites>> checkUserIdAndProductId(HttpServletRequest httpServletRequest, @RequestBody FavoriteRequest favoriteRequest) {
-        System.out.println("this is check favrorites");
         return ResponseEntity.ok(favoritesService.checkUserIdAndProductId(httpServletRequest, favoriteRequest));
     }
 
