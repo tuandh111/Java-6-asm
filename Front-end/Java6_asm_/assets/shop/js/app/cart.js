@@ -279,10 +279,8 @@ function cartController($scope, $http, $rootScope) {
       $scope.carts = response.data;
       $scope.countCart = $scope.carts.length
       if ($scope.carts.length === 0) {
-        // $scope.carts là một mảng rỗng
         $scope.ContinueProduct = 'Tiếp tục mua sắm'
       } else {
-        // $scope.carts không rỗng
         $scope.ContinueProduct = ''
       }
 
@@ -457,6 +455,154 @@ function cartController($scope, $http, $rootScope) {
       }
     );
   }
+  var requestData = {
+    productId: id,
+    userId: 1,
+  };
+
+  $http({
+    method: "POST",
+    headers: {
+      Authorization: "Bearer " + localStorage.getItem("accessToken"),
+      "X-Refresh-Token": localStorage.getItem("refreshToken"),
+    },
+    data: JSON.stringify(requestData),
+    url: "http://localhost:8080/api/v1/check-favorites",
+  }).then(
+    function successCallback(response) {
+      $scope.checkFavorites = response.data;
+      $('#nav-like__circle').html($scope.checkFavorites.length)
+      console.log($scope.checkFavorites.length)
+      $scope.isLiked = false;
+      if ($scope.checkFavorites.length == 0) {
+        $scope.isLiked = false;
+      } else {
+        $scope.isLiked = true;
+      }
+      console.log("isLiked" + $scope.isLiked)
+    },
+    function errorCallback(response) {
+      // Xử lý lỗi nếu có
+    }
+  );
+
+  // Hàm xử lý khi người dùng nhấn vào nút "Thêm vào yêu thích"
+  $scope.addToFavorites = function (productId) {
+    // Tạo dữ liệu yêu cầu
+    var requestData = {
+      productId: productId,
+      userId: 1,
+    };
+
+    // Gửi yêu cầu POST để thêm sản phẩm vào danh sách yêu thích
+    $http({
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("accessToken"),
+        "X-Refresh-Token": localStorage.getItem("refreshToken"),
+      },
+      data: JSON.stringify(requestData),
+      url: "http://localhost:8080/api/v1/save-favorites",
+    }).then(
+      function successCallback(response) {
+        Swal.fire({
+          title: "Thành công!",
+          text: "Thêm vào yêu thích thành công",
+          icon: "success"
+        });
+        $http({
+          method: "POST",
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("accessToken"),
+            "X-Refresh-Token": localStorage.getItem("refreshToken"),
+          },
+          data: JSON.stringify(requestData),
+          url: "http://localhost:8080/api/v1/check-favorites",
+        }).then(
+          function successCallback(response) {
+            // Lưu danh sách sản phẩm đã thích vào biến $scope.checkFavorites
+            $scope.checkFavorites = response.data;
+            $('#nav-like__circle').html($scope.checkFavorites.length)
+            console.log($scope.checkFavorites.length)
+            // Kiểm tra xem sản phẩm đã được thích chưa
+
+            // Nếu sản phẩm đã được thích, thì cập nhật trạng thái của nút
+            $scope.isLiked = false;
+            if ($scope.checkFavorites.length == 0) {
+              $scope.isLiked = false;
+            } else {
+              $scope.isLiked = true;
+            }
+            console.log("isLiked" + $scope.isLiked)
+          },
+          function errorCallback(response) {
+            // Xử lý lỗi nếu có
+          }
+        );
+      },
+      function errorCallback(response) {
+        // Xử lý lỗi nếu có
+      }
+    );
+  };
+  $scope.removeFromFavorites = function (productId) {
+    console.log("Removing")
+    // Tạo dữ liệu yêu cầu
+    var requestData = {
+      productId: productId,
+      userId: 1,
+    };
+
+    // Gửi yêu cầu POST để xóa sản phẩm khỏi danh sách yêu thích
+    $http({
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("accessToken"),
+        "X-Refresh-Token": localStorage.getItem("refreshToken"),
+      },
+      data: JSON.stringify(requestData),
+      url: "http://localhost:8080/api/v1/delete-favorites",
+    }).then(
+      function successCallback(response) {
+        Swal.fire({
+          title: "Thành công!",
+          text: "Xóa khỏi yêu thích thành công",
+          icon: "success"
+        });
+        $http({
+          method: "POST",
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("accessToken"),
+            "X-Refresh-Token": localStorage.getItem("refreshToken"),
+          },
+          data: JSON.stringify(requestData),
+          url: "http://localhost:8080/api/v1/check-favorites",
+        }).then(
+          function successCallback(response) {
+            $scope.checkFavorites = response.data;
+            $('#nav-like__circle').html($scope.checkFavorites.length)
+            console.log($scope.checkFavorites.length)
+            $scope.isLiked = false;
+            if ($scope.checkFavorites.length == 0) {
+              $scope.isLiked = false;
+            } else {
+              $scope.isLiked = true;
+            }
+            console.log("isLiked" + $scope.isLiked)
+          },
+          function errorCallback(response) {
+            // Xử lý lỗi nếu có
+          }
+        );
+      },
+      function errorCallback(response) {
+        console.log("error")
+        // Xử lý lỗi nếu có
+      }
+    );
+  };
+
+
   ///Post comments
   $scope.submitFormMessage = function () {
     console.log($scope.selectedRating);
@@ -550,8 +696,6 @@ function cartController($scope, $http, $rootScope) {
 
     },
     function errorCallback(response) {
-      // called asynchronously if an error occurs
-      // or server returns response with an error status.
     }
   );
   ////////////////////getAll DetailsSize
