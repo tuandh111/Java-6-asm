@@ -1,0 +1,199 @@
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar"
+        ng-include="'component/admin/sidebar.html'">
+    </ul>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <!-- Topbar -->
+            <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow"
+                ng-include="'component/admin/content-nav.html'">
+            </nav>
+            <!-- End of Topbar -->
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid" ng-controller="AdminOrderController">
+
+                <!-- Page Heading -->
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <h1 class="h3 mb-0 text-gray-800">Đơn hàng</h1>
+                </div>
+
+                <div class="row">
+
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Danh sách đơn hàng</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="input-group filter-bar-search mb-3 d-flex justify-content-end">
+                                <input type="text" ng-model="searchText" placeholder="Nhập từ khóa tìm kiếm">
+                                <div class="input-group-append">
+                                    <button type="button"><i class="ti-search"></i></button>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Mã đơn hàng</th>
+                                            <th>Ngày đặt hàng</th>
+
+                                            <th>Giá trị</th>
+                                            <th>Trạng thái</th>
+                                            <th>Thao tác</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>Mã đơn hàng</th>
+                                            <th>Ngày đặt hàng</th>
+
+                                            <th>Giá trị</th>
+                                            <th>Trạng thái</th>
+                                            <th>Thao tác</th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                        <tr ng-repeat="o in listOrderShow |filter:searchText |limitTo:pageSize:begin">
+                                            <td>{{o.order.orderId}}</td>
+                                            <td>{{o.order.createDate}}</td>
+
+                                            <td>{{o.order.totalAmount|formatPrice}}</td>
+                                            <td ng-if="o.order.status=='Thành công'" class="text-success">Thành công
+                                            </td>
+                                            <td ng-if="o.order.status=='Đã hủy'" class="text-danger">Đã hủy</td>
+                                            <td ng-if="o.order.status=='Đặt hàng'">
+                                                <select name="selectStatus" id="">
+                                                    <option value="Đặt hàng">Đặt hàng</option>
+                                                    <option value="Thành công">Thành công</option>
+                                                    <option value="Đã hủy">Đã hủy</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <a href="#" data-bs-toggle="modal" data-bs-target="#oderDetailModal"
+                                                    class="open-detail-order">Xem
+                                                    chi tiết</a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <nav aria-label="Page navigation example"
+                                ng-include="'../../component/shop/paginationProduct.html'">
+                            </nav>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- End of Main Content -->
+
+        <!-- Footer -->
+        <footer class="sticky-footer bg-white">
+            <div class="container my-auto">
+                <div class="copyright text-center my-auto">
+                    <span>Copyright &copy; TwoBee 4/2024</span>
+                </div>
+            </div>
+        </footer>
+        <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+
+<!-- Logout Modal-->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <a class="btn btn-primary" href="login.html">Logout</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Detail Order Modal -->
+<div class="modal fade" id="oderDetailModal" tabindex="-1" aria-labelledby="oderDetailModalLabel" aria-hidden="true"
+    style="z-index: 10000;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="oderDetailModalLabel">Chi tiết đơn hàng</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Ảnh sản phẩm</th>
+                            <th>Tên sản phẩm</th>
+                            <th>Size</th>
+                            <th>Màu sắc</th>
+                            <th>Số lượng</th>
+                            <th>Giá</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="d in listCartFilterByCartId">
+                            <td>
+                                <img style="width: 100px; height: 100px;" src="../../assets/shop/images/{{d.imageId}}"
+                                    class="img-thumbnail" alt="...">
+                            </td>
+                            <td>{{d.product.productName}}</td>
+                            <td>{{d.sizeId}}</td>
+                            <td>{{d.colorId}}</td>
+                            <td>{{d.quantity
+                                }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- Bootstrap core JavaScript-->
+<script src="../../assets/admin/js/vendor/jquery/jquery.min.js"></script>
+<script src="../../assets/admin/js/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="../../assets/admin/js/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="../../assets/admin/js/sb-admin-2.min.js"></script>

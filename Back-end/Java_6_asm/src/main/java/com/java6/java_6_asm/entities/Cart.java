@@ -38,5 +38,7 @@ public class Cart {
 
     private Integer colorId;
 
-    private String orderId;
+    @ManyToOne
+    @JoinColumn(name = "orderId")
+    private Order order;
 }

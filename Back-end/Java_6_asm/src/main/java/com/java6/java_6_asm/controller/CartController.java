@@ -42,6 +42,10 @@ public class CartController {
     public ResponseEntity<List<Cart>> getAllCartByUser(HttpServletRequest httpServletRequest) {
         return ResponseEntity.ok(cartService.findAllByUser(httpServletRequest));
     }
+    @GetMapping("/auth/twobee/carts")
+    public ResponseEntity<?> getAllCartForAdmin(){
+        return ResponseEntity.ok(cartService.findAllCartForAdmin());
+    }
 
     @PostMapping("/update-cart/{id}")
     public ResponseEntity<Cart> updateCartByUser(@PathVariable("id") String cartId,

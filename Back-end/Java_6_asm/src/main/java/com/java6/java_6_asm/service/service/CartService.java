@@ -28,4 +28,5 @@ public interface CartService {
     Cart updateCartSize(String cartId, CartSizeRequest cartSizeRequest,HttpServletRequest httpServletRequest);
 
     void DeleteCart(String cartId);
+    List<Cart> findAllCartForAdmin();
 }

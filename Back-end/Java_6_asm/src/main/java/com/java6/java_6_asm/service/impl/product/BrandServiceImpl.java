@@ -33,12 +33,6 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public Brand save(BrandRequest brandRequest) {
-//        List<Brand> listBrandToFind = this.findBrandByNameLike(brandRequest.getNameBrand());
-//        for (Brand b : listBrandToFind){
-//            if(b.getNameBrand().equalsIgnoreCase(brandRequest.getNameBrand())){
-//                return null;
-//            }
-//        }
         if(this.existsByName(brandRequest.getNameBrand())){
             return null;
         }
@@ -73,26 +67,6 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public Brand delete(Integer brandId) {
-//        List<BrandAndCountProductRespone> checkList = BrandAndCountProductRespone.convert(brandRepository.findAllBrandAndCountProduct());
-//        boolean flagCheck= false;
-//        if(!brandRepository.existsById(brandId)){
-//            return null;
-//        }else{
-//            Brand brand = this.findById(brandId).get();
-//            for (BrandAndCountProductRespone b:checkList){
-//                if(b.getBrand().getBrandId()==brandId){
-//                    if(b.getProductId().isEmpty()){
-//                        flagCheck= true;
-//                    }
-//                }
-//            }
-//            if(flagCheck){
-//                brandRepository.delete(brand);
-//            }else{
-//                brand.setIsActive(false);
-//            }
-//            return brand;
-//        }
         if (!brandRepository.existsById(brandId)) {
             return null;
         }

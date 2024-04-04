@@ -180,4 +180,9 @@ public class CartServiceImpl implements CartService {
         productRepository.save(product);
         cartRepository.deleteById(cartId);
     }
+
+    @Override
+    public List<Cart> findAllCartForAdmin() {
+        return cartRepository.findAll();
+    }
 }
