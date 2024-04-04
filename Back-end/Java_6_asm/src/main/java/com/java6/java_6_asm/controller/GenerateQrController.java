@@ -1,0 +1,20 @@
+package com.java6.java_6_asm.controller;
+
+
+import com.java6.java_6_asm.model.request.UserLoginSdi;
+import com.java6.java_6_asm.service.service.utils.QrCodeService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@CrossOrigin(origins = "*")
+@RequestMapping("/api/v1")
+public class GenerateQrController {
+    @Autowired
+    QrCodeService qrCodeService;
+
+    @PostMapping(value = "generateQRCode")
+    public String generateQRCode(@RequestBody UserLoginSdi sdi) {
+        return qrCodeService.generateQrCode(sdi);
+    }
+}

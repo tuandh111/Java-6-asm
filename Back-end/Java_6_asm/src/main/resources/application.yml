@@ -13,7 +13,6 @@
 #        format_sql: true
 #    database: sql_server
 #    database-platform: org.hibernate.dialect.SQLServerDialect
-
 application:
   security:
     jwt:
