@@ -142,7 +142,18 @@
                   <img class="card-img" src="../../assets/shop/images/product/{{product.imageNames[0]}}" alt="">
                   <ul class="card-product__imgOverlay">
                     <li><button><i class="ti-shopping-cart"></i></button></li>
-                    <li><button><i class="ti-heart"></i></button></li>
+                    <li>
+                      <span ng-repeat="favorite in favorites">
+                        <span ng-if="product.product.productId === favorite.productId.productId">
+                          <button><i class="bi bi-heart-fill"
+                              ng-click="removeFromFavorites(product.product.productId)"></i></button>
+                        </span>
+                      </span>
+                      <span ng-if="!isFavorite(product.product.productId)">
+                        <button><i class="bi bi-heart"
+                            ng-click="addToFavorites(product.product.productId)"></i></button>
+                      </span>
+                    </li>
                     <li><button ng-click="redirectToSingleProduct(product.product.productId)"><i
                           class="ti-arrow-right"></i></button></li>
                   </ul>

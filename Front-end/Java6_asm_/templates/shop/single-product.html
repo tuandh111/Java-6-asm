@@ -81,22 +81,40 @@
 			<div class="col-lg-5 offset-lg-1">
 				<div class="s_product_text">
 					<h3>{{detailsProductId1.productName}} </h3>
+					<img src="/assets/shop/images/home/Frame_638x80.png" alt="" style="width: 100%;">
+					<div class="mt-2"></div>
+					<span style="float: right;" ng-click="likeProduct(detailsProductId1.productId)">
+
+						<span ng-if="!isLiked">
+							<a href="javascript:void(0)" ng-click="addToFavorites(detailsProductId1.productId)">Thêm vào
+								yêu thích</a>
+							<i class="bi bi-heart" ng-click="addToFavorites(detailsProductId1.productId)"></i>
+						</span>
+						<span ng-if="isLiked">
+							<a href="javascript:void(0)" ng-click="removeFromFavorites(detailsProductId1.productId)">Xóa
+								khỏi yêu thích</a>
+							<i class="bi bi-heart-fill" ng-click="removeFromFavorites(detailsProductId1.productId)"></i>
+						</span>
+					</span>
 					<span ng-if="!isDiscounted(detailsProductId1.productId)">
 						Giá gốc: <br><span style="color: #010101;font-size: 40px;">{{ detailsProductId1.price | number :
 							fractionSize }} VNĐ</span>
+						<div>(Giá niêm yết của sản phẩm đã bao gồm thuế)</div>
 					</span>
 					<span ng-if="isDiscounted(detailsProductId1.productId)" style="text-decoration: line-through;">
-						<img src="/assets/shop/images/home/Frame_638x80.png" alt="" style="width: 100%;">
+
 						Giá gốc: <br>{{ detailsProductId1.price | number : fractionSize }} VNĐ
+
 					</span>
-					<a href="javascript:void(0)" style="float: right;">Thêm vào yêu thích <span><i
-								class="bi bi-heart"></i></span></a>
+
+
 					<!-- <i class="bi bi-heart-fill"></i> -->
 					<div ng-repeat="discount in discounts">
 						<div ng-if="discount.product.productId == detailsProductId1.productId">
 							Giá còn:<br> <span style="color: #010101; font-size: 40px;"> {{
 								discount.discountedPrice | number :
 								fractionSize }} VNĐ</span>
+
 							<span ng-repeat="discount in discounts">
 								<span style="color: red; font-size: 40px;"
 									ng-if="discount.product.productId == detailsProductId1.productId">
@@ -105,6 +123,7 @@
 									100 | number:0}}%)
 								</span>
 							</span>
+							<div>(Giá niêm yết của sản phẩm đã bao gồm thuế)</div>
 							<div class="mt-3"></div>
 
 							Tiết kiệm được:<br> <span style="color: #010101;">{{detailsProductId1.price -
@@ -206,21 +225,24 @@
 					</span>
 					<div class="text-danger">{{errorSelectedSizeId}}</div>
 					<br>
-					<span class="mt-1">Nhập số lượng:</span>
-					<div class="product_count mt-1">
+
+					<div class="product_count ">
 						<input type="number" name="qty" id="sst_quantity" ng-model="quantityProduct" value="1"
-							title="Quantity:" class="input-number qty" style="padding: 5px 10px;text-align: center;">
+							title="Quantity:" class="input-number qty"
+							style="padding: 5px 7px 10px 10px;text-align: center;">
 						<button onclick="increaseQuantity()" class="increase items-count" type="button"><i
 								class="bi bi-caret-up-fill"></i></button>
 						<button onclick="decreaseQuantity()" class="reduced items-count" type="button"><i
 								class="bi bi-caret-down-fill"></i></button>
 
 					</div>
-
-					<a href="#" class="btn btn-warning mt-1">Mua ngay</a>
-					<a href="javascript:void(0)" class="btn btn-primary mt-1"
-						ng-click="saveCart(detailsProductId1)">Thêm vào giỏ
-						hàng</a>
+					<span style="float: right;">
+						<a href="#" class="btn btn-warning mr-5" style="padding: 11px 10px;text-align: center; ">Mua
+							ngay</a>
+						<a href="javascript:void(0)" class="btn btn-primary mt-1" ng-click="saveCart(detailsProductId1)"
+							style="padding: 11px 10px;text-align: center;">Thêm vào giỏ
+							hàng</a>
+					</span>
 					<ul class="list" style="padding-left:0px">
 						<li><a class="active" href="#"><span>Thương hiệu</span>:
 								{{detailsProductId1.brand.nameBrand}}</a></li>
