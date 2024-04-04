@@ -178,9 +178,9 @@ app.controller('ProductController', function ($scope, $http, $rootScope, $locati
             }
             return 0;
         };
-        // $scope.calculatePriceRemainning = function (originalPrice, discountedPrice) {
-        //     return discountedPrice
-        // };
+        $scope.calculatePriceRemainning = function (originalPrice, discountedPrice) {
+            return discountedPrice
+        };
     }
 
 

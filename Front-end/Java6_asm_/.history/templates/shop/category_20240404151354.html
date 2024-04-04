@@ -123,6 +123,13 @@
             <nav aria-label="Page navigation example" ng-include="'../../component/shop/paginationProduct.html'"></nav>
           </div>
           <div class="input-group-search">
+            <!-- <div class="input-group filter-bar-search">
+              <input type="text" placeholder="Tìm kiếm sản phẩm" ng-change="filterByProductName()"
+                ng-model="searchProductName">
+              <div class="input-group-append">
+                <button type="button" ng-click="filterByProductName()"><i class="ti-search"></i></button>
+              </div>
+            </div> -->
             <div class="input-group filter-bar-search">
               <input type="text" placeholder="Tìm kiếm sản phẩm" ng-model="searchProductName">
               <div class="input-group-append">
@@ -161,7 +168,7 @@
                   <div class="d-flex align-items-center justify-content-between" ng-if="product.discountedPrice != 0">
                     <p class="card-product__price">{{ product.product.price |formatPrice }}</p>
                     <span class="card-product__discout__price">{{
-                      product.discountedPrice |formatPrice }}</span>
+                      calculatePriceRemainning(product.product.price,product.discountedPrice) |formatPrice }}</span>
                   </div>
                   <div class="d-flex align-items-center justify-content-between" ng-if="product.discountedPrice == 0">
                     <p class="card-product__price" ng-style="{'text-decoration': 'none'}">{{ product.product.price

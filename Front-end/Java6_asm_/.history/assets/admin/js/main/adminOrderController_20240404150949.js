@@ -188,6 +188,7 @@ app.controller('AdminOrderController', function ($scope, $http, $rootScope, $loc
                             $scope.$apply();
                         } else {
                             order.note = reason.value
+                            console.log("after Thanh cong:", order);
                             var requsetOrderJSON = angular.toJson(order)
                             $http.put(url + "/api/v1/auth/twobee/orders/" + orderId, requsetOrderJSON).then(
                                 respone => {

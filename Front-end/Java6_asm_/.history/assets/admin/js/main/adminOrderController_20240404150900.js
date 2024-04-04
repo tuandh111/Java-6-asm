@@ -138,6 +138,7 @@ app.controller('AdminOrderController', function ($scope, $http, $rootScope, $loc
                         cancelButtonText: 'Hủy bỏ',
                         showLoaderOnConfirm: true
                     }).then((reason) => {
+                        console.log("reason" + reason);
                         if (reason.dismiss === Swal.DismissReason.cancel) {
                             order.status = 'Đặt hàng';
                             $scope.$apply();
@@ -183,23 +184,18 @@ app.controller('AdminOrderController', function ($scope, $http, $rootScope, $loc
                         cancelButtonText: 'Hủy bỏ',
                         showLoaderOnConfirm: true
                     }).then((reason) => {
-                        if (reason.dismiss === Swal.DismissReason.cancel) {
-                            order.status = 'Đặt hàng';
-                            $scope.$apply();
-                        } else {
-                            order.note = reason.value
-                            var requsetOrderJSON = angular.toJson(order)
-                            $http.put(url + "/api/v1/auth/twobee/orders/" + orderId, requsetOrderJSON).then(
-                                respone => {
-                                    console.log(respone.data);
-                                    Swal.fire('Thành công', 'Xác nhận đơn hàng thành công.', 'success');
-                                }
-                            ).catch(err => {
-                                console.log(err.data);
-                                Swal.fire('Lỗi', 'Đã xảy ra lỗi khi xác nhận đơn hàng.', 'error');
-                            })
-                        }
-
+                        order.note = reason.value
+                        console.log("after Thanh cong:", order);
+                        var requsetOrderJSON = angular.toJson(order)
+                        $http.put(url + "/api/v1/auth/twobee/orders/" + orderId, requsetOrderJSON).then(
+                            respone => {
+                                console.log(respone.data);
+                                Swal.fire('Thành công', 'Xác nhận đơn hàng thành công.', 'success');
+                            }
+                        ).catch(err => {
+                            console.log(err.data);
+                            Swal.fire('Lỗi', 'Đã xảy ra lỗi khi xác nhận đơn hàng.', 'error');
+                        })
                     });
                 } else if (rs.dismiss === Swal.DismissReason.cancel) {
                     order.status = 'Đặt hàng';

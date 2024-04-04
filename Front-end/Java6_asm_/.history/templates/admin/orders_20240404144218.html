@@ -63,7 +63,8 @@
                                         </tr>
                                     </tfoot>
                                     <tbody>
-                                        <tr ng-repeat="o in listOrderShow |filter:searchText |limitTo:pageSize:begin">
+                                        <tr
+                                            ng-repeat="o in listOrderShow |filter:searchText |limitTo:pageSize:begin track by $index">
                                             <td>{{o.order.orderId}}</td>
                                             <td>{{o.order.createDate}}</td>
 

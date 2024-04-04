@@ -56,9 +56,9 @@
                                         <tr>
                                             <th>Mã đơn hàng</th>
                                             <th>Ngày đặt hàng</th>
+
                                             <th>Giá trị</th>
                                             <th>Trạng thái</th>
-                                            <th>Ghi chú</th>
                                             <th>Thao tác</th>
                                         </tr>
                                     </tfoot>
@@ -72,14 +72,12 @@
                                             </td>
                                             <td ng-if="o.order.status=='Đã hủy'" class="text-danger">Đã hủy</td>
                                             <td ng-if="o.order.status=='Đặt hàng'">
-                                                <select name="selectStatus" ng-model="o.order.status"
-                                                    ng-change="updateStatus(o.order)">
+                                                <select name="selectStatus" id="">
                                                     <option value="Đặt hàng">Đặt hàng</option>
                                                     <option value="Thành công">Thành công</option>
                                                     <option value="Đã hủy">Đã hủy</option>
                                                 </select>
                                             </td>
-                                            <td>{{o.order.note}}</td>
                                             <td>
                                                 <a href="#" data-bs-toggle="modal" data-bs-target="#oderDetailModal"
                                                     class="open-detail-order" ng-click="filerCartByCartId(o.cartId)">Xem
@@ -203,15 +201,14 @@
                             colorInfo=getColorById(d.colorId)">
                                 <td>
                                     <img src="../../assets/shop/images/product/{{productInfo.imageNames[0]}}"
-                                        class="img-thumbnail" alt="..." width="70" height="70">
+                                        class="img-thumbnail" alt="..." width="50" height="50">
                                 </td>
                                 <td>{{productInfo.product.productName|truncateWordsHTML:5}}</td>
                                 <td>{{sizeInfo.sizeName}}</td>
                                 <td>
                                     <div
-                                        ng-style="{'background': colorInfo.colorName, 'width': '20px', 'height': '20px', 'border-radius': '50%', 'border': '1px solid #777'}">
+                                        ng-style="{'background': colorInfo.colorName, 'width': '20px', 'height': '20px', 'border-radius': '50%'}">
                                     </div>
-
                                 </td>
                                 <td>{{d.quantity}}</td>
                                 <td>{{d.product.price | formatPrice}}</td>

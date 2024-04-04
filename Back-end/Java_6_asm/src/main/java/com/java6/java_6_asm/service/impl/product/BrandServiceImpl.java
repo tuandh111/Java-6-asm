@@ -46,8 +46,6 @@ public class BrandServiceImpl implements BrandService {
     @Override
     public Brand update(Integer brandId, BrandRequest brandRequest) {
 
-
-
         if(!brandRepository.existsById(brandId)){
             return null;
         }else{

@@ -44,9 +44,6 @@ public class BrandController {
     @PutMapping("/twobee/brands/{id}")
     public ResponseEntity<?> put(@PathVariable("id") Integer id,@RequestBody BrandRequest brandRequest)throws JsonProcessingException{
         Brand response = brandService.update(id,brandRequest);
-        System.out.println("Integer id " + id);
-        System.out.println("brandRequest "+brandRequest);
-        System.out.println("response "+response);
         if(response==null){
             String errorMessage="";
             if(id==-1){

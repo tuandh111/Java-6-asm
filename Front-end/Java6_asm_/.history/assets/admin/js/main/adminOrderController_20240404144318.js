@@ -117,6 +117,7 @@ app.controller('AdminOrderController', function ($scope, $http, $rootScope, $loc
         // console.log("New status:", order);
         var orderId = order.orderId
         if (order.status == 'Đã hủy') {
+            var originalStatus = order.status;
             Swal.fire({
                 title: 'Xác nhận huỷ đơn hàng',
                 text: 'Bạn có chắc muốn huỷ đơn hàng?',
@@ -138,27 +139,22 @@ app.controller('AdminOrderController', function ($scope, $http, $rootScope, $loc
                         cancelButtonText: 'Hủy bỏ',
                         showLoaderOnConfirm: true
                     }).then((reason) => {
-                        if (reason.dismiss === Swal.DismissReason.cancel) {
-                            order.status = 'Đặt hàng';
-                            $scope.$apply();
-                        } else {
-                            order.note = reason.value
-                            var requsetOrderJSON = angular.toJson(order)
-                            $http.put(url + "/api/v1/auth/twobee/orders/" + orderId, requsetOrderJSON).then(
-                                respone => {
-                                    console.log(respone.data);
-                                    Swal.fire('Thành công', 'Hủy đơn hàng thành công.', 'success');
-                                }
-                            ).catch(err => {
-                                console.log(err.data);
-                                Swal.fire('Lỗi', 'Đã xảy ra lỗi khi hủy đơn hàng.', 'error');
-                            })
-                        }
-
+                        order.note = reason.value
+                        // console.log("Sau huy ", order);
+                        var requsetOrderJSON = angular.toJson(order)
+                        $http.put(url + "/api/v1/auth/twobee/orders/" + orderId, requsetOrderJSON).then(
+                            respone => {
+                                console.log(respone.data);
+                                Swal.fire('Thành công', 'Hủy đơn hàng thành công.', 'success');
+                            }
+                        ).catch(err => {
+                            console.log(err.data);
+                            Swal.fire('Lỗi', 'Đã xảy ra lỗi khi hủy đơn hàng.', 'error');
+                        })
                     });
-                } else if (rs.dismiss === Swal.DismissReason.cancel) {
-                    order.status = 'Đặt hàng';
-                    $scope.$apply();
+                } else {
+                    order.status = originalStatus;
+                    console.log("order.status", order.status);
                 }
             });
 
@@ -173,6 +169,7 @@ app.controller('AdminOrderController', function ($scope, $http, $rootScope, $loc
                 confirmButtonText: 'Đồng ý',
                 cancelButtonText: 'Hủy bỏ'
             }).then((rs) => {
+
                 if (rs.isConfirmed) {
                     Swal.fire({
                         title: 'Nhập ghi chú đơn hàng',
@@ -183,27 +180,19 @@ app.controller('AdminOrderController', function ($scope, $http, $rootScope, $loc
                         cancelButtonText: 'Hủy bỏ',
                         showLoaderOnConfirm: true
                     }).then((reason) => {
-                        if (reason.dismiss === Swal.DismissReason.cancel) {
-                            order.status = 'Đặt hàng';
-                            $scope.$apply();
-                        } else {
-                            order.note = reason.value
-                            var requsetOrderJSON = angular.toJson(order)
-                            $http.put(url + "/api/v1/auth/twobee/orders/" + orderId, requsetOrderJSON).then(
-                                respone => {
-                                    console.log(respone.data);
-                                    Swal.fire('Thành công', 'Xác nhận đơn hàng thành công.', 'success');
-                                }
-                            ).catch(err => {
-                                console.log(err.data);
-                                Swal.fire('Lỗi', 'Đã xảy ra lỗi khi xác nhận đơn hàng.', 'error');
-                            })
-                        }
-
+                        order.note = reason.value
+                        console.log("after Thanh cong:", order);
+                        var requsetOrderJSON = angular.toJson(order)
+                        $http.put(url + "/api/v1/auth/twobee/orders/" + orderId, requsetOrderJSON).then(
+                            respone => {
+                                console.log(respone.data);
+                                Swal.fire('Thành công', 'Xác nhận đơn hàng thành công.', 'success');
+                            }
+                        ).catch(err => {
+                            console.log(err.data);
+                            Swal.fire('Lỗi', 'Đã xảy ra lỗi khi xác nhận đơn hàng.', 'error');
+                        })
                     });
-                } else if (rs.dismiss === Swal.DismissReason.cancel) {
-                    order.status = 'Đặt hàng';
-                    $scope.$apply();
                 }
 
             });
