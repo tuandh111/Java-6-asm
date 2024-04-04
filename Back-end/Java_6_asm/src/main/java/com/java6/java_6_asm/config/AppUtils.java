@@ -1,16 +1,11 @@
 package com.java6.java_6_asm.config;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.zxing.BarcodeFormat;
-import com.google.zxing.EncodeHintType;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
-import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
-import com.java6.java_6_asm.model.request.UserLoginSdi;
-import org.springframework.util.StringUtils;
+import com.java6.java_6_asm.model.request.URLRequest;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -19,7 +14,7 @@ import java.util.Base64;
 
 public class AppUtils {
 
-    public static String prettyObject(UserLoginSdi object) {
+    public static String prettyObject(URLRequest object) {
         try {
             ObjectMapper mapper = new ObjectMapper();
             String url = object.getUrl().substring(object.getUrl().indexOf(":") + 3, object.getUrl().length() );
