@@ -24,7 +24,10 @@ app.controller('SignInController', ['$scope', '$http', function ($scope, $http) 
                             title: "Thành công!",
                             text: "Đăng nhập thành công!",
                             icon: "success"
+                        }).then(function () {
+                            window.location.href = '/index.html#!';
                         });
+
                         console.log('Login successful');
                     } else {
                         Swal.fire({

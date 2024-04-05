@@ -17,8 +17,10 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int postId;
+
     @Nationalized
     private String title;
+
     @Nationalized
     private String content;
 
