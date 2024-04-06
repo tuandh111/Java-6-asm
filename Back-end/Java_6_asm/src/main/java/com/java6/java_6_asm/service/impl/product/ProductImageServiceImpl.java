@@ -17,4 +17,9 @@ public class ProductImageServiceImpl implements ProductImageService {
     public List<ProductImage> findAllImage() {
         return productImageRepository.findAll();
     }
+
+    @Override
+    public List<ProductImage> findImageBtProduct(Integer productId) {
+        return productImageRepository.findImageByProduct(productId);
+    }
 }

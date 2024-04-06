@@ -29,5 +29,7 @@ public interface ProductRepository extends JpaRepository<Product,Integer> {
     List<Object[]> findTopTenProduct();
     @Query("select  p from  Product p where  p.brand.brandId = :id")
     List<Product> findAllByBrand(@Param("id") String id);
+    @Query("select p From Product p ORDER BY  p.createDate desc")
+    List<Product> findAllAndSort();
 
 }

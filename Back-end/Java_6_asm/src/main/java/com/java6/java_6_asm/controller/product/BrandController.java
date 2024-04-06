@@ -12,26 +12,27 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/api/v1/auth")
+@RequestMapping("/api/v1")
 public class BrandController {
     @Autowired
     private BrandService brandService;
     @Autowired
     private ObjectMapper objectMapper;
-    @GetMapping("/twobee/brands-active")
+    @GetMapping("/auth/twobee/brands-active")
     public ResponseEntity<?> getAllBrandActive(){
         return  ResponseEntity.ok(brandService.findAllBrandActive());
     }
-    @GetMapping("/twobee/brands")
+    @GetMapping("/auth/twobee/brands")
     public ResponseEntity<?> getAll(){
         return  ResponseEntity.ok(brandService.findAll());
     }
 
-    @GetMapping("/twobee/brands-and-count-product")
+    @GetMapping("/management/twobee/brands-and-count-product")
     public ResponseEntity<?> getAllBrandAndCountProduct(){
+        System.out.println("Khong duoc truy cap");
         return  ResponseEntity.ok(brandService.findAllBrandAndCountProduct());
     }
-    @PostMapping("/twobee/brands")
+    @PostMapping("/management/twobee/brands")
     public ResponseEntity<?> post(@RequestBody BrandRequest brandRequest) throws JsonProcessingException {
         Brand response = brandService.save(brandRequest);
         if(response==null){
@@ -41,7 +42,7 @@ public class BrandController {
         return ResponseEntity.ok(response);
     }
 
-    @PutMapping("/twobee/brands/{id}")
+    @PutMapping("/management/twobee/brands/{id}")
     public ResponseEntity<?> put(@PathVariable("id") Integer id,@RequestBody BrandRequest brandRequest)throws JsonProcessingException{
         Brand response = brandService.update(id,brandRequest);
         if(response==null){
@@ -56,7 +57,7 @@ public class BrandController {
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("/twobee/brands/{id}")
+    @DeleteMapping("/management/twobee/brands/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") Integer id) throws JsonProcessingException {
         Brand response = brandService.delete(id);
         if(response==null){

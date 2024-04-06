@@ -5,6 +5,7 @@ import com.java6.java_6_asm.model.response.ProductRespone;
 import com.java6.java_6_asm.model.request.TopProductRequest;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface ProductService {
@@ -22,4 +23,7 @@ public interface ProductService {
     Product delete(Integer productId);
 
     List<Product> findAllCategory(String id);
+    List<Product> findAllAndSort();
+
+    Map<String,Object> getDataForAdmin();
 }

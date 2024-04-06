@@ -3,19 +3,31 @@ package com.java6.java_6_asm.service.impl.product;
 import com.java6.java_6_asm.entities.product.Product;
 import com.java6.java_6_asm.model.response.ProductRespone;
 import com.java6.java_6_asm.model.request.TopProductRequest;
-import com.java6.java_6_asm.repositories.product.ProductRepository;
+import com.java6.java_6_asm.repositories.product.*;
 import com.java6.java_6_asm.service.service.product.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class ProductServiceImpl implements ProductService {
     @Autowired ProductRepository productRepository;
-
+    @Autowired
+    BrandRepository brandRepository;
+    @Autowired
+    SizeRepository sizeRepository;
+    @Autowired
+    ColorRepository colorRepository;
+    @Autowired
+    ProductImageRepository productImageRepository;
+    @Autowired
+    DetailsColorRepository detailsColorRepository;
+    @Autowired
+    DetailsSizeRepository detailsSizeRepository;
+    @Autowired
+    DetailsQuantityRepository detailsQuantityRepository;
+    @Autowired DiscountRepository discountRepository;
     @Override
     public List<Product> findAll() {
         return productRepository.findAll();
@@ -73,6 +85,26 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> findAllCategory(String id) {
         return productRepository.findAllByBrand(id);
+    }
+
+    @Override
+    public List<Product> findAllAndSort() {
+        return productRepository.findAllAndSort();
+    }
+
+    @Override
+    public Map<String, Object> getDataForAdmin() {
+        Map<String,Object> data = new HashMap<>();
+        data.put("products",productRepository.findAllAndSort());
+        data.put("brands",brandRepository.findAllBrandActive());
+        data.put("sizes", sizeRepository.findAllSizeActive());
+        data.put("colors",colorRepository.findAllColorActive());
+        data.put("productImage",productImageRepository.findAll());
+        data.put("detailsQuantity",detailsQuantityRepository.findAll());
+        data.put("detailsColor", detailsColorRepository.findAll());
+        data.put("detailsSize",detailsSizeRepository.findAll());
+        data.put("discount", discountRepository.findAll());
+        return  data;
     }
 
 }

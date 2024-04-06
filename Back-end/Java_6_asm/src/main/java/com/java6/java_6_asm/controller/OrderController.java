@@ -11,18 +11,18 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/api/v1/auth")
+@RequestMapping("/api/v1")
 public class OrderController {
     @Autowired
     OrderService orderService;
     @Autowired
     private ObjectMapper objectMapper;
-    @GetMapping("/twobee/orders")
+    @GetMapping("/management/twobee/orders")
     public ResponseEntity<?> getAll(){
         return  ResponseEntity.ok(orderService.getAllOrderDetail());
     }
 
-    @PutMapping("/twobee/orders/{id}")
+    @PutMapping("/management/twobee/orders/{id}")
     public ResponseEntity<?> put(@PathVariable("id") String orderId, @RequestBody OrderRequest orderRequest) throws JsonProcessingException {
 //        System.out.println("orderId "+orderId);
 //        System.out.println("orderRequest"+orderRequest);
