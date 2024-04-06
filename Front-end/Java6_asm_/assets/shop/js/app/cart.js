@@ -53,9 +53,11 @@ function cartController($scope, $http, $rootScope) {
   $scope.countCart = 0
   $rootScope.selectedOptions = [];
   $scope.discounts = [];
+
   var uri = window.location.href;
   var parts = uri.split('/');
   var id = parts[parts.length - 1];
+
   $http({
     method: "GET",
     headers: {
@@ -448,7 +450,7 @@ function cartController($scope, $http, $rootScope) {
           var selectedOptions = $rootScope.selectedOptions
           //Giá trị checkCartId
           console.log("checkCartId", selectedOptions)
-          localStorage.clear("checkCartId")
+          localStorage.removeItem("checkCartId")
           localStorage.setItem("checkCartId", selectedOptions)
           angular.forEach($scope.carts, function (cart) {
             if (selectedOptions.includes(String(cart.cartId))) {
