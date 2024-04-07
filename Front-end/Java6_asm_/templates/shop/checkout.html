@@ -54,7 +54,7 @@
             <div class="col-md-6 form-group p_star">
               <label for="email"><b>Email</b><span class="text-danger">*</span> </label>
               <input type="email" class="form-control" id="email" ng-model="email" name="email"
-                placeholder="Nhập email của bạn">
+                placeholder="Nhập email của bạn" readonly>
               <span class="text-danger" style="font-size: 13px" ng-show="errorEmail">(*)Vui lòng nhập Email</span>
             </div>
             <div class="col-md-6 form-group p_star">
@@ -76,11 +76,13 @@
               <input type="tel" class="form-control" id="phone" ng-model="phone" name="phone"
                 placeholder="Nhập số điện thoại của bạn">
               <span class="text-danger" style="font-size: 13px" ng-show="errorPhone">(*)Vui lòng nhập SĐT</span>
+              <span class="text-danger" style="font-size: 13px" ng-show="errorPhoneCheck">(*)Số điện thoại phải đúng
+                định dạng</span>
             </div>
             <div class="col-lg-4">
               <select class="form-select form-select-sm " style="font-size: 16px" id="city"
                 aria-label=".form-select-sm">
-                <option value="" style="font-size: 16px" class="form-control" selected>Chọn tỉnh thành
+                <option ng-value="" style="font-size: 16px" class="form-control" selected>Chọn tỉnh thành
                 </option>
               </select>
               <span class="text-danger" style="font-size: 13px" ng-show="errorCity">(*)Vui lòng chọn tỉnh</span>
@@ -108,6 +110,8 @@
             <div class="col-lg-12 mt-3">
               <button class="btn btn-primary" style="width: 200px;float: left;" ng-click="openModel()">Xem địa chỉ của
                 tôi</button>
+              <button class="btn btn-warning ms-3" style="width: 200px;" ng-click="updateContact()"> Cập nhật địa
+                chỉ</button>
               <button class="btn btn-primary" style="width: 200px;float: right;" ng-click="addContact()"> Thêm mới địa
                 chỉ</button>
             </div>
@@ -122,9 +126,6 @@
                 <table class="table table-striped">
                   <thead>
                     <tr>
-                      <!-- <th>Họ</th>
-                      <th>Tên</th>
-                      <th>Email</th> -->
                       <th>SĐT</th>
                       <th>Địa chỉ</th>
                       <th></th>
@@ -132,13 +133,11 @@
                   </thead>
                   <tbody>
                     <tr ng-repeat="contact in contactByUserId">
-                      <!-- <td>{{contact.user.firstname}}</td>
-                      <td>{{contact.user.lastname}}</td>
-                      <td>{{contact.user.email}}</td> -->
                       <td>{{contact.numberPhone}}</td>
                       <td>{{contact.addressName}}</td>
-                      <td><a class="btn btn-primary mr-3" ng-click="GetupdateUserAndContact(contact);closeModel()">Cập
-                          nhật</a><a class="btn btn-danger" ng-click="deleteAddress(contact)" style="width: 89px;">Xóa
+                      <td><a class="btn btn-primary mr-4" ng-click="GetupdateUserAndContact(contact);closeModel()">Cập
+                          nhật</a><a class="btn btn-danger ms-2" ng-click="deleteContactId(contact)"
+                          style="width: 89px;">Xóa
                         </a>
                         <div class="mt-2">
                           <a class="btn btn-primary mr-3 " ng-click="applyAddress(contact);closeModel()">Áp dụng
@@ -205,19 +204,25 @@
                   <div class="check"></div>
                   <img src="../../assets/shop/images/home/donatech-thanh-toan-1.webp" style="width: 80px;" alt="">
                 </div>
-
-                <p>
-                  <span style="font-size: 16px;color: chocolate;">Chọn địa chỉ giao hàng</span><br>
+                <p style="background-color: #fff;">
+                  <span style="font-size: 16px;color: chocolate;">Thông tin giao hàng</span><br>
                   <span ng-repeat="contact in filteredContacts">
-                    <input type="radio" name="Receive" value="" ng-model="Receive"> {{contact.numberPhone}} -
-                    {{contact.addressName}} <br>
+                    Họ và tên: {{contact.user.firstname}} {{contact.user.lastname}} <br>
+                    Giới tính: {{contact.user.gender === 'MALE' ? 'Nam':'Nữ'}} <br>
+                    Email: {{contact.user.email}} <br>
+                    Ngày sinh: {{contact.user.birthDay | date: 'dd/MM/yyyy' }} <br>
+                    Số điện thoại: {{contact.numberPhone}} <br>
+                    Địa chỉ: {{contact.addressName}} <br>
                   </span>
 
                 </p>
-                <span class="text-danger ms-3" style="font-size: 13px" ng-show="errorAddressReceive">(*)Vui lòng chọn
+                <span class="text-danger ms-3" style="font-size: 13px" ng-if="filteredContacts.length == underfine "
+                  ng-model="check_receive">(*)Vui lòng
+                  chọn
                   địa chỉ
                   nhận
                   hàng
+                </span>
               </div>
               <div class="payment_item ">
                 <div class="radion_btn">

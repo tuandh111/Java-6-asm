@@ -12,6 +12,8 @@ import java.util.List;
 public interface CartService {
     List<Cart> findAllCartId(CartIdRequest cartIdRequest);
 
+    List<Cart> updateCheckOut(CartIdRequest cartIdRequest);
+
     List<Cart> findAllByUser(HttpServletRequest httpServletRequest);
 
     void deleteByUserAndProduct(DeleteCartUserAnhProductRequest deleteCartUserAnhProductRequest);

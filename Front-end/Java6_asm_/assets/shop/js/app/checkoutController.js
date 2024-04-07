@@ -119,7 +119,6 @@ app.controller('checkoutController', ['$scope', '$http', function ($scope, $http
     $scope.contactByUserId = {}
     $scope.errorFirstName = false;
     $scope.errorLastName = false;
-    $scope.errorPhone = false;
     $scope.errorEmail = false;
     $scope.errorGender = false;
     $scope.errorBirthday = false;
@@ -157,18 +156,15 @@ app.controller('checkoutController', ['$scope', '$http', function ($scope, $http
             $scope.totalAmount = 0;
 
             $scope.checkOutCartId.forEach(function (item) {
-                var isDiscountApplied = false; // Biến để kiểm tra xem có discount áp dụng cho sản phẩm không
+                var isDiscountApplied = false;
 
                 $scope.discounts.forEach(function (discount) {
                     if (item.product.productId === discount.product.productId) {
-                        // Nếu sản phẩm có discount, tính giá sau khi áp dụng discount
                         $scope.totalAmount += (discount.discountedPrice * item.quantity);
                         isDiscountApplied = true;
                     }
                 });
-
                 if (!isDiscountApplied) {
-                    // Nếu không có discount áp dụng cho sản phẩm, tính giá theo giá gốc của sản phẩm
                     $scope.totalAmount += (item.product.price * item.quantity);
                 }
             });
@@ -204,10 +200,8 @@ app.controller('checkoutController', ['$scope', '$http', function ($scope, $http
                 $scope.freeShip = '';
                 $scope.discount = ''
             }
-
             console.log('Tổng tiền chiết khấu: ' + $scope.totalAmount);
         }).catch(function (error) {
-            // Xử lý lỗi nếu loadDiscounts gặp vấn đề
             console.error(error);
         });
 
@@ -230,11 +224,8 @@ app.controller('checkoutController', ['$scope', '$http', function ($scope, $http
                 }
                 return false;
             };
-
         },
         function errorCallback(response) {
-            // called asynchronously if an error occurs
-            // or server returns response with an error status.
         }
     );
 
@@ -248,25 +239,61 @@ app.controller('checkoutController', ['$scope', '$http', function ($scope, $http
     }).then(
         function successCallback(response) {
             $scope.contactByUserId = response.data;
-            $scope.contactByUserId.forEach(function (item) {
-                console.log('ID:', item.user.id);
-                $scope.firstname = item.user.firstname;
-                $scope.lastname = item.user.lastname;
-                $scope.email = item.user.email;
-                $scope.birthday = item.user.birthDay
-                if (item.user.birthDay) {
-                    $scope.birthday = new Date(item.user.birthDay);
-                } else {
-                    $scope.birthday = null; // Nếu không có ngày sinh, gán giá trị null hoặc giá trị mặc định khác
-                }
-                console.log("birthday" + $scope.birthday);
-                $scope.gender = item.user.gender
-            });
+            if ($scope.contactByUserId == '') {
+                $scope.getUserWithContactIdNull()
+            } else {
+                $scope.contactByUserId.forEach(function (item) {
+                    console.log('ID:', item.user.id);
+                    $scope.firstname = item.user.firstname;
+                    $scope.lastname = item.user.lastname;
+                    $scope.email = item.user.email;
+                    $scope.birthday = item.user.birthDay
+                    if (item.user.birthDay) {
+                        $scope.birthday = new Date(item.user.birthDay);
+                    } else {
+                        $scope.birthday = null; // Nếu không có ngày sinh, gán giá trị null hoặc giá trị mặc định khác
+                    }
+                    console.log("birthday" + $scope.birthday);
+                    $scope.gender = item.user.gender
+                });
+            }
         },
         function errorCallback(response) {
         }
     );
+
+    $scope.getUserWithContactIdNull = function () {
+
+        $http({
+            method: "GET",
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem("accessToken"),
+                "X-Refresh-Token": localStorage.getItem("refreshToken"),
+            },
+            url: "http://localhost:8080/api/v1/by-userId",
+        }).then(
+            function successCallback(response) {
+                $scope.contactByUser = response.data;
+                console.table(response.data)
+                $scope.firstname = $scope.contactByUser.firstname;
+                $scope.lastname = $scope.contactByUser.lastname;
+                $scope.email = $scope.contactByUser.email;
+                $scope.birthday = $scope.contactByUser.birthDay
+                if ($scope.contactByUser.birthDay) {
+                    $scope.birthday = new Date($scope.contactByUser.birthDay);
+                } else {
+                    $scope.birthday = null; // Nếu không có ngày sinh, gán giá trị null hoặc giá trị mặc định khác
+                }
+                $scope.gender = $scope.contactByUser.gender
+
+            },
+            function errorCallback(response) {
+            }
+        );
+    }
     $scope.GetupdateUserAndContact = function (contact) {
+        localStorage.removeItem('updateContactId');
+        localStorage.setItem('updateContactId', contact.contactId);
         $http({
             method: "GET",
             headers: {
@@ -278,32 +305,29 @@ app.controller('checkoutController', ['$scope', '$http', function ($scope, $http
             function successCallback(response) {
                 $scope.contactByUserId = response.data;
                 $scope.contactByUserId.forEach(function (item) {
-                    console.log("contactId: " + item.contactId)
                     if (contact.contactId == item.contactId) {
                         $scope.phone = item.numberPhone
-                        console.log("phone" + item.addressName);
+                        console.log("phone:" + item.addressName);
                         $scope.address = item.addressName;
-
-                        // Tìm vị trí của dấu phẩy trong chuỗi
-                        var commaIndex = $scope.address.indexOf(',');
-
-                        if (commaIndex !== -1) {
-                            // Lấy phần đầu tiên của chuỗi đến dấu phẩy
-                            $scope.firstPart = $scope.address.substring(0, commaIndex);
-                            // In ra phần đầu tiên của chuỗi
-                        }
+                        var mangPhanTu = $scope.address.split(',');
+                        $scope.firstPart = mangPhanTu[0].trim();
+                        var ward = mangPhanTu[1].trim();
+                        var district = mangPhanTu[2].trim();
+                        var city = mangPhanTu[3].trim();
+                        $('#city').find('option').filter(function () {
+                            return $(this).text().trim() == city.trim();
+                        }).prop('selected', true);
+                        $('#city').change();
+                        $('#district').find('option').filter(function () {
+                            console.log($(this).text() + "-" + city)
+                            return $(this).text() == String(district.trim());
+                        }).prop('selected', true);
+                        $('#district').change();
+                        $('#ward').find('option').filter(function () {
+                            return $(this).text() === String(ward.trim());
+                        }).prop('selected', true);
+                        $('#ward').change();
                     }
-                    // console.log('ID:', item.user.id);
-                    // $scope.firstname = item.user.firstname;
-                    // $scope.lastname = item.user.lastname;
-                    // $scope.email = item.user.email;
-                    // $scope.birthday = item.user.birthDay
-                    // if (item.user.birthDay) {
-                    //     $scope.birthday = new Date(item.user.birthDay);
-                    // } else {
-                    //     $scope.birthday = null; // Nếu không có ngày sinh, gán giá trị null hoặc giá trị mặc định khác
-                    // }
-
                 });
             },
             function errorCallback(response) {
@@ -323,9 +347,7 @@ app.controller('checkoutController', ['$scope', '$http', function ($scope, $http
             function successCallback(response) {
                 $scope.contactByUserId = response.data;
                 $scope.filteredContacts = [];
-
                 $scope.contactByUserId.forEach(function (item) {
-                    console.log("contactId: " + item.contactId);
                     if (contact.contactId == item.contactId) {
                         $scope.filteredContacts.push(item)
                         Swal.fire({
@@ -343,56 +365,433 @@ app.controller('checkoutController', ['$scope', '$http', function ($scope, $http
 
     }
 
+
+    $scope.deleteContactId = function (contact) {
+        $http({
+            method: "DELETE",
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem("accessToken"),
+                "X-Refresh-Token": localStorage.getItem("refreshToken"),
+            },
+            url: "http://localhost:8080/api/v1/delete-contact-by-contactId/" + contact.contactId,
+        }).then(
+            function successCallback(response) {
+                Swal.fire({
+                    title: "Thành công!",
+                    text: "Xóa địa chỉ thành công",
+                    icon: "success"
+                });
+                $http({
+                    method: "GET",
+                    headers: {
+                        Authorization: "Bearer " + localStorage.getItem("accessToken"),
+                        "X-Refresh-Token": localStorage.getItem("refreshToken"),
+                    },
+                    url: "http://localhost:8080/api/v1/contact-by-userId",
+                }).then(
+                    function successCallback(response) {
+                        $scope.contactByUserId = response.data;
+                        if ($scope.contactByUserId == '') {
+                            $scope.getUserWithContactIdNull()
+                        } else {
+                            $scope.contactByUserId.forEach(function (item) {
+                                console.log('ID:', item.user.id);
+                                $scope.firstname = item.user.firstname;
+                                $scope.lastname = item.user.lastname;
+                                $scope.email = item.user.email;
+                                $scope.birthday = item.user.birthDay
+                                if (item.user.birthDay) {
+                                    $scope.birthday = new Date(item.user.birthDay);
+                                } else {
+                                    $scope.birthday = null; // Nếu không có ngày sinh, gán giá trị null hoặc giá trị mặc định khác
+                                }
+                                console.log("birthday" + $scope.birthday);
+                                $scope.gender = item.user.gender
+                            });
+                        }
+                        $scope.filteredContacts = [];
+                        $scope.contactByUserId.forEach(function (item) {
+                            if (contact.contactId == item.contactId) {
+                                $scope.filteredContacts.push(item)
+                            }
+                        });
+                    },
+                    function errorCallback(response) {
+                    }
+                );
+
+            },
+            function errorCallback(response) {
+            }
+        );
+
+    }
+
     $scope.addContact = function () {
         if ($scope.firstname == null || $scope.firstname === undefined || $scope.firstname === '') {
             $scope.errorFirstName = true;
+            return;
         } else {
             $scope.errorFirstName = false;
         }
         if ($scope.lastname == null || $scope.lastname === undefined || $scope.lastname === '') {
             $scope.errorLastName = true;
+            return;
         } else {
             $scope.errorLastName = false;
         }
         if ($scope.phone == null || $scope.phone === undefined || $scope.phone === '') {
             $scope.errorPhone = true;
+            return;
         } else {
             $scope.errorPhone = false;
         }
+        if (!$scope.validatePhoneNumber($scope.phone)) {
+            $scope.errorPhoneCheck = true;
+            return;
+        } else {
+            $scope.errorPhoneCheck = false;
+        }
         if ($scope.email == null || $scope.email === undefined || $scope.email === '') {
             $scope.errorEmail = true;
+            return;
         } else {
             $scope.errorEmail = false;
         }
         if ($scope.gender == null || $scope.gender === undefined || $scope.gender === '') {
             $scope.errorGender = true;
+            return;
         } else {
             $scope.errorGender = false;
         }
         if ($scope.birthday == null || $scope.birthday === undefined || $scope.birthday === '') {
             $scope.errorBirthday = true;
+            return;
         } else {
             $scope.errorBirthday = false;
         }
+        var city = $('#city').val();
+        var district = $('#district').val();
+        var ward = $('#ward').val();
+        var address = $('#address').val();
+        var phone = $('#phone').val();
+        var cityName = findCityName(city);
+        var districtName = findDistrictName(district)
+        var wardName = findWardName(ward)
+        if (phone == '' || phone == undefined) {
+            $scope.errorPhone = true;
+            return;
+        } else {
+            $scope.errorPhone = false;
+        }
+        if (cityName == '' || cityName == 'Chọn tỉnh thành') {
+            $scope.errorCity = true;
+            return;
+        } else {
+            $scope.errorCity = false;
+        }
+        if (districtName == '' || districtName == 'Chọn quận huyện') {
+            $scope.errorDistrict = true;
+            return;
+        } else {
+            $scope.errorDistrict = false;
+        }
+        if (wardName == '' || wardName == 'Chọn phường xã') {
+            $scope.errorWard = true;
+            return;
+        } else {
+            $scope.errorWard = false;
+        }
 
-        $scope.errorCity = true;
-        $scope.errorDistrict = true;
-        $scope.errorWard = true;
-        $scope.errorAddress = true;
+        if (address == null || address === undefined || address === '') {
+            $scope.errorAddress = true;
+            return;
+        } else {
+            $scope.errorAddress = false;
+        }
+
+        var requestData = {
+            addressName: address + ', ' + wardName + ', ' + districtName + ', ' + cityName,
+            phoneNumber: phone,
+        };
+        $http({
+            method: "POST",
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem("accessToken"),
+                "X-Refresh-Token": localStorage.getItem("refreshToken"),
+            },
+            data: JSON.stringify(requestData),
+            url: "http://localhost:8080/api/v1/save-contact-by-contactId",
+        }).then(
+            function successCallback(response) {
+                $('#phone').html('')
+                $scope.phone = ''
+                $('#address').html('')
+                Swal.fire({
+                    title: "Thành công!",
+                    text: "Thêm địa chỉ thành công",
+                    icon: "success"
+                });
+                $http({
+                    method: "GET",
+                    headers: {
+                        Authorization: "Bearer " + localStorage.getItem("accessToken"),
+                        "X-Refresh-Token": localStorage.getItem("refreshToken"),
+                    },
+                    url: "http://localhost:8080/api/v1/contact-by-userId",
+                }).then(
+                    function successCallback(response) {
+                        $scope.contactByUserId = response.data;
+                        $scope.contactByUserId.forEach(function (item) {
+                            console.log('ID:', item.user.id);
+                            $scope.firstname = item.user.firstname;
+                            $scope.lastname = item.user.lastname;
+                            $scope.email = item.user.email;
+                            $scope.birthday = item.user.birthDay
+                            if (item.user.birthDay) {
+                                $scope.birthday = new Date(item.user.birthDay);
+                            } else {
+                                $scope.birthday = null;
+                            }
+                            console.log("birthday" + $scope.birthday);
+                            $scope.gender = item.user.gender
+                        });
+                    },
+                    function errorCallback(response) {
+                    }
+                );
+            },
+            function errorCallback(response) {
+            }
+        );
+
+    }
+    $scope.updateContact = function () {
+
+        var contactId = localStorage.getItem('updateContactId');
+        console.log("contactId is: " + contactId);
+
+        if (contactId === undefined || contactId === '' || contactId == null) {
+            Swal.fire({
+                title: "Thất bại!",
+                text: "Bạn cần chọn địa chỉ để có thể cập nhật",
+                icon: "error"
+            });
+            return;
+        }
+        if ($scope.firstname == null || $scope.firstname === undefined || $scope.firstname === '') {
+            $scope.errorFirstName = true;
+            return;
+        } else {
+            $scope.errorFirstName = false;
+        }
+        if ($scope.lastname == null || $scope.lastname === undefined || $scope.lastname === '') {
+            $scope.errorLastName = true;
+            return;
+        } else {
+            $scope.errorLastName = false;
+        }
+        if ($scope.phone == null || $scope.phone === undefined || $scope.phone === '') {
+            $scope.errorPhone = true;
+            return;
+        } else {
+            $scope.errorPhone = false;
+        }
+        if (!$scope.validatePhoneNumber($scope.phone)) {
+            $scope.errorPhoneCheck = true;
+            return;
+        } else {
+            $scope.errorPhoneCheck = false;
+        }
+        if ($scope.email == null || $scope.email === undefined || $scope.email === '') {
+            $scope.errorEmail = true;
+            return;
+        } else {
+            $scope.errorEmail = false;
+        }
+        if ($scope.gender == null || $scope.gender === undefined || $scope.gender === '') {
+            $scope.errorGender = true;
+            return;
+        } else {
+            $scope.errorGender = false;
+        }
+        if ($scope.birthday == null || $scope.birthday === undefined || $scope.birthday === '') {
+            $scope.errorBirthday = true;
+            return;
+        } else {
+            $scope.errorBirthday = false;
+        }
+        var city = $('#city').val();
+        var district = $('#district').val();
+        var ward = $('#ward').val();
+        var address = $('#address').val();
+        var phone = $('#phone').val();
+        var cityName = findCityName(city);
+        var districtName = findDistrictName(district)
+        var wardName = findWardName(ward)
+
+        if (cityName == '' || cityName == 'Chọn tỉnh thành') {
+            $scope.errorCity = true;
+            return;
+        } else {
+            $scope.errorCity = false;
+        }
+        if (districtName == '' || districtName == 'Chọn quận huyện') {
+            $scope.errorDistrict = true;
+            return;
+        } else {
+            $scope.errorDistrict = false;
+        }
+        if (wardName == '' || wardName == 'Chọn phường xã') {
+            $scope.errorWard = true;
+            return;
+        } else {
+            $scope.errorWard = false;
+        }
+
+        if (address == null || address === undefined || address === '') {
+            $scope.errorAddress = true;
+            return;
+        } else {
+            $scope.errorAddress = false;
+        }
+
+        var requestData = {
+            addressName: address + ', ' + wardName + ', ' + districtName + ', ' + cityName,
+            phoneNumber: phone,
+        };
+        $http({
+            method: "POST",
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem("accessToken"),
+                "X-Refresh-Token": localStorage.getItem("refreshToken"),
+            },
+            data: JSON.stringify(requestData),
+            url: "http://localhost:8080/api/v1/update-contact-by-contactId/" + contactId,
+        }).then(
+            function successCallback(response) {
+
+                $('#phone').val('')
+                $scope.phone = ''
+                $('#address').val('')
+                Swal.fire({
+                    title: "Thành công!",
+                    text: "Cập nhật địa chỉ  thành công",
+                    icon: "success"
+                });
+                $http({
+                    method: "GET",
+                    headers: {
+                        Authorization: "Bearer " + localStorage.getItem("accessToken"),
+                        "X-Refresh-Token": localStorage.getItem("refreshToken"),
+                    },
+                    url: "http://localhost:8080/api/v1/contact-by-userId",
+                }).then(
+                    function successCallback(response) {
+                        $scope.contactByUserId = response.data;
+                        $scope.contactByUserId.forEach(function (item) {
+                            console.log('ID:', item.contactId);
+                            $scope.firstname = item.user.firstname;
+                            $scope.lastname = item.user.lastname;
+                            $scope.email = item.user.email;
+                            $scope.birthday = item.user.birthDay
+                            if (item.user.birthDay) {
+                                $scope.birthday = new Date(item.user.birthDay);
+                            } else {
+                                $scope.birthday = null;
+                            }
+                            console.log("birthday" + $scope.birthday);
+                            $scope.gender = item.user.gender
+                        });
+                        $scope.filteredContacts = [];
+                        $scope.contactByUserId.forEach(function (item) {
+                            if (contactId == item.contactId) {
+                                $scope.filteredContacts.push(item)
+                                $scope.$apply();
+                            }
+                        });
+                        localStorage.removeItem('updateContactId');
+                    },
+                    function errorCallback(response) {
+                    }
+                );
+            },
+            function errorCallback(response) {
+            }
+        );
+
     }
     $scope.checkOutCart = function () {
-
+        const storedCartIds = localStorage.getItem('checkCartId');
+        const cartIdsArray = storedCartIds.split(',');
+        const trimmedCartIdsArray = cartIdsArray.map(id => id.trim());
+        const uniqueCartIds = [...new Set(trimmedCartIdsArray)];
+        var requestData = {
+            cartId: uniqueCartIds,
+            userId: 4
+        };
         if ($scope.selector == null || $scope.selector === undefined || $scope.selector === '') {
             $scope.errorPay = true;
         } else {
             $scope.errorPay = false;
         }
-
         if ($scope.Receive == null || $scope.Receive === undefined || $scope.Receive === '') {
             $scope.errorAddressReceive = true;
         } else {
             $scope.errorAddressReceive = false;
         }
+        Swal.fire({
+            title: "Thanh toán đơn hàng",
+            text: "Bạn có muốn thanh toán đơn hàng?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Chấp nhận!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $http({
+                    method: "POST",
+                    headers: {
+                        Authorization: "Bearer " + localStorage.getItem("accessToken"),
+                        "X-Refresh-Token": localStorage.getItem("refreshToken"),
+                    },
+
+                    data: JSON.stringify(requestData),
+                    url: "http://localhost:8080/api/v1/check-out-cartId",
+                }).then(
+                    function successCallback(response) {
+                        response.data;
+                        localStorage.removeItem("checkCartId");
+                        let timerInterval;
+                        Swal.fire({
+                            title: "Xác nhận đơn hàng!",
+                            html: "Đang chờ xác nhận đơn hàng <b></b> milliseconds.",
+                            timer: 2000,
+                            timerProgressBar: true,
+                            didOpen: () => {
+                                Swal.showLoading();
+                                const timer = Swal.getPopup().querySelector("b");
+                                timerInterval = setInterval(() => {
+                                    timer.textContent = `${Swal.getTimerLeft()}`;
+                                }, 100);
+                            },
+                            willClose: () => {
+                                clearInterval(timerInterval);
+                            }
+                        }).then((result) => {
+                            /* Read more about handling dismissals below */
+                            if (result.dismiss === Swal.DismissReason.timer) {
+                                window.location.href = '/index.html#!/shop/confirmation';
+                            }
+                        });
+
+                    },
+                    function errorCallback(response) {
+                    }
+                );
+            }
+        });
     }
     function loadDiscounts() {
         return $http({
@@ -407,10 +806,43 @@ app.controller('checkoutController', ['$scope', '$http', function ($scope, $http
                 return response.data;
             },
             function errorCallback(response) {
-                // Xử lý lỗi nếu có
                 throw new Error('Không thể tải dữ liệu discounts.');
             }
         );
+    } function findCityName(cityId) {
+        var cityOptions = document.getElementById("city").options;
+        for (var i = 0; i < cityOptions.length; i++) {
+            if (cityOptions[i].value === cityId) {
+                return cityOptions[i].text;
+            }
+        }
+        return "";
     }
+
+    function findDistrictName(districtId) {
+        var districtOptions = document.getElementById("district").options;
+        for (var i = 0; i < districtOptions.length; i++) {
+            if (districtOptions[i].value === districtId) {
+                return districtOptions[i].text;
+            }
+        }
+        return "";
+
+    }
+
+    function findWardName(districtId) {
+        var districtOptions = document.getElementById("ward").options;
+        for (var i = 0; i < districtOptions.length; i++) {
+            if (districtOptions[i].value === districtId) {
+                return districtOptions[i].text;
+            }
+        }
+        return "";
+    }
+    $scope.validatePhoneNumber = function (phoneNumber) {
+        // Sử dụng regex để kiểm tra định dạng số điện thoại
+        var phonePattern = /^\d{10}$/;
+        return phonePattern.test(phoneNumber);
+    };
 
 }])

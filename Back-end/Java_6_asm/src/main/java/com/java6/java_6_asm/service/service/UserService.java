@@ -2,6 +2,8 @@ package com.java6.java_6_asm.service.service;
 
 import com.java6.java_6_asm.entities.User;
 import com.java6.java_6_asm.model.request.ChangePasswordRequest;
+import com.java6.java_6_asm.model.response.UserWithIdResponse;
+import jakarta.servlet.http.HttpServletRequest;
 
 import java.security.Principal;
 import java.util.List;
@@ -15,4 +17,6 @@ public interface UserService {
     List<User> findAll();
 
     Optional<User> findByEmail(String email);
+
+    UserWithIdResponse findByUserId(HttpServletRequest httpServletRequest);
 }

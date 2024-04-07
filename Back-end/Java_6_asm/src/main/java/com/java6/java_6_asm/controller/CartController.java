@@ -93,4 +93,8 @@ public class CartController {
     public ResponseEntity<List<Cart>> findAllByCartId(@RequestBody CartIdRequest cartRequest) {
         return ResponseEntity.ok(cartService.findAllCartId(cartRequest));
     }
+    @PostMapping("/check-out-cartId")
+    public ResponseEntity<List<Cart>> checkoutUpdate(@RequestBody CartIdRequest cartRequest) {
+        return ResponseEntity.ok(cartService.updateCheckOut(cartRequest));
+    }
 }

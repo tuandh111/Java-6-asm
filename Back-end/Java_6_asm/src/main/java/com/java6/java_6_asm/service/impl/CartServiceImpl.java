@@ -57,19 +57,39 @@ public class CartServiceImpl implements CartService {
         List<Cart> newListCartId = new ArrayList<>();
         String[] cartIds = cartIdRequest.getCartId();
         System.out.println("dd: " + cartIds);
-        // Duyệt qua từng cartId trong danh sách cartIds
         for (String cartId : cartIds) {
-            // Tìm Cart dựa trên cartId từ cartRepository
             Optional<Cart> cartOptional = cartRepository.findById(cartId);
-
-            // Kiểm tra xem Cart có tồn tại không trước khi thêm vào danh sách newListCartId
             if (cartOptional.isPresent()) {
                 newListCartId.add(cartOptional.get());
-
             }
         }
 
-        // Trả về danh sách các Cart tìm thấy
+        return newListCartId;
+    }
+
+    @Override
+    public List<Cart> updateCheckOut(CartIdRequest cartIdRequest) {
+        List<Cart> newListCartId = new ArrayList<>();
+        String orderId = null;
+        String[] cartIds = cartIdRequest.getCartId();
+        for (String cartId : cartIds) {
+            Optional<Cart> cartOptional = cartRepository.findById(cartId);
+            if (cartOptional.isPresent()) {
+                newListCartId.add(cartOptional.get());
+            }
+        }
+        for (Cart cart : newListCartId) {
+            cart.setCheckPay(true);
+            cartRepository.save(cart);
+            if (cart.getOrder() != null) {
+                orderId = cart.getOrder().getOrderId();
+                Order orderList = orderRepository.findById(orderId).orElseThrow();
+                orderList.setStatus("Thành công");
+                orderList.setNote("Đã đóng gói");
+                orderRepository.save(orderList);
+            }
+        }
+
         return newListCartId;
     }
 
