@@ -89,7 +89,7 @@
                                                     placeholder="Tên sản phẩm" required>
                                             </div>
 
-                                            <div style="max-width: 30%;" class="select-brand mb-3">
+                                            <div style="max-width: 30%;">
                                                 <p style="color: #777; font-weight: 700; font-size: 1.2rem;">Danh mục
                                                 </p>
                                                 <select class="form-select mb-3" ng-model="formProduct.selectedBrand"
@@ -99,9 +99,8 @@
                                                         value="{{brand.brandId}}">{{brand.nameBrand}}
                                                     </option>
                                                 </select>
-                                                <span ng-if="curentBrand" class="text-danger fs-6 text fst-italic">Danh
-                                                    mục hiện tại :
-                                                    {{curentBrand}}</span>
+                                                <span class="text-danger">Danh mục hiện tại :
+                                                    {{formProduct.selectedBrand}}</span>
                                             </div>
                                             <div class="form-check d-flex justify-content-center mb-3"
                                                 style="box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);max-width: 30%;">

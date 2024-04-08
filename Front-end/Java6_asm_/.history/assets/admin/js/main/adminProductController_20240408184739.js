@@ -225,7 +225,7 @@ app.controller('AdminProductController', function ($scope, $http, $rootScope, $l
                 return
             }
             if ($scope.formProduct.discount > $scope.formProduct.price) {
-                alert("Giá khuyến mãi không được lớn hơn giá bán")
+                alert("Giá khuyến mãi không được lớn hơn giá gốc")
                 return
             }
             let brand = $scope.getBrand()
@@ -249,16 +249,9 @@ app.controller('AdminProductController', function ($scope, $http, $rootScope, $l
                 $scope.formProduct.images = ""
             }
             var requsetProductJSON = angular.toJson($scope.formProduct)
-            var prodId = $scope.formProduct.productId === undefined ? -1 : $scope.formProduct.productId;
-            // console.log("requsetProductJSON", requsetProductJSON);
+            console.log("requsetProductJSON", requsetProductJSON);
             console.log("$scope.formProduct", $scope.formProduct);
             //gọi api đi
-            $http.put(url + "/products/" + prodId, requsetProductJSON, { headers: headers }).then(
-                response => {
-                    console.log("response", response.data);
-                }).catch(err => {
-                    console.log("error", err.data);
-                })
         }
     }
 

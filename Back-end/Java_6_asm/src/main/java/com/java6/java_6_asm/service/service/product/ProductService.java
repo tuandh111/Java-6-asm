@@ -1,6 +1,7 @@
 package com.java6.java_6_asm.service.service.product;
 
 import com.java6.java_6_asm.entities.product.Product;
+import com.java6.java_6_asm.model.request.ProductRequest;
 import com.java6.java_6_asm.model.response.ProductRespone;
 import com.java6.java_6_asm.model.request.TopProductRequest;
 
@@ -18,7 +19,7 @@ public interface ProductService {
 
     Product save(Product product);
 
-    Product update(Integer productId, Product product);
+    Product update(Integer productId, ProductRequest productRequest);
 
     Product delete(Integer productId);
 

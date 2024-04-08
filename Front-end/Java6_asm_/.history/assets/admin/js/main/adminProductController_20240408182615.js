@@ -181,13 +181,11 @@ app.controller('AdminProductController', function ($scope, $http, $rootScope, $l
             isActive: true,
         };
         $scope.editProduct = (product) => {
-            console.log("editProduct", product);
+            // console.log("editProduct", product);
             // console.log("product.brand", product.brand);
-            $scope.curentBrand = product.brand.nameBrand
             $scope.formProduct = {
                 productId: product.productId,
                 nameProduct: product.productName,
-
                 quantityInStock: $scope.getQuantityInStockByProduct(product),
                 price: product.price,
                 discount: $scope.getDiscountByProduct(product),
@@ -220,14 +218,6 @@ app.controller('AdminProductController', function ($scope, $http, $rootScope, $l
                 alert("Vui lòng nhập tên sản phẩm")
                 return
             }
-            if ($scope.formProduct.quantityInStock < 0 || !$scope.formProduct.price < 0 || !$scope.formProduct.discount < 0) {
-                alert("Không được nhập số âm")
-                return
-            }
-            if ($scope.formProduct.discount > $scope.formProduct.price) {
-                alert("Giá khuyến mãi không được lớn hơn giá bán")
-                return
-            }
             let brand = $scope.getBrand()
             if (!brand) {
                 alert('Please select a brand')
@@ -249,16 +239,9 @@ app.controller('AdminProductController', function ($scope, $http, $rootScope, $l
                 $scope.formProduct.images = ""
             }
             var requsetProductJSON = angular.toJson($scope.formProduct)
-            var prodId = $scope.formProduct.productId === undefined ? -1 : $scope.formProduct.productId;
-            // console.log("requsetProductJSON", requsetProductJSON);
+            console.log("requsetProductJSON", requsetProductJSON);
             console.log("$scope.formProduct", $scope.formProduct);
             //gọi api đi
-            $http.put(url + "/products/" + prodId, requsetProductJSON, { headers: headers }).then(
-                response => {
-                    console.log("response", response.data);
-                }).catch(err => {
-                    console.log("error", err.data);
-                })
         }
     }
 

@@ -251,14 +251,13 @@ app.controller('AdminProductController', function ($scope, $http, $rootScope, $l
             var requsetProductJSON = angular.toJson($scope.formProduct)
             var prodId = $scope.formProduct.productId === undefined ? -1 : $scope.formProduct.productId;
             // console.log("requsetProductJSON", requsetProductJSON);
-            console.log("$scope.formProduct", $scope.formProduct);
+            // console.log("$scope.formProduct", $scope.formProduct);
             //gọi api đi
-            $http.put(url + "/products/" + prodId, requsetProductJSON, { headers: headers }).then(
-                response => {
-                    console.log("response", response.data);
-                }).catch(err => {
-                    console.log("error", err.data);
-                })
+            $http.put(url + "/management/twobee/products/" + prodId, requsetProductJSON, { headers: headers }).then(response => {
+                console.log("response", response);
+            }).catch(err => {
+                console.log("error", err);
+            })
         }
     }
 

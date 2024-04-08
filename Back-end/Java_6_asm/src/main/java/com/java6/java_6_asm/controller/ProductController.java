@@ -1,6 +1,7 @@
 package com.java6.java_6_asm.controller;
 
 import com.java6.java_6_asm.entities.product.Product;
+import com.java6.java_6_asm.model.request.ProductRequest;
 import com.java6.java_6_asm.model.response.ProductRespone;
 import com.java6.java_6_asm.model.request.TopProductRequest;
 import com.java6.java_6_asm.repositories.product.*;
@@ -50,13 +51,18 @@ public class ProductController {
         return ResponseEntity.ok(response);
     }
 
+//    @PutMapping("/management/twobee/products/{id}")
+//    public ResponseEntity<Product> put(@PathVariable("id") Integer id,@RequestBody ProductRequest productRequest){
+//        Product response = productService.update(id,product);
+//        if(response==null){
+//            return ResponseEntity.notFound().build();
+//        }
+//        return ResponseEntity.ok(response);
+//    }
+
     @PutMapping("/management/twobee/products/{id}")
-    public ResponseEntity<Product> put(@PathVariable("id") Integer id,@RequestBody Product product){
-        Product response = productService.update(id,product);
-        if(response==null){
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(response);
+    public void testput(@PathVariable("id") Integer id,@RequestBody ProductRequest productRequest){
+        System.out.println("productRequest"+productRequest);
     }
 
     @DeleteMapping("/management/twobee/products/{id}")

@@ -253,12 +253,11 @@ app.controller('AdminProductController', function ($scope, $http, $rootScope, $l
             // console.log("requsetProductJSON", requsetProductJSON);
             console.log("$scope.formProduct", $scope.formProduct);
             //gọi api đi
-            $http.put(url + "/products/" + prodId, requsetProductJSON, { headers: headers }).then(
-                response => {
-                    console.log("response", response.data);
-                }).catch(err => {
-                    console.log("error", err.data);
-                })
+            $http.put(url + "/products/" + prodId, requsetProductJSON, { headers: headers }).then(response => {
+                console.log("response", response.data);
+            }).catch(err => {
+                console.log("error", err.data);
+            })
         }
     }
 
