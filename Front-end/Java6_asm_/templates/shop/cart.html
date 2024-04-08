@@ -31,13 +31,12 @@
                         <tr>
                             <th scope="col">
                                 <form>
-                                    <input type="checkbox" id="checkAll" class=" mr-2" ng-model="checkAll"> All
-                                    Product
+                                    <input type="checkbox" id="checkAll" class=" mr-2" ng-model="checkAll">Sản phẩm
                                 </form>
                             </th>
-                            <th scope="col" style="width: 170px;">Price</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col" style="width: 170px;">Total</th>
+                            <th scope="col" style="width: 170px;">Giá</th>
+                            <th scope="col">Số lượng</th>
+                            <th scope="col" style="width: 170px;">Tổng tiền</th>
 
                         </tr>
                     </thead>
@@ -197,7 +196,17 @@
                                         </p>
                                     </div>
                                 </div>
-
+                                <span ng-repeat="favorite in favorites">
+                                    <span ng-if="cart.product.productId === favorite.productId.productId">
+                                        <button class="btn btn-primary">
+                                            <i class="bi bi-heart-fill"
+                                                ng-click="removeFromFavorites1(cart.product.productId)"></i></button>
+                                    </span>
+                                </span>
+                                <span ng-if="!isFavorite(cart.product.productId)">
+                                    <button class="btn btn-primary"><i class="bi bi-heart"
+                                            ng-click="addToFavorites1(cart.product.productId)"></i></button>
+                                </span>
                             </td>
                             <td>
                                 <p>
@@ -244,7 +253,7 @@
                             <td colspan="6">
                                 <div class="shipping_box">
                                     <h2>Mã giảm giá cho tất cả</h2>
-                                    <div class="row">
+                                    <!-- <div class="row">
                                         <div ng-repeat="voucher in vouchers">
                                             <div class="mb-3">
                                                 <div ng-if="voucher.type ==='ALL'">
@@ -267,9 +276,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <h2>Mã giảm giá phần trăm</h2>
-                                    <div class="row">
+                                    <!-- <div class="row">
                                         <div ng-repeat="voucher in vouchers">
                                             <div class=" mb-3" style="float: left;">
                                                 <div ng-if="voucher.type ==='PT'">
@@ -292,9 +301,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <h2>Mã giảm giá tiền</h2>
-                                    <div class="row">
+                                    <!-- <div class="row">
                                         <div ng-repeat="voucher in vouchers">
                                             <div class=" mb-3">
                                                 <div ng-if="voucher.type ==='TM'">
@@ -317,7 +326,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </td>
                         </tr>
@@ -366,7 +375,7 @@
                         <tr class="shipping_area">
                             <td colspan="2">
                                 <h1>Khuyến mãi sự kiện</h1>
-                                <div class="row">
+                                <!-- <div class="row">
                                     <div ng-repeat="voucher in vouchers">
                                         <div class=" mb-3">
                                             <div ng-if="voucher.type ==='EVENT'">
@@ -389,7 +398,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                             </td>
 
                             <td>
@@ -419,8 +428,11 @@
                             </td>
                             <td>
                                 <div class="checkout_btn_inner d-flex align-items-center">
-                                    <a class="gray_btn" href="#">Continue Shopping</a>
-                                    <a class="primary-btn ml-2" href="#">Proceed to checkout</a>
+                                    <a class="btn btn-primary mr-5" href="/index.html#!/shop/category">Tiếp tục mua
+                                        sắm</a>
+                                    <a class="btn btn-primary ms-5" style="float: right;"
+                                        href="/index.html#!/shop/checkout">Tiến hành thanh toán
+                                        checkout</a>
                                 </div>
                             </td>
                         </tr>

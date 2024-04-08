@@ -2,17 +2,16 @@ package com.java6.java_6_asm.service.impl;
 
 import com.java6.java_6_asm.config.ConfigVNPay;
 import com.java6.java_6_asm.entities.Cart;
+import com.java6.java_6_asm.entities.Order;
 import com.java6.java_6_asm.entities.User;
 import com.java6.java_6_asm.entities.product.DetailsColor;
 import com.java6.java_6_asm.entities.product.Product;
 import com.java6.java_6_asm.entities.product.ProductImage;
 import com.java6.java_6_asm.exception.BadRequestException;
 import com.java6.java_6_asm.exception.NotFoundException;
-import com.java6.java_6_asm.model.request.CartColorRequest;
-import com.java6.java_6_asm.model.request.CartRequest;
-import com.java6.java_6_asm.model.request.CartSizeRequest;
-import com.java6.java_6_asm.model.request.DeleteCartUserAnhProductRequest;
+import com.java6.java_6_asm.model.request.*;
 import com.java6.java_6_asm.repositories.CartRepository;
+import com.java6.java_6_asm.repositories.OrderRepository;
 import com.java6.java_6_asm.repositories.UserRepository;
 import com.java6.java_6_asm.repositories.product.DetailsColorRepository;
 import com.java6.java_6_asm.repositories.product.ProductImageRepository;
@@ -20,12 +19,17 @@ import com.java6.java_6_asm.repositories.product.ProductRepository;
 import com.java6.java_6_asm.security.service.GetTokenRefreshToken;
 import com.java6.java_6_asm.security.service.JwtService;
 import com.java6.java_6_asm.service.service.CartService;
+import com.java6.java_6_asm.service.service.OrderService;
 import com.java6.java_6_asm.service.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CartServiceImpl implements CartService {
@@ -44,6 +48,50 @@ public class CartServiceImpl implements CartService {
     ProductImageRepository productImageRepository;
     @Autowired
     DetailsColorRepository detailsColorRepository;
+    @Autowired
+    OrderRepository orderRepository;
+
+
+    @Override
+    public List<Cart> findAllCartId(CartIdRequest cartIdRequest) {
+        List<Cart> newListCartId = new ArrayList<>();
+        String[] cartIds = cartIdRequest.getCartId();
+        System.out.println("dd: " + cartIds);
+        for (String cartId : cartIds) {
+            Optional<Cart> cartOptional = cartRepository.findById(cartId);
+            if (cartOptional.isPresent()) {
+                newListCartId.add(cartOptional.get());
+            }
+        }
+
+        return newListCartId;
+    }
+
+    @Override
+    public List<Cart> updateCheckOut(CartIdRequest cartIdRequest) {
+        List<Cart> newListCartId = new ArrayList<>();
+        String orderId = null;
+        String[] cartIds = cartIdRequest.getCartId();
+        for (String cartId : cartIds) {
+            Optional<Cart> cartOptional = cartRepository.findById(cartId);
+            if (cartOptional.isPresent()) {
+                newListCartId.add(cartOptional.get());
+            }
+        }
+        for (Cart cart : newListCartId) {
+            cart.setCheckPay(true);
+            cartRepository.save(cart);
+            if (cart.getOrder() != null) {
+                orderId = cart.getOrder().getOrderId();
+                Order orderList = orderRepository.findById(orderId).orElseThrow();
+                orderList.setStatus("Thành công");
+                orderList.setNote("Đã đóng gói");
+                orderRepository.save(orderList);
+            }
+        }
+
+        return newListCartId;
+    }
 
     @Override
     public List<Cart> findAllByUser(HttpServletRequest httpServletRequest) {
@@ -69,6 +117,14 @@ public class CartServiceImpl implements CartService {
         String email = jwtService.extractUsername(token);
         Product product = productRepository.findById(cartRequest.getProductId()).orElseThrow(() -> new NotFoundException("Not found product with Id: " + cartRequest.getProductId()));
         User user = userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("Not found userId with Id: " + cartRequest.getUserId()));
+        Optional<Order> order = orderRepository.findByUserId(user.getId(), "Đặt hàng");
+        if (order.isEmpty()) {
+            Order orderNew = new Order();
+            orderNew.setOrderId(ConfigVNPay.getRandomString(12));
+            orderNew.setStatus("Đặt hàng");
+            orderNew.setUser(user);
+            orderRepository.save(orderNew);
+        }
         DetailsColor detailsColor = detailsColorRepository.findById(cartRequest.getColorId()).orElseThrow(null);
         System.out.println("checkcart: " + user.getId() + " " + product.getProductId() + " " + cartRequest.getColorId() + " " + cartRequest.getSizeId() + " - " + detailsColor.getDetailsColorId());
         Cart checkCart = cartRepository.findByProductIDAndAndUserID(user.getId(), product.getProductId(), cartRequest.getColorId(), cartRequest.getSizeId());
@@ -111,6 +167,17 @@ public class CartServiceImpl implements CartService {
         String token = GetTokenRefreshToken.getToken(httpServletRequest);
         String email = jwtService.extractUsername(token);
         User user = userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("Not found userId with Id: " + cartRequest.getUserId()));
+
+        Optional<Order> order = orderRepository.findByUserId(user.getId(), "Đặt hàng");
+        System.out.println("số " + order);
+        if (order.isEmpty()) {
+
+            Order orderNew = new Order();
+            orderNew.setOrderId(ConfigVNPay.getRandomString(12));
+            orderNew.setStatus("Đặt hàng");
+            orderNew.setUser(user);
+            orderRepository.save(orderNew);
+        }
         if (cartRequest.getQuantity() > cart.getQuantity()) {
             product.setQuantityInStock(product.getQuantityInStock() - (cartRequest.getQuantity() - cart.getQuantity()));
             productRepository.save(product);
@@ -123,6 +190,7 @@ public class CartServiceImpl implements CartService {
         cart.setProduct(product);
         cart.setQuantity(cartRequest.getQuantity());
         cart.setCheckPay(false);
+        cart.setOrder(order.get());
         cartRepository.save(cart);
         return cart;
     }

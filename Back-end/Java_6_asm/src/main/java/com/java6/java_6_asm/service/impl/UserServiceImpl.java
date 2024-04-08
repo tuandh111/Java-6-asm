@@ -2,9 +2,13 @@ package com.java6.java_6_asm.service.impl;
 
 import com.java6.java_6_asm.entities.User;
 import com.java6.java_6_asm.exception.NotFoundException;
+import com.java6.java_6_asm.model.response.UserWithIdResponse;
 import com.java6.java_6_asm.repositories.UserRepository;
 import com.java6.java_6_asm.model.request.ChangePasswordRequest;
+import com.java6.java_6_asm.security.service.GetTokenRefreshToken;
+import com.java6.java_6_asm.security.service.JwtService;
 import com.java6.java_6_asm.service.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,6 +26,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    JwtService jwtService;
 
     @Override
     public void changePassword(ChangePasswordRequest request, Principal connectedUser) {
@@ -64,5 +70,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> findByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    @Override
+    public UserWithIdResponse findByUserId(HttpServletRequest httpServletRequest) {
+        String token = GetTokenRefreshToken.getToken(httpServletRequest);
+        String email = jwtService.extractUsername(token);
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("Not found user with email: " + email));
+        UserWithIdResponse userWithIdResponse= new UserWithIdResponse();
+        userWithIdResponse.setId(user.getId());
+        userWithIdResponse.setGender(user.getGender());
+        userWithIdResponse.setEmail(email);
+        userWithIdResponse.setLastname(user.getLastname());
+        userWithIdResponse.setFirstname(user.getFirstname());
+        userWithIdResponse.setBirthDay(user.getBirthDay());
+        return userWithIdResponse;
     }
 }

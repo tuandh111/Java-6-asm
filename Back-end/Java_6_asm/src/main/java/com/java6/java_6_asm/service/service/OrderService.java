@@ -4,6 +4,7 @@ import com.java6.java_6_asm.entities.Order;
 import com.java6.java_6_asm.entities.product.Brand;
 import com.java6.java_6_asm.model.request.OrderRequest;
 import com.java6.java_6_asm.model.response.OrderAndDetailRespone;
+import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,4 +15,8 @@ public interface OrderService {
 
     Order update(String orderId, OrderRequest orderRequest);
     Optional<Order> findById(String orderId);
+
+    Order saveOrder(HttpServletRequest httpServletRequest, OrderRequest orderRequest);
+
+    Order findByUserId(HttpServletRequest httpServletRequest);
 }

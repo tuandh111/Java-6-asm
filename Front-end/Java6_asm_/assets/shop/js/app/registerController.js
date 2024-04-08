@@ -28,6 +28,8 @@ app.controller('SignUpController', ['$scope', '$http', function ($scope, $http) 
                         title: "Thành công!",
                         text: "Đăng ký thành công!",
                         icon: "success"
+                    }).then(function () {
+                        window.location.href = '/index.html#!/shop/login';
                     });
                     $scope.clearForm();
                     console.log('Register successful');

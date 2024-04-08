@@ -6,10 +6,7 @@ import com.java6.java_6_asm.entities.Cart;
 import com.java6.java_6_asm.entities.User;
 import com.java6.java_6_asm.entities.product.Product;
 import com.java6.java_6_asm.exception.NotFoundException;
-import com.java6.java_6_asm.model.request.CartColorRequest;
-import com.java6.java_6_asm.model.request.CartRequest;
-import com.java6.java_6_asm.model.request.CartSizeRequest;
-import com.java6.java_6_asm.model.request.DeleteCartUserAnhProductRequest;
+import com.java6.java_6_asm.model.request.*;
 import com.java6.java_6_asm.model.response.MessageResponse;
 import com.java6.java_6_asm.security.service.GetTokenRefreshToken;
 import com.java6.java_6_asm.security.service.JwtService;
@@ -44,18 +41,20 @@ public class CartController {
     }
     @GetMapping("/management/twobee/carts")
     public ResponseEntity<?> getAllCartForAdmin(){
+
+    @GetMapping("/auth/twobee/carts")
+    public ResponseEntity<?> getAllCartForAdmin() {
         return ResponseEntity.ok(cartService.findAllCartForAdmin());
     }
 
     @PostMapping("/update-cart/{id}")
-    public ResponseEntity<Cart> updateCartByUser(@PathVariable("id") String cartId,
-            @RequestBody CartRequest cartRequest,HttpServletRequest httpServletRequest) {
-        return ResponseEntity.ok(cartService.updateCart(cartId, cartRequest,httpServletRequest));
+    public ResponseEntity<Cart> updateCartByUser(@PathVariable("id") String cartId, @RequestBody CartRequest cartRequest, HttpServletRequest httpServletRequest) {
+        return ResponseEntity.ok(cartService.updateCart(cartId, cartRequest, httpServletRequest));
     }
 
     @PostMapping("/update-cart-color/{id}")
-    public ResponseEntity<?> updateCartColorByUser(@PathVariable("id") String cartId, @RequestBody CartColorRequest cartColorRequest,HttpServletRequest httpServletRequest) {
-        Cart cart = cartService.updateCartColor(cartId, cartColorRequest,httpServletRequest);
+    public ResponseEntity<?> updateCartColorByUser(@PathVariable("id") String cartId, @RequestBody CartColorRequest cartColorRequest, HttpServletRequest httpServletRequest) {
+        Cart cart = cartService.updateCartColor(cartId, cartColorRequest, httpServletRequest);
         Map<String, Object> jsonError = new HashMap<>();
         if (cart == null) {
             jsonError.put("message", "ErrorCart");
@@ -65,8 +64,8 @@ public class CartController {
     }
 
     @PostMapping("/update-cart-size/{id}")
-    public ResponseEntity<?> updateCartSizeByUser(@PathVariable("id") String cartId, @RequestBody CartSizeRequest cartSizeRequest,HttpServletRequest httpServletRequest) {
-        Cart cart = cartService.updateCartSize(cartId, cartSizeRequest,httpServletRequest);
+    public ResponseEntity<?> updateCartSizeByUser(@PathVariable("id") String cartId, @RequestBody CartSizeRequest cartSizeRequest, HttpServletRequest httpServletRequest) {
+        Cart cart = cartService.updateCartSize(cartId, cartSizeRequest, httpServletRequest);
         Map<String, Object> jsonError = new HashMap<>();
         if (cart == null) {
             jsonError.put("message", "ErrorCart");
@@ -92,4 +91,12 @@ public class CartController {
         return ResponseEntity.ok(cartService.findByProductIDAndAndUserID(cartRequest.getUserId(), cartRequest.getProductId()));
     }
 
+    @PostMapping("/get-cartId")
+    public ResponseEntity<List<Cart>> findAllByCartId(@RequestBody CartIdRequest cartRequest) {
+        return ResponseEntity.ok(cartService.findAllCartId(cartRequest));
+    }
+    @PostMapping("/check-out-cartId")
+    public ResponseEntity<List<Cart>> checkoutUpdate(@RequestBody CartIdRequest cartRequest) {
+        return ResponseEntity.ok(cartService.updateCheckOut(cartRequest));
+    }
 }

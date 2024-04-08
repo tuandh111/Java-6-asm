@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Nationalized;
 
 import java.util.Date;
 
@@ -17,8 +18,10 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int postId;
 
+    @Nationalized
     private String title;
 
+    @Nationalized
     private String content;
 
     private String image;
@@ -26,7 +29,7 @@ public class Post {
     @Temporal(TemporalType.DATE)
     private Date createDate;
 
-    private Integer views ;
+    private Integer views;
 
     private Integer userId;
 }
