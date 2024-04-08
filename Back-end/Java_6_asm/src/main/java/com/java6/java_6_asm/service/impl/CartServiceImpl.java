@@ -68,10 +68,10 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public List<Cart> updateCheckOut(CartIdRequest cartIdRequest) {
+    public List<Cart> updateCheckOut(CheckOutCartIdRequest checkOutCartIdRequest) {
         List<Cart> newListCartId = new ArrayList<>();
         String orderId = null;
-        String[] cartIds = cartIdRequest.getCartId();
+        String[] cartIds = checkOutCartIdRequest.getCartId();
         for (String cartId : cartIds) {
             Optional<Cart> cartOptional = cartRepository.findById(cartId);
             if (cartOptional.isPresent()) {
@@ -83,13 +83,16 @@ public class CartServiceImpl implements CartService {
             cartRepository.save(cart);
             if (cart.getOrder() != null) {
                 orderId = cart.getOrder().getOrderId();
-                Order orderList = orderRepository.findById(orderId).orElseThrow();
-                orderList.setStatus("Thành công");
-                orderList.setNote("Đã đóng gói");
-                orderRepository.save(orderList);
             }
         }
-
+        if (orderId != null) {
+            Order orderList = orderRepository.findById(orderId).orElseThrow(null);
+            orderList.setContactId(checkOutCartIdRequest.getContactId());
+            orderList.setTotalAmount(checkOutCartIdRequest.getTotalCartAll());
+            orderList.setStatus("Đặt hàng");
+            orderList.setNote("Đơn hàng đang giao");
+            orderRepository.save(orderList);
+        }
         return newListCartId;
     }
 

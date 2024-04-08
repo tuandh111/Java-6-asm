@@ -68,6 +68,20 @@ public class OrderServiceImpl implements OrderService {
         String token = GetTokenRefreshToken.getToken(httpServletRequest);
         String email = jwtService.extractUsername(token);
         User user = userRepository.findByEmail(email).orElseThrow(null);
-        return orderRepository.findByUserId(user.getId(),"Đặt hàng").orElseThrow(null);
+        Optional<Order> order = orderRepository.findByUserId(user.getId(), "Đặt hàng");
+        if (order.isPresent()) {
+            return order.get();
+        }
+        return null;
+
+    }
+
+    @Override
+    public List<Order> findByListOrder(HttpServletRequest httpServletRequest) {
+        String token = GetTokenRefreshToken.getToken(httpServletRequest);
+        String email = jwtService.extractUsername(token);
+        User user = userRepository.findByEmail(email).orElseThrow(null);
+        List<Order> order = orderRepository.findByListOrder(user.getId(), "Đặt hàng");
+        return order;
     }
 }

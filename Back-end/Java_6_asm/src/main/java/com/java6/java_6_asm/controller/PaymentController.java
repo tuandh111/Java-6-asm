@@ -6,6 +6,7 @@ import com.java6.java_6_asm.entities.Cart;
 import com.java6.java_6_asm.entities.User;
 import com.java6.java_6_asm.entities.product.Product;
 import com.java6.java_6_asm.model.request.PaymentRequest;
+import com.java6.java_6_asm.model.response.MessageResponse;
 import com.java6.java_6_asm.repositories.CartRepository;
 import com.java6.java_6_asm.repositories.PaymentRepository;
 import com.java6.java_6_asm.repositories.UserRepository;
@@ -41,17 +42,18 @@ public class PaymentController {
     @Autowired
     UserRepository userRepository;
 
-    @GetMapping("/pay")
+    @PostMapping("/pay")
     public ResponseEntity<?> getPay(HttpServletRequest httpServletRequest, @RequestBody PaymentRequest paymentRequest) throws UnsupportedEncodingException {
         String token = GetTokenRefreshToken.getToken(httpServletRequest);
         String email = jwtService.extractUsername(token);
         User userCustom = userRepository.findByEmail(email).orElseThrow(null);
         List<Cart> cartList = cartRepository.findAllByUser(userCustom);
-        for (Cart cart : cartList){
+        for (Cart cart : cartList) {
             Product product = productRepository.findById(cart.getProduct().getProductId()).orElseThrow(null);
-            if ( product.getQuantityInStock()==0) {
+            if (product.getQuantityInStock() == 0) {
                 return ResponseEntity.ok("failQuantity");
-            }if(product.getQuantityInStock()-cart.getQuantity() < 0 ){
+            }
+            if (product.getQuantityInStock() - cart.getQuantity() < 0) {
                 return ResponseEntity.ok("NotEnoughProducts");
             }
         }
@@ -61,7 +63,7 @@ public class PaymentController {
         String vnp_Version = "2.1.0";
         String vnp_Command = "pay";
         String orderType = "other";
-        long amount = totalPrice * 100;
+        long amount = totalPrice *100;
         String bankCode = "NCB";
 
         String vnp_TxnRef = ConfigVNPay.getRandomNumber(8);
@@ -82,7 +84,7 @@ public class PaymentController {
         vnp_Params.put("vnp_OrderType", orderType);
 
         vnp_Params.put("vnp_Locale", "vn");
-        vnp_Params.put("vnp_ReturnUrl", ConfigVNPay.vnp_ReturnUrl+"?PhoneID="+paymentRequest.getNumberPhone());
+        vnp_Params.put("vnp_ReturnUrl", ConfigVNPay.vnp_ReturnUrl + "?PhoneID=" + paymentRequest.getNumberPhone());
         vnp_Params.put("vnp_IpAddr", vnp_IpAddr);
 
         Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
@@ -121,11 +123,13 @@ public class PaymentController {
         String vnp_SecureHash = ConfigVNPay.hmacSHA512(ConfigVNPay.secretKey, hashData.toString());
         queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
         String paymentUrl = ConfigVNPay.vnp_PayUrl + "?" + queryUrl;
-        return ResponseEntity.ok(paymentUrl);
+        System.out.println("url: " + paymentUrl);
+        return ResponseEntity.ok(new MessageResponse(paymentUrl));
     }
 
-    @GetMapping("/payment")
-    public String paymentController(Model model,HttpServletRequest httpServletRequest, @RequestParam("PhoneID") String PhoneID, @RequestParam("vnp_Amount") String vnp_Amount, @RequestParam("vnp_BankCode") String vnp_BankCode, @RequestParam("vnp_BankTranNo") String vnp_BankTranNo, @RequestParam("vnp_CardType") String vnp_CardType, @RequestParam("vnp_OrderInfo") String vnp_OrderInfo, @RequestParam("vnp_PayDate") String vnp_PayDate, @RequestParam("vnp_ResponseCode") String vnp_ResponseCode, @RequestParam("vnp_TmnCode") String vnp_TmnCode, @RequestParam("vnp_TransactionNo") String vnp_TransactionNo, @RequestParam("vnp_TransactionStatus") String vnp_TransactionStatus, @RequestParam("vnp_TxnRef") String vnp_TxnRef, @RequestParam("vnp_SecureHash") String vnp_SecureHash) {
+    @GetMapping("/auth/payment")
+    public String paymentController(Model model, HttpServletRequest httpServletRequest, @RequestParam("PhoneID") String PhoneID, @RequestParam("vnp_Amount") String vnp_Amount, @RequestParam("vnp_BankCode") String vnp_BankCode, @RequestParam("vnp_BankTranNo") String vnp_BankTranNo, @RequestParam("vnp_CardType") String vnp_CardType, @RequestParam("vnp_OrderInfo") String vnp_OrderInfo, @RequestParam("vnp_PayDate") String vnp_PayDate, @RequestParam("vnp_ResponseCode") String vnp_ResponseCode, @RequestParam("vnp_TmnCode") String vnp_TmnCode, @RequestParam("vnp_TransactionNo") String vnp_TransactionNo, @RequestParam("vnp_TransactionStatus") String vnp_TransactionStatus, @RequestParam("vnp_TxnRef") String vnp_TxnRef, @RequestParam("vnp_SecureHash") String vnp_SecureHash) {
+        System.out.println("Chạy thành công");
         // Thực hiện xử lý các tham số truy vấn ở đây
         http:
         //localhost:8080/cart?vnp_Amount=250000000
@@ -139,7 +143,7 @@ public class PaymentController {
         // vnp_TransactionNo=14299889&
         // vnp_TransactionStatus=00&
         // vnp_TxnRef=78587458&vnp_SecureHash=3ec5c00659bbffa941d0aa530c2a78eaae315d6df0f3f8469e883c5aafeb00c7e74f7915141f9e009662c2a9e0ffe60ae84b539e66424459c0393ea069e71c1a
-        System.out.println("vnp_Amount: " + vnp_Amount);
+        System.out.println("vnp_Amount: " + Double.parseDouble(vnp_Amount)/100);
         System.out.println("vnp_BankCode: " + vnp_BankCode);
         System.out.println("vnp_BankTranNo: " + vnp_BankTranNo);
         System.out.println("vnp_CardType: " + vnp_CardType);

@@ -375,12 +375,13 @@ function cartController($scope, $http, $rootScope) {
                 $scope.totalCartAll = $scope.totalCartValue - 50000
 
               } else {
+                $scope.totalCartAll = $scope.totalCartValue
                 $scope.discountTitle = ''
                 $scope.discount = ''
 
               }
               $scope.freeShip = '25,000 VNĐ';
-              $scope.totalCartAll = $scope.totalCartValue + 25000
+              $scope.totalCartAll = $scope.totalCartAll + 25000
             } else {
 
               $scope.discountTitle = ''
@@ -484,11 +485,12 @@ function cartController($scope, $http, $rootScope) {
               $scope.totalCartAll = $scope.totalCartValue - 50000
             }
             else {
+              $scope.totalCartAll = $scope.totalCartValue
               $scope.discountTitle = ''
               $scope.discount = ''
             }
             $scope.freeShip = '25,000 VNĐ';
-            $scope.totalCartAll = $scope.totalCartValue + 25000
+            $scope.totalCartAll = $scope.totalCartAll + 25000
           } else {
             $scope.discountTitle = ''
             $scope.discount = ''
@@ -957,11 +959,12 @@ function cartController($scope, $http, $rootScope) {
         $scope.discount = ' -50,000 VNĐ'
         $scope.totalCartAll = $scope.totalCartValue - 50000
       } else {
+        $scope.totalCartAll = $scope.totalCartValue
         $scope.discountTitle = ''
         $scope.discount = ''
       }
       $scope.freeShip = '25,000 VNĐ';
-      $scope.totalCartAll = $scope.totalCartValue + 25000
+      $scope.totalCartAll = $scope.totalCartAll + 25000
     } else {
       $scope.discount = ''
       $scope.freeShip = '';
@@ -1056,6 +1059,7 @@ function cartController($scope, $http, $rootScope) {
     if (cart.quantity > 1) {
       cart.quantity--;
       $scope.updateCart(cart);
+      $scope.updatePrice(cart);
     } else {
       Swal.fire({
         title: "Lỗi!",

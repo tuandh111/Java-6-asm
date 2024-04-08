@@ -40,4 +40,6 @@ public class Order {
     @JsonIgnore
     private List<Cart> carts;
 
+    private Integer contactId;
+
 }
