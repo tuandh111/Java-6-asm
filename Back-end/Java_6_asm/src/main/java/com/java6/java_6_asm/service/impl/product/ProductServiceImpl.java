@@ -99,11 +99,11 @@ public class ProductServiceImpl implements ProductService {
         data.put("brands",brandRepository.findAllBrandActive());
         data.put("sizes", sizeRepository.findAllSizeActive());
         data.put("colors",colorRepository.findAllColorActive());
-        data.put("productImage",productImageRepository.findAll());
-        data.put("detailsQuantity",detailsQuantityRepository.findAll());
-        data.put("detailsColor", detailsColorRepository.findAll());
-        data.put("detailsSize",detailsSizeRepository.findAll());
-        data.put("discount", discountRepository.findAll());
+        data.put("productImages",productImageRepository.findAll());
+        data.put("detailsQuantitys",detailsQuantityRepository.findAll());
+        data.put("detailsColors", detailsColorRepository.findAll());
+        data.put("detailsSizes",detailsSizeRepository.findAll());
+        data.put("discounts", discountRepository.findAll());
         return  data;
     }
 

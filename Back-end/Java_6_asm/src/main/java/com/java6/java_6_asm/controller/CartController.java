@@ -39,8 +39,8 @@ public class CartController {
     public ResponseEntity<List<Cart>> getAllCartByUser(HttpServletRequest httpServletRequest) {
         return ResponseEntity.ok(cartService.findAllByUser(httpServletRequest));
     }
-    @GetMapping("/management/twobee/carts")
-    public ResponseEntity<?> getAllCartForAdmin(){
+//    @GetMapping("/management/twobee/carts")
+//    public ResponseEntity<?> getAllCartForAdmin(){
 
     @GetMapping("/auth/twobee/carts")
     public ResponseEntity<?> getAllCartForAdmin() {
