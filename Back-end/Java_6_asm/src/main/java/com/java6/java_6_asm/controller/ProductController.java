@@ -51,19 +51,20 @@ public class ProductController {
         return ResponseEntity.ok(response);
     }
 
-//    @PutMapping("/management/twobee/products/{id}")
-//    public ResponseEntity<Product> put(@PathVariable("id") Integer id,@RequestBody ProductRequest productRequest){
-//        Product response = productService.update(id,product);
-//        if(response==null){
-//            return ResponseEntity.notFound().build();
-//        }
-//        return ResponseEntity.ok(response);
-//    }
-
     @PutMapping("/management/twobee/products/{id}")
-    public void testput(@PathVariable("id") Integer id,@RequestBody ProductRequest productRequest){
-        System.out.println("productRequest"+productRequest);
+    public ResponseEntity<Product> put(@PathVariable("id") Integer id,@RequestBody ProductRequest productRequest){
+        System.out.println("productRequest "+productRequest);
+        Product response = productService.update(id,productRequest);
+        if(response==null){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(response);
     }
+
+//    @PutMapping("/management/twobee/products/{id}")
+//    public void testput(@PathVariable("id") Integer id,@RequestBody ProductRequest productRequest){
+//        System.out.println("productRequest"+productRequest);
+//    }
 
     @DeleteMapping("/management/twobee/products/{id}")
     public ResponseEntity<Product> delete(@PathVariable("id") Integer id){

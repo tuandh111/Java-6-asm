@@ -84,10 +84,6 @@ app.controller('AdminProductController', function ($scope, $http, $rootScope, $l
     }
 
     $scope.uploadImg = (files) => {
-        if (files == null) {
-            alert("Upload hình chưa thành công")
-            return
-        }
         var form = new FormData();
         for (var i = 0; i < files.length; i++) {
             form.append("files", files[i]);
@@ -273,11 +269,10 @@ app.controller('AdminProductController', function ($scope, $http, $rootScope, $l
                 return
             }
             // if ($scope.filenames.length > 0) {
-            //    
+            //     $scope.formProduct.images = $scope.filenames
             // } else {
             //     $scope.formProduct.images = ""
             // }
-            $scope.formProduct.images = $scope.filenames
             var requsetProductJSON = angular.toJson($scope.formProduct)
             var prodId = $scope.formProduct.productId === undefined ? -1 : $scope.formProduct.productId;
             // console.log("requsetProductJSON", requsetProductJSON);

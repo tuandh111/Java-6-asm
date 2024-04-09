@@ -84,10 +84,6 @@ app.controller('AdminProductController', function ($scope, $http, $rootScope, $l
     }
 
     $scope.uploadImg = (files) => {
-        if (files == null) {
-            alert("Upload hình chưa thành công")
-            return
-        }
         var form = new FormData();
         for (var i = 0; i < files.length; i++) {
             form.append("files", files[i]);
@@ -206,13 +202,12 @@ app.controller('AdminProductController', function ($scope, $http, $rootScope, $l
         };
         $scope.editProduct = (product) => {
             console.log("editProduct", product);
-            $scope.currentBrand = product.brand.nameBrand
-            $scope.currentSizes = $scope.getSizesByProduct(product)
-            $scope.currentColors = $scope.getColorsByProduct(product)
-            console.log();
+            // console.log("product.brand", product.brand);
+            $scope.curentBrand = product.brand.nameBrand
             $scope.formProduct = {
                 productId: product.productId,
                 nameProduct: product.productName,
+
                 quantityInStock: $scope.getQuantityInStockByProduct(product),
                 price: product.price,
                 discount: $scope.getDiscountByProduct(product),
@@ -239,10 +234,6 @@ app.controller('AdminProductController', function ($scope, $http, $rootScope, $l
         $scope.updateProduct = function () {
             if ($scope.formProduct.productId == -1) {
                 alert("Vui lòng chọn sản phẩm")
-                return
-            }
-            if ($scope.filenames.length <= 0) {
-                alert("Vui lòng chọn ảnh sản phẩm")
                 return
             }
             if ($scope.formProduct.nameProduct == "") {
@@ -272,16 +263,15 @@ app.controller('AdminProductController', function ($scope, $http, $rootScope, $l
                 alert('Please select a color')
                 return
             }
-            // if ($scope.filenames.length > 0) {
-            //    
-            // } else {
-            //     $scope.formProduct.images = ""
-            // }
-            $scope.formProduct.images = $scope.filenames
+            if ($scope.filenames.length > 0) {
+                $scope.formProduct.images = $scope.filenames
+            } else {
+                $scope.formProduct.images = ""
+            }
             var requsetProductJSON = angular.toJson($scope.formProduct)
             var prodId = $scope.formProduct.productId === undefined ? -1 : $scope.formProduct.productId;
             // console.log("requsetProductJSON", requsetProductJSON);
-            console.log("$scope.formProduct", $scope.formProduct);
+            // console.log("$scope.formProduct", $scope.formProduct);
             //gọi api đi
             $http.put(url + "/products/" + prodId, requsetProductJSON, { headers: headers }).then(
                 response => {
@@ -302,20 +292,22 @@ app.controller('AdminProductController', function ($scope, $http, $rootScope, $l
                             title: "Thành công!",
                             html: "Đã cập nhật sản phẩm thành công!",
                             icon: "success"
+                        }).then(rs => {
+                            if (rs.isConfirmed) {
+                                const triggerSecondTabEl = document.querySelector('#manageBrands li:nth-child(2) button');
+                                new bootstrap.Tab(triggerSecondTabEl).show()
+                                const triggerFirstTabElProduct = document.querySelector('#manageProducts li:first-child button')
+                                bootstrap.Tab.getInstance(triggerFirstTabElProduct).show()
+                            }
                         })
-                        const secondTabButton = document.getElementById('list-tab');
-                        secondTabButton.click();
-                        $scope.listInfo();
                     }).catch(error => {
                         console.log("error for post /move/images", error);
                     })
                 }).catch(err => {
-                    console.log("error form update product", err.data);
+                    console.log("error", err.data);
                 })
         }
     }
-
-
 
     $scope.getBrand = function () {
         return $scope.formProduct.selectedBrand;

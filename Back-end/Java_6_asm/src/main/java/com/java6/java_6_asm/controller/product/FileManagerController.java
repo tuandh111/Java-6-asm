@@ -36,4 +36,22 @@ public class FileManagerController {
     public void delete(@PathVariable("folder") String folder, @PathVariable("file") String file){
          fileManagerService.delete(folder,file);
     }
+
+    @PostMapping("/management/twobee/move/{folder}")
+    public void move(@PathVariable("folder") String folder) {
+        System.out.println("move folder " +folder);
+        fileManagerService.move(folder);
+    }
+
+    @GetMapping("/auth/twobee/uploadImage/{file}")
+    public byte[] dowmloadImagesForProduct(@PathVariable("file") String file) {
+        String folder = "uploadImage"; // Đọc tệp từ thư mục uploadImage
+        return fileManagerService.readImgProd(folder, file);
+    }
+
+    @GetMapping("/management/twobee/uploadImage")
+    public  List<String> listUploadImage (){
+        String folder = "uploadImage";
+        return fileManagerService.list(folder);
+    }
 }

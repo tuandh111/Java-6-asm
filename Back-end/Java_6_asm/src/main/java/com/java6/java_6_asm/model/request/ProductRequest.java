@@ -13,16 +13,16 @@ public class ProductRequest {
     private Integer productId;
     private String nameProduct;//product
     private Boolean isActive;////product
-    private String selectedBrandId;////product
+    private String selectedBrand;////product
     private Double price; //product
 
     private List<String> images;//product image
 
-    private double discountedPrice;//discount
+    private double discount;//discount
 
-    private String selectedColorId;//detail Color
+    private String selectedColor;//detail Color
 
-    private String selectedSizeId;//detail size
+    private String selectedSize;//detail size
 
     private int quantityInStock;//details quantity
 }

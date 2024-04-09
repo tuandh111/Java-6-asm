@@ -69,35 +69,36 @@ public class ProductServiceImpl implements ProductService {
         product.setProductName(productRequest.getNameProduct());
         product.setIsActive(productRequest.getIsActive());
         product.setPrice(productRequest.getPrice());
-        Brand brand = brandRepository.findById(Integer.valueOf(productRequest.getSelectedBrandId())).get();
+        Brand brand = brandRepository.findById(Integer.valueOf(productRequest.getSelectedBrand())).get();
         product.setBrand(brand);
         productRepository.save(product);
 
         //Cập nhật lại hình ảnh lại  hình ảnh
         List<String> newImages = productRequest.getImages();
-        if (!newImages.isEmpty()) {
-            List<ProductImage> productImages = productImageRepository.findImageByProduct(productId);
-           for(ProductImage productImage:productImages){
-               productImageRepository.delete(productImage);
-           }
-           for(String newImage:newImages){
-               ProductImage productImage = new ProductImage();
-               productImage.setImageName(newImage);
-               productImage.setProduct(product);
-               productImageRepository.save(productImage);
-           }
+        if(newImages!=null){
+                List<ProductImage> productImages = productImageRepository.findImageByProduct(productId);
+                for(ProductImage productImage:productImages){
+                    productImageRepository.delete(productImage);
+                }
+                for(String newImage:newImages){
+                    ProductImage productImage = new ProductImage();
+                    productImage.setImageName(newImage);
+                    productImage.setProduct(product);
+                    productImageRepository.save(productImage);
+                }
         }
+
         //
 //        Discount discount = new Discount();
         List<Discount> discounts= discountRepository.findDiscountByProduct(productId);
          for(Discount discount:discounts){
-             discount.setDiscountedPrice(productRequest.getDiscountedPrice());
+             discount.setDiscountedPrice(productRequest.getDiscount());
              discountRepository.save(discount);
          }
 
 
         List<DetailsSize> detailsSizes=detailsSizeRepository.findDetailSizeByProduct(productId);
-        Size size = sizeRepository.findById(Integer.valueOf(productRequest.getSelectedSizeId())).orElse(null);
+        Size size = sizeRepository.findById(Integer.valueOf(productRequest.getSelectedSize())).orElse(null);
         DetailsSize tempDetailsSize=null;
         if (size != null && detailsSizes.stream().noneMatch(detailsSize -> detailsSize.getSize().getSizeId() == size.getSizeId())) {
             // Nếu không tồn tại, tạo mới một DetailsSize và thêm vào detailsSizes
@@ -117,7 +118,7 @@ public class ProductServiceImpl implements ProductService {
 
 
         List<DetailsColor> detailsColors = detailsColorRepository.findDetailsColorByProduct(productId);
-        Color color = colorRepository.findById(Integer.valueOf(productRequest.getSelectedColorId())).orElse(null);
+        Color color = colorRepository.findById(Integer.valueOf(productRequest.getSelectedColor())).orElse(null);
         DetailsColor tempDetailColor=null;
         if(color!=null && detailsColors.stream().noneMatch(detailColor ->detailColor.getColor().getColorId()==color.getColorId())){
             DetailsColor newDetailsColor = new DetailsColor();

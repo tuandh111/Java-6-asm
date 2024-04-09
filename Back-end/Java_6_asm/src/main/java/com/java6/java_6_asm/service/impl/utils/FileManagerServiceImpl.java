@@ -11,8 +11,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 public class FileManagerServiceImpl implements FileManagerService {
@@ -66,6 +68,74 @@ public class FileManagerServiceImpl implements FileManagerService {
     }
 
     @Override
+    public void move(String folder) {
+       // Path uploadImagePath = Paths.get(app.getRealPath("/files/"), "uploadImage");
+        Path projectRoot = Paths.get(""); // Đây là một đường dẫn tương đối trỏ đến thư mục gốc của dự án
+
+        // Xác định đường dẫn của thư mục uploadImage trong dự án
+        Path uploadImagePath = projectRoot.resolve("files").resolve("uploadImage");
+        // Kiểm tra nếu thư mục uploadImage không tồn tại thì tạo mới
+        if (!Files.exists(uploadImagePath)) {
+            try {
+                Files.createDirectories(uploadImagePath);
+            } catch (IOException e) {
+                throw new RuntimeException("Failed to create directory: " + uploadImagePath.toString(), e);
+            }
+        }
+
+        // Xác định đường dẫn của thư mục gốc
+        Path sourceFolderPath = Paths.get(app.getRealPath("/files/"), folder);
+        try {
+            if (!Files.exists(sourceFolderPath) || !Files.isDirectory(sourceFolderPath) || !hasFiles(sourceFolderPath)) {
+                return; // Không cần di chuyển nếu thư mục gốc không tồn tại hoặc rỗng
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        // Di chuyển tất cả các tệp từ thư mục gốc sang thư mục uploadImage
+        try {
+            Files.walk(sourceFolderPath)
+                    .filter(Files::isRegularFile)
+                    .forEach(sourceFile -> {
+                        try {
+                            // Xác định đường dẫn đích cho tệp
+                            Path targetFile = uploadImagePath.resolve(sourceFolderPath.relativize(sourceFile));
+                            // Di chuyển tệp
+                            Files.move(sourceFile, targetFile, StandardCopyOption.REPLACE_EXISTING);
+                        } catch (IOException e) {
+                            throw new RuntimeException("Failed to move file: " + sourceFile.toString(), e);
+                        }
+                    });
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to walk directory: " + sourceFolderPath.toString(), e);
+        }
+    }
+
+    @Override
+    public boolean hasFiles(Path directory) throws IOException {
+        try (Stream<Path> stream = Files.list(directory)) {
+            return stream.findFirst().isPresent();
+        }
+    }
+
+    @Override
+    public byte[] readImgProd(String folder, String name) {
+        byte[] imageData = null;
+
+        // Đường dẫn đến file hình ảnh trong thư mục uploadImage
+        Path imagePath = Paths.get("", "files", folder, name);
+
+        try {
+            // Đọc dữ liệu của hình ảnh
+            imageData = Files.readAllBytes(imagePath);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to read image file: " + imagePath.toString(), e);
+        }
+
+        return imageData;
+    }
+
+    @Override
     public List<String> list(String folder) {
         List<String> fileNames = new ArrayList<>();
         File dir=Paths.get(app.getRealPath("/files"),folder).toFile();
@@ -77,4 +147,6 @@ public class FileManagerServiceImpl implements FileManagerService {
         }
         return fileNames;
     }
+
+
 }

@@ -99,25 +99,9 @@
                                                         value="{{brand.brandId}}">{{brand.nameBrand}}
                                                     </option>
                                                 </select>
-                                                <span ng-if="currentBrand" class="text-danger fs-6 text fst-italic">Danh
+                                                <span ng-if="curentBrand" class="text-danger fs-6 text fst-italic">Danh
                                                     mục hiện tại :
-                                                    {{currentBrand}}</span>
-                                            </div>
-                                            <div class="form-outline mb-3" style="max-width: 30%;">
-                                                <label class="form-label" for="manageProductsModalProductsPrice"
-                                                    style="color: #777; font-weight: 700; font-size: 1.2rem;">Giá
-                                                    bán</label>
-                                                <input type="number" id="manageProductsModalProductsPrice"
-                                                    ng-model="formProduct.price" class="form-control"
-                                                    placeholder="Giá bán sản phẩm" required>
-                                            </div>
-                                            <div class="form-outline mb-3" style="max-width: 30%;">
-                                                <label class="form-label" for="manageProductsModalProductsDiscountPrice"
-                                                    style="color: #777; font-weight: 700; font-size: 1.2rem;">Giá
-                                                    khuyến mãi</label>
-                                                <input type="number" id="manageProductsModalProductsDiscountPrice"
-                                                    ng-model="formProduct.discount" class="form-control"
-                                                    placeholder="Giá khuyến mãi">
+                                                    {{curentBrand}}</span>
                                             </div>
                                             <div class="form-check d-flex justify-content-center mb-3"
                                                 style="box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);max-width: 30%;">
@@ -147,9 +131,6 @@
                                                         <option ng-repeat="size in infoProductRelative.sizes"
                                                             value="{{size.sizeId}}">{{size.sizeName}}</option>
                                                     </select>
-                                                    <p ng-if="currentSizes" class="text-danger fs-6 text fst-italic">
-                                                        Sizes hiện tại :
-                                                        {{currentSizes}}</p>
                                                     <a class="card-blog__link text-primary" href="#">Thêm size
                                                         <i class="ti-arrow-right"></i></a>
                                                 </div>
@@ -162,9 +143,6 @@
                                                         <option ng-repeat="color in infoProductRelative.colors"
                                                             value="{{color.colorId}}">{{color.colorName}}</option>
                                                     </select>
-                                                    <p ng-if="currentColors" class="text-danger fs-6 text fst-italic">
-                                                        Màu hiện tại :
-                                                        {{currentColors}}</p>
                                                     <a class="card-blog__link text-primary" href="#">Thêm màu sắc
                                                         <i class="ti-arrow-right"></i></a>
                                                 </div>
@@ -177,20 +155,35 @@
                                                         ng-model="formProduct.quantityInStock" class="form-control"
                                                         placeholder="Số lượng sản phẩm" required>
                                                 </div>
+                                                <div class="form-outline mb-3" style="max-width: 30%;">
+                                                    <label class="form-label" for="manageProductsModalProductsPrice"
+                                                        style="color: #777; font-weight: 700; font-size: 1.2rem;">Giá
+                                                        bán</label>
+                                                    <input type="number" id="manageProductsModalProductsPrice"
+                                                        ng-model="formProduct.price" class="form-control"
+                                                        placeholder="Giá bán sản phẩm" required>
+                                                </div>
+                                                <div class="form-outline mb-3" style="max-width: 30%;">
+                                                    <label class="form-label"
+                                                        for="manageProductsModalProductsDiscountPrice"
+                                                        style="color: #777; font-weight: 700; font-size: 1.2rem;">Giá
+                                                        khuyến mãi</label>
+                                                    <input type="number" id="manageProductsModalProductsDiscountPrice"
+                                                        ng-model="formProduct.discount" class="form-control"
+                                                        placeholder="Giá khuyến mãi">
+                                                </div>
                                             </div>
 
-                                            <div class="d-flex justify-content-center mt-3">
-                                                <button ng-click="createProduct()" class="btn btn-success m-2">Tạo
-                                                    mới</button>
-                                                <button ng-click="updateProduct()" class="btn btn-primary m-2">Cập
-                                                    nhật</button>
-                                                <button ng-click="deleteProduct()"
-                                                    class="btn btn-danger m-2">Xóa</button>
-                                                <button ng-click="resetForm()" class="btn btn-info m-2">Làm
-                                                    mới</button>
-                                            </div>
                                         </div>
-
+                                        <div class="d-flex justify-content-center mt-3">
+                                            <button ng-click="createProduct()" class="btn btn-success m-2">Tạo
+                                                mới</button>
+                                            <button ng-click="updateProduct()" class="btn btn-primary m-2">Cập
+                                                nhật</button>
+                                            <button ng-click="deleteProduct()" class="btn btn-danger m-2">Xóa</button>
+                                            <button ng-click="resetForm()" class="btn btn-info m-2">Làm
+                                                mới</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -230,7 +223,7 @@
                                             <tr ng-repeat="product in listProductSortByCreateDate
                                                 |filter:searchProduct|limitTo:pageSize:begin track by $index">
                                                 <td>{{product.productId}}</td>
-                                                <td><img ng-src="{{urlImgProd(getImageByProduct(product))}}"
+                                                <td><img src="../../assets/shop/images/product/{{getImageByProduct(product)}}"
                                                         class="img-thumbnail" alt="..." width="70" height="70"></td>
                                                 <td>{{product.productName|truncateWordsHTML:5}}</td>
                                                 <td>{{product.price|formatPrice}}</td>

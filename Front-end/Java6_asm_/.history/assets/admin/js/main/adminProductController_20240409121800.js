@@ -84,10 +84,6 @@ app.controller('AdminProductController', function ($scope, $http, $rootScope, $l
     }
 
     $scope.uploadImg = (files) => {
-        if (files == null) {
-            alert("Upload hình chưa thành công")
-            return
-        }
         var form = new FormData();
         for (var i = 0; i < files.length; i++) {
             form.append("files", files[i]);
