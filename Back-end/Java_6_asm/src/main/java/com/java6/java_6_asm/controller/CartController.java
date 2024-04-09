@@ -95,8 +95,8 @@ public class CartController {
     }
 
     @PostMapping("/check-out-cartId")
-    public ResponseEntity<List<Cart>> checkoutUpdate(@RequestBody CheckOutCartIdRequest cartRequest) {
-        return ResponseEntity.ok(cartService.updateCheckOut(cartRequest));
+    public ResponseEntity<List<Cart>> checkoutUpdate(HttpServletRequest httpServletRequest, @RequestBody CheckOutCartIdRequest cartRequest) {
+        return ResponseEntity.ok(cartService.updateCheckOut(httpServletRequest, cartRequest));
     }
 
 

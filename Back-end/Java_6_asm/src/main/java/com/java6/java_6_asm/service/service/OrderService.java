@@ -23,4 +23,6 @@ public interface OrderService {
 
     List<Order> findByContactId(String id);
 
+    void deleteOrder(String id);
+
 }

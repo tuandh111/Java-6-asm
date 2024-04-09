@@ -230,14 +230,15 @@
 						<input type="number" name="qty" id="sst_quantity" ng-model="quantityProduct" value="1"
 							title="Quantity:" class="input-number qty"
 							style="padding: 5px 7px 10px 10px;text-align: center;">
-						<button onclick="increaseQuantity()" class="increase items-count" type="button"><i
+						<button onclick="increaseQuantity()" class="increase items-count mt-2" type="button"><i
 								class="bi bi-caret-up-fill"></i></button>
-						<button onclick="decreaseQuantity()" class="reduced items-count" type="button"><i
+						<button onclick="decreaseQuantity()" class="reduced items-count mb-2" type="button"><i
 								class="bi bi-caret-down-fill"></i></button>
 
 					</div>
 					<span style="float: right;">
-						<a href="#" class="btn btn-warning mr-5" style="padding: 11px 10px;text-align: center; ">Mua
+						<a href="javascript:void(0)" ng-click="saveCartCheckOut(detailsProductId1)"
+							class="btn btn-warning mr-5" style="padding: 11px 10px;text-align: center; ">Mua
 							ngay</a>
 						<a href="javascript:void(0)" class="btn btn-primary mt-1" ng-click="saveCart(detailsProductId1)"
 							style="padding: 11px 10px;text-align: center;">Thêm vào giỏ
@@ -246,12 +247,12 @@
 					<ul class="list" style="padding-left:0px">
 						<li><a class="active" href="#"><span>Thương hiệu</span>:
 								{{detailsProductId1.brand.nameBrand}}</a></li>
-						<li><span>Tổng số lượng:</span> <span
+						<!-- <li><span>Tổng số lượng:</span> <span
 								id="quantity_in_stock">{{detailsProductId1.quantityInStock}}</span>
 							<span ng-if="detailsProductId1.quantityInStock == 0 "
 								class="btn btn-danger checkQuantity">Hết
 								hàng</span>
-						</li>
+						</li> -->
 					</ul>
 					<p>{{detailsProductId1.description}}</p>
 				</div>

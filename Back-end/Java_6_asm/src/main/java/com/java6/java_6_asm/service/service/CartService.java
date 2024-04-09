@@ -12,7 +12,7 @@ import java.util.List;
 public interface CartService {
     List<Cart> findAllCartId(CartIdRequest cartIdRequest);
 
-    List<Cart> updateCheckOut(CheckOutCartIdRequest checkOutCartIdRequest);
+    List<Cart> updateCheckOut(HttpServletRequest httpServletRequest,CheckOutCartIdRequest checkOutCartIdRequest);
 
     List<Cart> findAllByUser(HttpServletRequest httpServletRequest);
 

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.java6.java_6_asm.entities.Order;
 import com.java6.java_6_asm.model.request.OrderRequest;
+import com.java6.java_6_asm.model.response.MessageResponse;
 import com.java6.java_6_asm.service.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -38,5 +39,10 @@ public class OrderController {
     @GetMapping("/orders/{id}")
     public ResponseEntity<?> findByContactId(@PathVariable("id") String id) {
         return ResponseEntity.ok(orderService.findByContactId(id));
+    }
+    @DeleteMapping("/delete-orders/{id}")
+    public ResponseEntity<?> deleteOrder(@PathVariable("id") String id) {
+        orderService.deleteOrder(id);
+        return ResponseEntity.ok(new MessageResponse("successfully"));
     }
 }

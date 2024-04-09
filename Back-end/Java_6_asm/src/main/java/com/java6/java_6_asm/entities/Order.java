@@ -42,4 +42,6 @@ public class Order {
 
     private Integer contactId;
 
+    private String  Payments;
+
 }
