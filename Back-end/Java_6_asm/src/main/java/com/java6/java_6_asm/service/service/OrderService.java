@@ -19,4 +19,10 @@ public interface OrderService {
     Order saveOrder(HttpServletRequest httpServletRequest, OrderRequest orderRequest);
 
     Order findByUserId(HttpServletRequest httpServletRequest);
+    List<Order> findByListOrder(HttpServletRequest httpServletRequest);
+
+    List<Order> findByContactId(String id);
+
+    void deleteOrder(String id);
+
 }

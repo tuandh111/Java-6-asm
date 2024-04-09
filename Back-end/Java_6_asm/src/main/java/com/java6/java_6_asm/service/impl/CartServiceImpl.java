@@ -63,33 +63,38 @@ public class CartServiceImpl implements CartService {
                 newListCartId.add(cartOptional.get());
             }
         }
-
+        for (Cart cart : newListCartId){
+            System.out.println("car: "+ cart.getCartId());
+        }
         return newListCartId;
     }
 
     @Override
-    public List<Cart> updateCheckOut(CartIdRequest cartIdRequest) {
+    public List<Cart> updateCheckOut(HttpServletRequest httpServletRequest,CheckOutCartIdRequest checkOutCartIdRequest) {
+        String token = GetTokenRefreshToken.getToken(httpServletRequest);
+        String email = jwtService.extractUsername(token);
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("Not found userId with Id: " ));
         List<Cart> newListCartId = new ArrayList<>();
-        String orderId = null;
-        String[] cartIds = cartIdRequest.getCartId();
+        String[] cartIds = checkOutCartIdRequest.getCartId();
         for (String cartId : cartIds) {
             Optional<Cart> cartOptional = cartRepository.findById(cartId);
             if (cartOptional.isPresent()) {
                 newListCartId.add(cartOptional.get());
             }
         }
+        Order orderNew = new Order();
+        orderNew.setOrderId(ConfigVNPay.getRandomString(12));
+        orderNew.setContactId(checkOutCartIdRequest.getContactId());
+        orderNew.setTotalAmount(checkOutCartIdRequest.getTotalCartAll());
+        orderNew.setUser(user);
+        orderNew.setStatus("Đang chờ xác nhận");
+        orderNew.setNote("Đơn hàng đang giao");
+        orderRepository.save(orderNew);
         for (Cart cart : newListCartId) {
             cart.setCheckPay(true);
+            cart.setOrder(orderNew);
             cartRepository.save(cart);
-            if (cart.getOrder() != null) {
-                orderId = cart.getOrder().getOrderId();
-                Order orderList = orderRepository.findById(orderId).orElseThrow();
-                orderList.setStatus("Thành công");
-                orderList.setNote("Đã đóng gói");
-                orderRepository.save(orderList);
-            }
         }
-
         return newListCartId;
     }
 
@@ -117,14 +122,14 @@ public class CartServiceImpl implements CartService {
         String email = jwtService.extractUsername(token);
         Product product = productRepository.findById(cartRequest.getProductId()).orElseThrow(() -> new NotFoundException("Not found product with Id: " + cartRequest.getProductId()));
         User user = userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("Not found userId with Id: " + cartRequest.getUserId()));
-        Optional<Order> order = orderRepository.findByUserId(user.getId(), "Đặt hàng");
-        if (order.isEmpty()) {
-            Order orderNew = new Order();
-            orderNew.setOrderId(ConfigVNPay.getRandomString(12));
-            orderNew.setStatus("Đặt hàng");
-            orderNew.setUser(user);
-            orderRepository.save(orderNew);
-        }
+//        Optional<Order> order = orderRepository.findByUserId(user.getId(), "Đặt hàng");
+//        if (order.isEmpty()) {
+//            Order orderNew = new Order();
+//            orderNew.setOrderId(ConfigVNPay.getRandomString(12));
+//            orderNew.setStatus("Đặt hàng");
+//            orderNew.setUser(user);
+//            orderRepository.save(orderNew);
+//        }
         DetailsColor detailsColor = detailsColorRepository.findById(cartRequest.getColorId()).orElseThrow(null);
         System.out.println("checkcart: " + user.getId() + " " + product.getProductId() + " " + cartRequest.getColorId() + " " + cartRequest.getSizeId() + " - " + detailsColor.getDetailsColorId());
         Cart checkCart = cartRepository.findByProductIDAndAndUserID(user.getId(), product.getProductId(), cartRequest.getColorId(), cartRequest.getSizeId());
@@ -168,16 +173,16 @@ public class CartServiceImpl implements CartService {
         String email = jwtService.extractUsername(token);
         User user = userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("Not found userId with Id: " + cartRequest.getUserId()));
 
-        Optional<Order> order = orderRepository.findByUserId(user.getId(), "Đặt hàng");
-        System.out.println("số " + order);
-        if (order.isEmpty()) {
-
-            Order orderNew = new Order();
-            orderNew.setOrderId(ConfigVNPay.getRandomString(12));
-            orderNew.setStatus("Đặt hàng");
-            orderNew.setUser(user);
-            orderRepository.save(orderNew);
-        }
+//        Optional<Order> order = orderRepository.findByUserId(user.getId(), "Đặt hàng");
+//        System.out.println("số " + order);
+//        if (order.isEmpty()) {
+//
+//            Order orderNew = new Order();
+//            orderNew.setOrderId(ConfigVNPay.getRandomString(12));
+//            orderNew.setStatus("Đặt hàng");
+//            orderNew.setUser(user);
+//            orderRepository.save(orderNew);
+//        }
         if (cartRequest.getQuantity() > cart.getQuantity()) {
             product.setQuantityInStock(product.getQuantityInStock() - (cartRequest.getQuantity() - cart.getQuantity()));
             productRepository.save(product);
@@ -190,7 +195,6 @@ public class CartServiceImpl implements CartService {
         cart.setProduct(product);
         cart.setQuantity(cartRequest.getQuantity());
         cart.setCheckPay(false);
-        cart.setOrder(order.get());
         cartRepository.save(cart);
         return cart;
     }
@@ -252,5 +256,10 @@ public class CartServiceImpl implements CartService {
     @Override
     public List<Cart> findAllCartForAdmin() {
         return cartRepository.findAll();
+    }
+
+    @Override
+    public List<Cart> finAllOrderId(String orderId) {
+        return cartRepository.findByAllOrderId(orderId);
     }
 }

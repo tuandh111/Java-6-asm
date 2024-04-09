@@ -12,7 +12,7 @@ import java.util.List;
 public interface CartService {
     List<Cart> findAllCartId(CartIdRequest cartIdRequest);
 
-    List<Cart> updateCheckOut(CartIdRequest cartIdRequest);
+    List<Cart> updateCheckOut(HttpServletRequest httpServletRequest,CheckOutCartIdRequest checkOutCartIdRequest);
 
     List<Cart> findAllByUser(HttpServletRequest httpServletRequest);
 
@@ -31,4 +31,6 @@ public interface CartService {
     void DeleteCart(String cartId);
 
     List<Cart> findAllCartForAdmin();
+
+    List<Cart> finAllOrderId(String orderId);
 }

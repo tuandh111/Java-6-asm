@@ -39,8 +39,6 @@ public class CartController {
     public ResponseEntity<List<Cart>> getAllCartByUser(HttpServletRequest httpServletRequest) {
         return ResponseEntity.ok(cartService.findAllByUser(httpServletRequest));
     }
-//    @GetMapping("/management/twobee/carts")
-//    public ResponseEntity<?> getAllCartForAdmin(){
 
     @GetMapping("/auth/twobee/carts")
     public ResponseEntity<?> getAllCartForAdmin() {
@@ -95,8 +93,15 @@ public class CartController {
     public ResponseEntity<List<Cart>> findAllByCartId(@RequestBody CartIdRequest cartRequest) {
         return ResponseEntity.ok(cartService.findAllCartId(cartRequest));
     }
+
     @PostMapping("/check-out-cartId")
-    public ResponseEntity<List<Cart>> checkoutUpdate(@RequestBody CartIdRequest cartRequest) {
-        return ResponseEntity.ok(cartService.updateCheckOut(cartRequest));
+    public ResponseEntity<List<Cart>> checkoutUpdate(HttpServletRequest httpServletRequest, @RequestBody CheckOutCartIdRequest cartRequest) {
+        return ResponseEntity.ok(cartService.updateCheckOut(httpServletRequest, cartRequest));
+    }
+
+
+    @GetMapping("/get-all-orderId/{id}")
+    public ResponseEntity<?> getOrderId(@PathVariable("id") String id) {
+        return ResponseEntity.ok(cartService.finAllOrderId(id));
     }
 }

@@ -17,162 +17,97 @@
 <!-- ================ end banner area ================= -->
 
 <!--================Order Details Area =================-->
-<section class="order_details section-margin--small">
+<section class="order_details section-margin--small" ng-controller="confirmationController">
   <div class="container">
-    <p class="text-center billing-alert">Chúc mừng bạn đã đặt hàng thành công</p>
+    <h1 class="text-center " style="font-weight: bold;">Chúc mừng bạn đã đặt hàng thành công</h1>
+    <a class="btn btn-warning text-center billing-alert" href="/index.html#!/shop/category">Tiếp tục mua
+      sắm</a>
     <div class="row mb-5">
-      <div class="col-md-6 col-xl-4 mb-4 mb-xl-0">
+      <div class="col-md-12 ">
         <div class="confirmation-card">
-          <h3 class="billing-title">Order Info</h3>
-          <table class="order-rable">
-            <tr>
-              <td>Order number</td>
-              <td>: 60235</td>
-            </tr>
-            <tr>
-              <td>Date</td>
-              <td>: Oct 03, 2017</td>
-            </tr>
-            <tr>
-              <td>Total</td>
-              <td>: USD 2210</td>
-            </tr>
-            <tr>
-              <td>Payment method</td>
-              <td>: Check payments</td>
-            </tr>
-          </table>
-        </div>
-      </div>
-      <div class="col-md-6 col-xl-4 mb-4 mb-xl-0">
-        <div class="confirmation-card">
-          <h3 class="billing-title">Billing Address</h3>
-          <table class="order-rable">
-            <tr>
-              <td>Street</td>
-              <td>: 56/8 panthapath</td>
-            </tr>
-            <tr>
-              <td>City</td>
-              <td>: Dhaka</td>
-            </tr>
-            <tr>
-              <td>Country</td>
-              <td>: Bangladesh</td>
-            </tr>
-            <tr>
-              <td>Postcode</td>
-              <td>: 1205</td>
-            </tr>
-          </table>
-        </div>
-      </div>
-      <div class="col-md-6 col-xl-4 mb-4 mb-xl-0">
-        <div class="confirmation-card">
-          <h3 class="billing-title">Shipping Address</h3>
-          <table class="order-rable">
-            <tr>
-              <td>Street</td>
-              <td>: 56/8 panthapath</td>
-            </tr>
-            <tr>
-              <td>City</td>
-              <td>: Dhaka</td>
-            </tr>
-            <tr>
-              <td>Country</td>
-              <td>: Bangladesh</td>
-            </tr>
-            <tr>
-              <td>Postcode</td>
-              <td>: 1205</td>
-            </tr>
+          <h3 class="billing-title">Đơn hàng</h3>
+          <div class="mb-3">
+            Từ ngày: <input type="date" ng-model="startDate">
+            Đến ngày: <input type="date" ng-model="endDate">
+            <button class="btn btn-primary" ng-click="filterOrdersByDate()">Tìm kiếm</button>
+            <select ng-model="selectedStatus" class="form-control mt-2" ng-change=" onStatusChange()">
+              <option value="">-- Chọn trạng thái --</option>
+              <option value="all">--Tất cả --</option>
+              <option value="Đặt hàng">Đặt hàng</option>
+              <option value="Đang chờ xác nhận">Đang chờ xác nhận</option>
+              <option value="Thành công">Thành công</option>
+            </select>
+          </div>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Mã đơn hàng</th>
+                <th>Status</th>
+                <th>Ngày đặt</th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody ng-repeat="od in filteredOrders || orders">
+              <tr>
+                <td>{{od.orderId}}</td>
+                <td>{{od.status}}</td>
+                <td>{{od.createAt | date: 'dd/MM/yyyy'}}</td>
+                <td> <a style="float: right;" href="javascript:void(0)" class="btn btn-primary"
+                    ng-click="details(od)">Xem chi tiết</a></td>
+                <td ng-if="od.status == 'Đặt hàng' || od.status == 'Đang chờ xác nhận'">
+                  <a href="javascript:void(0)" class="btn btn-danger" ng-click="deleteOd(od)">Hủy đơn</a>
+                </td>
+              </tr>
+            </tbody>
           </table>
         </div>
       </div>
     </div>
+    <h3 class="text-danger">{{detailsOrder}}</h3>
     <div class="order_details_table">
-      <h2>Order Details</h2>
+      <h2>Chi tiết đơn hàng</h2>
+      <div ng-repeat="ct in contacts">
+        <div ng-if="ct.contactId == contactIdItem">
+          <p id="check">Địa chỉ giao hàng: {{ct.addressName}}</p>
+        </div>
+      </div>
       <div class="table-responsive">
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">Product</th>
-              <th scope="col">Quantity</th>
-              <th scope="col">Total</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <p>Pixelstore fresh Blackberry</p>
-              </td>
-              <td>
-                <h5>x 02</h5>
-              </td>
-              <td>
-                <p>$720.00</p>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <p>Pixelstore fresh Blackberry</p>
-              </td>
-              <td>
-                <h5>x 02</h5>
-              </td>
-              <td>
-                <p>$720.00</p>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <p>Pixelstore fresh Blackberry</p>
-              </td>
-              <td>
-                <h5>x 02</h5>
-              </td>
-              <td>
-                <p>$720.00</p>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <h4>Subtotal</h4>
-              </td>
-              <td>
-                <h5></h5>
-              </td>
-              <td>
-                <p>$2160.00</p>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <h4>Shipping</h4>
-              </td>
-              <td>
-                <h5></h5>
-              </td>
-              <td>
-                <p>Flat rate: $50.00</p>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <h4>Total</h4>
-              </td>
-              <td>
-                <h5></h5>
-              </td>
-              <td>
-                <h4>$2210.00</h4>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div ng-repeat="checkOut in checkOutCartId" style="font-size: 16px;">
+          <a href="#!/shop/single-product/{{checkOut.product.productId}}" style="color: #010101;">{{
+            checkOut.product.productName | limitTo: 17 }}{{
+            checkOut.product.productName.length > 10
+            ? '...' : '' }} </a>
+          <span class="ms-" style="color: #010101;">x {{checkOut.quantity}}</span>
+          <span ng-if="!isDiscounted(checkOut.product.productId)">
+            <span style="color: #010101;float: right; text-decoration: line-through;">{{ checkOut.product.price | number
+              :
+              fractionSize }} VNĐ</span>
+          </span>
+          <span ng-repeat="discount in discounts">
+            <span ng-if="discount.product.productId == checkOut.product.productId">
+              <span style="color: #010101;float: right;margin-right: 30px;"> {{
+                discount.discountedPrice | number :
+                fractionSize }} VNĐ</span>
+            </span>
+          </span>
+          <span ng-if="isDiscounted(checkOut.product.productId)"
+            style="text-decoration: line-through;float: right;margin-right: 15px;">
+            {{ checkOut.product.price | number : fractionSize }}
+          </span>
+        </div>
+        <ul class="list list_2 mt-5" style="font-size: 16px;">
+          <li><a href="#">Tạm tính: <span>{{totalAmount | number : fractionSize}} VNĐ</span></a></li>
+          <li><a href="#">Phí giao hàng: <span>{{freeShip}}</span></a></li>
+          <li><a href="#">{{discountTitle}}<span>{{discount}}</span></a></li>
+          <li><a href="#">Tổng tiền: <span>{{totalCartAll | number : fractionSize}} VNĐ</span></a></li>
+          <li>(Đã bao gồm VAT)</li>
+        </ul>
+
+
       </div>
     </div>
+  </div>
   </div>
 </section>
 <!--================End Order Details Area =================-->

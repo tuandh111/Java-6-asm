@@ -4,6 +4,7 @@ package com.java6.java_6_asm.security.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.java6.java_6_asm.entities.Token;
 import com.java6.java_6_asm.entities.User;
+import com.java6.java_6_asm.entities._enum.Gender;
 import com.java6.java_6_asm.entities._enum.TokenType;
 import com.java6.java_6_asm.model.request.AuthenticationRequest;
 import com.java6.java_6_asm.model.response.AuthenticationResponse;
@@ -20,6 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.Date;
 
 @Service
 @RequiredArgsConstructor
@@ -30,11 +32,13 @@ public class AuthenticationService {
   private final JwtService jwtService;
   private final AuthenticationManager authenticationManager;
   public AuthenticationResponse register(RegisterRequest request) {
-
+      Date date = new Date("2000/01/01");
     var user = User.builder()
         .firstname(request.getFirstname())
         .lastname(request.getLastname())
         .email(request.getEmail())
+        .birthDay(date)
+        .gender(Gender.FEMALE)
         .password(passwordEncoder.encode(request.getPassword()))
         .role(request.getRole())
         .build();

@@ -2,8 +2,10 @@ package com.java6.java_6_asm.controller;
 
 
 import com.java6.java_6_asm.model.request.URLRequest;
+import com.java6.java_6_asm.model.response.MessageResponse;
 import com.java6.java_6_asm.service.service.utils.QrCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,7 +16,7 @@ public class GenerateQrController {
     QrCodeService qrCodeService;
 
     @PostMapping(value = "generateQRCode")
-    public String generateQRCode(@RequestBody URLRequest sdi) {
-        return qrCodeService.generateQrCode(sdi);
+    public ResponseEntity<?> generateQRCode(@RequestBody URLRequest sdi) {
+        return ResponseEntity.ok(new MessageResponse(qrCodeService.generateQrCode(sdi)));
     }
 }

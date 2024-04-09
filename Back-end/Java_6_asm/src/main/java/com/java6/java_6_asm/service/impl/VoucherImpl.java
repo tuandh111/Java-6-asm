@@ -23,4 +23,9 @@ public class VoucherImpl implements VoucherService {
     public Voucher saveVoucher(VoucherRequest voucherRequest) {
         return null;
     }
+
+    @Override
+    public Voucher findByVoucherName(String voucherName) {
+        return voucherRepository.findByVoucherName(voucherName);
+    }
 }

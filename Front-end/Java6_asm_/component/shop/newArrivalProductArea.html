@@ -27,7 +27,7 @@
                     <!-- <img class="card-img" src="../../assets/shop/images/product/{{prod.imageNames[0]}}" alt=""> -->
                     <img class="card-img" ng-src="{{urlImgProd(prod.imageNames[0])}}">
                     <ul class="card-product__imgOverlay">
-                        <li><button><i class="ti-shopping-cart"></i></button></li>
+                        <li><button><i class="ti-shopping-cart" ng-click="saveCart(prod)"></i></button></li>
                         <li>
                             <span ng-repeat="favorite in favorites">
                                 <span ng-if="prod.product.productId === favorite.productId.productId">

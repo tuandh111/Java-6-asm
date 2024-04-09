@@ -81,6 +81,7 @@ function cartController($scope, $http, $rootScope) {
       console.log("isLiked" + $scope.isLiked)
     },
     function errorCallback(response) {
+      window.location.href = '/index.html#!/shop/login';
     }
   );
   $scope.addToFavorites1 = function (productId) {
@@ -375,12 +376,13 @@ function cartController($scope, $http, $rootScope) {
                 $scope.totalCartAll = $scope.totalCartValue - 50000
 
               } else {
+                $scope.totalCartAll = $scope.totalCartValue
                 $scope.discountTitle = ''
                 $scope.discount = ''
 
               }
               $scope.freeShip = '25,000 VNĐ';
-              $scope.totalCartAll = $scope.totalCartValue + 25000
+              $scope.totalCartAll = $scope.totalCartAll + 25000
             } else {
 
               $scope.discountTitle = ''
@@ -484,11 +486,12 @@ function cartController($scope, $http, $rootScope) {
               $scope.totalCartAll = $scope.totalCartValue - 50000
             }
             else {
+              $scope.totalCartAll = $scope.totalCartValue
               $scope.discountTitle = ''
               $scope.discount = ''
             }
             $scope.freeShip = '25,000 VNĐ';
-            $scope.totalCartAll = $scope.totalCartValue + 25000
+            $scope.totalCartAll = $scope.totalCartAll + 25000
           } else {
             $scope.discountTitle = ''
             $scope.discount = ''
@@ -880,13 +883,13 @@ function cartController($scope, $http, $rootScope) {
   //////DELETE CART
   $scope.deleteCart = function (cart) {
     Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
+      title: "Xóa sản phẩm",
+      text: "Bạn có muốn xóa sản phẩm ra khỏi giỏ hàng",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!"
+      confirmButtonText: "Đồng ý!"
     }).then((result) => {
       if (result.isConfirmed) {
         $http({
@@ -957,11 +960,12 @@ function cartController($scope, $http, $rootScope) {
         $scope.discount = ' -50,000 VNĐ'
         $scope.totalCartAll = $scope.totalCartValue - 50000
       } else {
+        $scope.totalCartAll = $scope.totalCartValue
         $scope.discountTitle = ''
         $scope.discount = ''
       }
       $scope.freeShip = '25,000 VNĐ';
-      $scope.totalCartAll = $scope.totalCartValue + 25000
+      $scope.totalCartAll = $scope.totalCartAll + 25000
     } else {
       $scope.discount = ''
       $scope.freeShip = '';
@@ -1056,6 +1060,7 @@ function cartController($scope, $http, $rootScope) {
     if (cart.quantity > 1) {
       cart.quantity--;
       $scope.updateCart(cart);
+      $scope.updatePrice(cart);
     } else {
       Swal.fire({
         title: "Lỗi!",
@@ -1065,7 +1070,93 @@ function cartController($scope, $http, $rootScope) {
     }
   };
 
-  //////////////////////////////////////////////////////////////Thêm mới sản phẩm vào giỏ hàng
+  //////////////////////////////////////////////////////////////saveCartCheckOut
+  $scope.saveCartCheckOut = function (detailsProductId1) {
+    var selectedColorId = $scope.selectedColorDetailsProduct[detailsProductId1.productId];
+    if (selectedColorId === undefined || selectedColorId == '') {
+      $scope.errorSelectedColorId = '(*) Vui lòng chọn màu'
+      return;
+    } else {
+      $scope.errorSelectedColorId = ''
+    }
+    var selectedSizeId = $scope.selectedDetailsSizeId[detailsProductId1.productId];
+    if (selectedSizeId === undefined || selectedSizeId == '') {
+      $scope.errorSelectedSizeId = '(*) Vui lòng chọn size'
+      return;
+    } else {
+      $scope.errorSelectedSizeId = ''
+    }
+    if (parseInt(detailsProductId1.quantityInStock) - parseInt($scope.quantityProduct) < 0) {
+      Swal.fire({
+        title: "Thất bại!",
+        text: "Số lượng bạn nhập vào không được vượt qua số lượng hàng tồn kho",
+        icon: "error",
+      });
+      var result = document.getElementById('sst_quantity');
+      var sst = parseInt(result.value);
+      if (!isNaN(sst)) {
+        result.value = detailsProductId1.quantityInStock;
+        // Đảm bảo cập nhật giá trị trong model
+        angular.element(result).triggerHandler('input');
+      }
+      return;
+    }
+    if (detailsProductId1.quantityInStock <= 0) {
+      Swal.fire({
+        title: "Thất bại!",
+        text: "Sản phẩm này đã hết hàng!",
+        icon: "error"
+      });
+      return;
+    }
+    var requestData = {
+      productId: detailsProductId1.productId,
+      quantity: $scope.quantityProduct,
+      userId: null,
+      colorId: parseInt(selectedColorId),
+      imageId: null,
+      sizeId: parseInt(selectedSizeId)
+    };
+    $http({
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("accessToken"),
+        "X-Refresh-Token": localStorage.getItem("refreshToken"),
+      },
+      data: JSON.stringify(requestData),
+      url: "http://localhost:8080/api/v1/create-cart",
+    }).then(function (response) {
+      $scope.cartCheckOut = response.data
+      localStorage.setItem('checkCartId', String($scope.cartCheckOut.cartId) + ',')
+      Swal.fire({
+        title: "Xác nhận đơn hàng!",
+        html: "Đang chờ xác nhận đơn hàng <b></b> milliseconds.",
+        timer: 2000,
+        timerProgressBar: true,
+        didOpen: () => {
+          Swal.showLoading();
+          const timer = Swal.getPopup().querySelector("b");
+          timerInterval = setInterval(() => {
+            timer.textContent = `${Swal.getTimerLeft()}`;
+          }, 100);
+        },
+        willClose: () => {
+          clearInterval(timerInterval);
+        }
+      }).then((result) => {
+        if (result.dismiss === Swal.DismissReason.timer) {
+          $('#quantity_in_stock').html(parseInt(detailsProductId1.quantityInStock) - parseInt($scope.quantityProduct));
+          $scope.loadData();
+          detailsProductId1.quantityInStock = (parseInt(detailsProductId1.quantityInStock) - parseInt($scope.quantityProduct));
+
+          window.location.href = "/index.html#!/shop/checkout";
+        }
+      });
+
+
+    });
+  };
+  //Thêm mới sản phầm vào giỏ hàng
   $scope.saveCart = function (detailsProductId1) {
     var selectedColorId = $scope.selectedColorDetailsProduct[detailsProductId1.productId];
     if (selectedColorId === undefined || selectedColorId == '') {

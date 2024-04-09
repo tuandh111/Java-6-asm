@@ -19,14 +19,89 @@
 <!--================Checkout Area =================-->
 <section class="checkout_area section-margin--small" ng-controller="checkoutController">
   <div class="container mt-5">
+    <h2>Mã giảm giá cho tất cả</h2>
+    <div class="row">
+      <div class="col-lg-3" ng-repeat=" voucher in vouchers">
+        <div class="mb-3">
+          <div ng-if="voucher.type ==='ALL'">
+            <div class="card mr-2" style="width:240px;height: 430px;">
+              <div class="card-body pb-4">
+                <h5 class="card-title text-danger">Mã: <span class="btn btn-secondary"
+                    id="{{voucher.voucherName}}">{{voucher.voucherName}}</span>
+                </h5>
+                <h4>Giảm: {{voucher.condition | number : fractionSize}} VNĐ
+                </h4>
+                <p class="card-text">{{voucher.description}}</p>
+                <p>Áp dụng từ ngày: {{voucher.effectiveDate | date: 'dd/MM/yyyy'}}</p>
+                <p>Ngày hết hạn: {{voucher.expirationDate | date: 'dd/MM/yyyy'}}</p>
+
+                <button class="btn btn-warning" ng-click="copyVoucher(voucher.voucherName)">Sao
+                  chép</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <h2>Giảm giá tiền mặt</h2>
+    <div class="row">
+      <div class="col-lg-3" ng-repeat=" voucher in vouchers">
+        <div class="mb-3">
+          <div ng-if="voucher.type ==='TM'">
+            <div class="card mr-2" style="width:240px;height: 430px;">
+              <div class="card-body pb-4">
+                <h5 class="card-title text-danger">Mã: <span class="btn btn-secondary"
+                    id="{{voucher.voucherName}}">{{voucher.voucherName}}</span>
+                </h5>
+                <h4>Giảm: {{voucher.condition | number : fractionSize}} VNĐ
+                </h4>
+                <p class="card-text">{{voucher.description}}</p>
+                <p>Áp dụng từ ngày: {{voucher.effectiveDate | date: 'dd/MM/yyyy'}}</p>
+                <p>Ngày hết hạn: {{voucher.expirationDate | date: 'dd/MM/yyyy'}}</p>
+                <button class="btn btn-warning" ng-click="copyVoucher(voucher.voucherName)">Sao
+                  chép</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <h2>Sự kiện</h2>
+    <div ng-repeat="voucher in vouchers">
+      <div ng-if="voucher.type =='EVENT'">
+        {{voucher.event}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-3" ng-repeat=" voucher in vouchers">
+        <div class="mb-3">
+          <div ng-if="voucher.type ==='EVENT'">
+            <div class="card mr-2" style="width:240px;height: 430px;">
+              <div class="card-body pb-4">
+                <h5 class="card-title text-danger">Mã: <span class="btn btn-secondary"
+                    id="{{voucher.voucherName}}">{{voucher.voucherName}}</span>
+                </h5>
+                <h4>Giảm: {{voucher.condition | number : fractionSize}} VNĐ
+                </h4>
+                <p class="card-text">{{voucher.description}}</p>
+                <p>Áp dụng từ ngày: {{voucher.effectiveDate | date: 'dd/MM/yyyy'}}</p>
+                <p>Ngày hết hạn: {{voucher.expirationDate | date: 'dd/MM/yyyy'}}</p>
+                <button class="btn btn-warning" ng-click="copyVoucher(voucher.voucherName)">Sao
+                  chép</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="billing_details">
       <div class="check_title">
-        <h2>Have a coupon? <a href="#">Click here to enter your code</a></h2>
+        <hr>
       </div>
       <div class="row">
-        <div class="col-lg-12 form-group p_star">
-          <input type="text" class="form-control mt-5 my-3" placeholder="Enter coupon code">
-          <a class="button button-coupon" href="#">Apply Coupon</a>
+        <div class="col-lg-6 form-group p_star">
+          <input type="text" class="form-control mt-5 my-3" ng-model="voucherN" placeholder="Mã khuyến mãi">
+          <a class="button button-coupon" href="javascript:void(0)" ng-click="applyVoucher()">Áp dụng </a>
           <span class="placeholder" data-placeholder="Last name"></span>
         </div>
       </div>
@@ -192,20 +267,26 @@
             <ul class="list list_2">
               <li><a href="#">Tạm tính: <span>{{totalAmount | number : fractionSize}} VNĐ</span></a></li>
               <li><a href="#">Phí giao hàng: <span>{{freeShip}}</span></a></li>
+              <li><a href="#">Giảm giá voucher: <span>{{count | number : fractionSize}} VNĐ</span></a>
+              </li>
               <li><a href="#">{{discountTitle}}<span>{{discount}}</span></a></li>
+              <li>
+                <hr>
+              </li>
               <li><a href="#">Tổng tiền: <span>{{totalCartAll | number : fractionSize}} VNĐ</span></a></li>
               <li>(Đã bao gồm VAT)</li>
             </ul>
             <form>
               <div class="payment_item">
                 <div class="radion_btn">
-                  <input type="radio" id="f-option5" name="selector" ng-model="selector" value="cod">
+                  <input type="radio" id="f-option5" name="selector" ng-model="selector" value="COD">
                   <label for="f-option5">Thanh toán khi nhận hàng</label>
                   <div class="check"></div>
                   <img src="../../assets/shop/images/home/donatech-thanh-toan-1.webp" style="width: 80px;" alt="">
                 </div>
                 <p style="background-color: #fff;">
                   <span style="font-size: 16px;color: chocolate;">Thông tin giao hàng</span><br>
+
                   <span ng-repeat="contact in filteredContacts">
                     Họ và tên: {{contact.user.firstname}} {{contact.user.lastname}} <br>
                     Giới tính: {{contact.user.gender === 'MALE' ? 'Nam':'Nữ'}} <br>
@@ -216,17 +297,15 @@
                   </span>
 
                 </p>
-                <span class="text-danger ms-3" style="font-size: 13px" ng-if="filteredContacts.length == underfine "
-                  ng-model="check_receive">(*)Vui lòng
-                  chọn
-                  địa chỉ
-                  nhận
-                  hàng
+                <span class="text-danger ms-3" style="font-size: 13px" id="checkAddress_"
+                  ng-if="filteredContacts.length == underfine " ng-model="check_receive = true">(*)Vui lòng chọn địa chỉ
+                  nhận hàng
                 </span>
               </div>
               <div class="payment_item ">
                 <div class="radion_btn">
-                  <input type="radio" id="f-option6" name="selector" ng-model="selector" value="cart">
+                  <input type="radio" id="f-option6" name="selector" ng-model="selector" ng-click="payment()"
+                    value="VNPay">
                   <label for="f-option6">Thanh toán bằng qua thẻ </label>
                   <img src="../../assets/shop/images/home/VNPay.png" style="width: 30px;" alt="">
                   <div class="check"></div>
@@ -238,9 +317,11 @@
               <span class="text-danger ms-3" style="font-size: 13px" ng-show="errorPay">(*)Vui lòng chọn hình thức thanh
                 toán</span>
               <div class="creat_account">
-                <input type="checkbox" id="f-option4" name="selector" required>
+                <input type="checkbox" id="f-option4" ng-model="checkboxModel" name="selector1" required>
                 <label for="f-option4">Chấp nhận điều khoản của giày TwoBee</label>
-                <a href="javascript:void(0)" ng-click="openModelAddress()">Điều khoản</a>
+                <a href="javascript:void(0)" ng-click="openModelAddress()">Điều khoản</a><br>
+                <span class="text-danger ms-3" style="font-size: 13px" ng-show="errorDK">(*)Vui lòng chấp nhận điều
+                  khoản</span>
                 <span style="color: #010101;">
                   <span>
                     <!-- <span class="">{{dtColor.color.colorName}}</span> -->

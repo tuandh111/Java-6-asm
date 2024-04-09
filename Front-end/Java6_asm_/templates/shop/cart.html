@@ -367,9 +367,9 @@
                                             style="float: right;color: #010101;">{{discount}}</span>
                                     </h5>
                                     <hr>
-                                    <h4 class="mt-4" style="color: red; margin: 0;">Tổng tiền: <span
+                                    <h5 class="mt-4" style="color: red; margin: 0;">Tổng tiền: <span
                                             style="float: right;">{{ totalCartAll | number : fractionSize}} VNĐ</span>
-                                    </h4>
+                                    </h5>
                             </td>
                         </tr>
                         <tr class="shipping_area">
@@ -404,8 +404,8 @@
                             <td>
 
                             </td>
-                            <td colspan="2">
-                                <h4 class="mt-5">Sự kiện đang diễn ra</h4>
+                            <td colspan="3">
+                                <h4 class="mt-5">Sự kiện sắp diễn ra</h4>
                                 <form action="">
                                     <div ng-repeat="voucher in vouchers">
                                         <div ng-if="voucher.type =='EVENT'">
@@ -427,13 +427,14 @@
 
                             </td>
                             <td>
-                                <div class="checkout_btn_inner d-flex align-items-center">
+                                <span class="checkout_btn_inner">
                                     <a class="btn btn-primary mr-5" href="/index.html#!/shop/category">Tiếp tục mua
                                         sắm</a>
-                                    <a class="btn btn-primary ms-5" style="float: right;"
-                                        href="/index.html#!/shop/checkout">Tiến hành thanh toán
-                                        checkout</a>
-                                </div>
+                                    <a class="btn btn-warning" style="margin-left: 120px;"
+                                        href="/index.html#!/shop/checkout">Tiến hành thanh
+                                        toán
+                                    </a>
+                                </span>
                             </td>
                         </tr>
                     </tbody>

@@ -9,4 +9,6 @@ public interface VoucherService {
     List<Voucher> findAllVoucher();
 
     Voucher saveVoucher(VoucherRequest voucherRequest);
+
+    Voucher findByVoucherName(String voucherName);
 }
