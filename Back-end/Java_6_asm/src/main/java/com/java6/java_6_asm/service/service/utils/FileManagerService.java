@@ -19,5 +19,6 @@ public interface FileManagerService {
     void move(String folder);
     boolean hasFiles(Path directory) throws IOException;
     byte[] readImgProd(String folder, String name);
+    void cleanUploadImage(String folder);
     List<String> list(String folder);
 }

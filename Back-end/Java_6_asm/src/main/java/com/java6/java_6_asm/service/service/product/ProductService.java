@@ -1,5 +1,7 @@
 package com.java6.java_6_asm.service.service.product;
 
+import com.java6.java_6_asm.entities.product.DetailsColor;
+import com.java6.java_6_asm.entities.product.DetailsSize;
 import com.java6.java_6_asm.entities.product.Product;
 import com.java6.java_6_asm.model.request.ProductRequest;
 import com.java6.java_6_asm.model.response.ProductRespone;
@@ -17,7 +19,7 @@ public interface ProductService {
     List<ProductRespone> findAllProduct();
     Optional<Product> findById(Integer productId);
 
-    Product save(Product product);
+    Product save(ProductRequest productRequest);
 
     Product update(Integer productId, ProductRequest productRequest);
 
@@ -27,4 +29,11 @@ public interface ProductService {
     List<Product> findAllAndSort();
 
     Map<String,Object> getDataForAdmin();
+
+
+    void setupImage(Integer productId, ProductRequest productRequest, Product product);
+    void setupDiscount(Integer productId, ProductRequest productRequest, Product product);
+    DetailsSize setupDetailsSize(Integer productId, ProductRequest productRequest, Product product);
+    DetailsColor setupDetailsColor(Integer productId, ProductRequest productRequest, Product product);
+    void setupDetailsQuantity(Integer productId, ProductRequest productRequest, Product product,DetailsSize tempDetailsSize,DetailsColor tempDetailColor);
 }

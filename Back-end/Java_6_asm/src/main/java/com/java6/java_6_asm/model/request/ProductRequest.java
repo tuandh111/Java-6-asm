@@ -15,7 +15,7 @@ public class ProductRequest {
     private Boolean isActive;////product
     private String selectedBrand;////product
     private Double price; //product
-
+    private String description;
     private List<String> images;//product image
 
     private double discount;//discount
@@ -25,4 +25,5 @@ public class ProductRequest {
     private String selectedSize;//detail size
 
     private int quantityInStock;//details quantity
+
 }

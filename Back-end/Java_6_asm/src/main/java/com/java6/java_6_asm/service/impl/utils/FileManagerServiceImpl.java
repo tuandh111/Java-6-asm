@@ -1,5 +1,7 @@
 package com.java6.java_6_asm.service.impl.utils;
 
+import com.java6.java_6_asm.entities.product.ProductImage;
+import com.java6.java_6_asm.repositories.product.ProductImageRepository;
 import com.java6.java_6_asm.service.service.utils.FileManagerService;
 import jakarta.servlet.ServletContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,8 @@ import java.util.stream.Stream;
 public class FileManagerServiceImpl implements FileManagerService {
     @Autowired
     ServletContext app;
+    @Autowired
+    ProductImageRepository productImageRepository;
     @Override
     public byte[] read(String folder,String name) {
         Path path = this.getPath(folder,name);
@@ -106,6 +110,8 @@ public class FileManagerServiceImpl implements FileManagerService {
                             throw new RuntimeException("Failed to move file: " + sourceFile.toString(), e);
                         }
                     });
+
+            this.cleanUploadImage("uploadImage");
         } catch (IOException e) {
             throw new RuntimeException("Failed to walk directory: " + sourceFolderPath.toString(), e);
         }
@@ -133,6 +139,33 @@ public class FileManagerServiceImpl implements FileManagerService {
         }
 
         return imageData;
+    }
+
+    @Override
+    public void cleanUploadImage(String folder) {
+        System.out.println("cleannnnn");
+        List<ProductImage> listProductImage =productImageRepository.findAll();
+        List<String> fileNames = this.list(folder);
+        List<String> filesToDelete = new ArrayList<>();
+
+        for (String file : fileNames) {
+            boolean found = false;
+            for (ProductImage productImage : listProductImage) {
+                if (productImage.getImageName().equals(file)) {
+                    found = true;
+                    break;
+                }
+            }
+            // Nếu không tìm thấy trùng khớp, thêm file vào danh sách xóa
+            if (!found) {
+                filesToDelete.add(file);
+            }
+        }
+        for (String fileToDelete : filesToDelete) {
+            System.out.println("fileToDelete "+fileToDelete);
+            this.delete(folder, fileToDelete);
+        }
+        System.out.println("cleannnnn okkkk");
     }
 
     @Override

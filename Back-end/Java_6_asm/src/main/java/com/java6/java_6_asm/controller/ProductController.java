@@ -1,5 +1,7 @@
 package com.java6.java_6_asm.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.java6.java_6_asm.entities.product.Product;
 import com.java6.java_6_asm.model.request.ProductRequest;
 import com.java6.java_6_asm.model.response.ProductRespone;
@@ -19,7 +21,8 @@ import java.util.Map;
 @RequestMapping("/api/v1")
 public class ProductController {
     @Autowired ProductService productService;
-
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @GetMapping("/auth/twobee/products")
     public ResponseEntity<List<ProductRespone>> getAll(){
@@ -43,14 +46,18 @@ public class ProductController {
         return  productService.getDataForAdmin();
     }
     @PostMapping("/management/twobee/products")
-    public ResponseEntity<Product> post(@RequestBody Product product){
-        Product response = productService.save(product);
+    public ResponseEntity<?> post(@RequestBody ProductRequest productRequest) throws JsonProcessingException {
+        Product response = productService.save(productRequest);
         if(response==null){
-            return ResponseEntity.badRequest().build();
+            String errorMessage = "Sản phẩm đã tồn tại";
+            return ResponseEntity.badRequest().body(objectMapper.writeValueAsString(errorMessage));
         }
         return ResponseEntity.ok(response);
     }
-
+//    @PostMapping("/management/twobee/products")
+//    public void testpost(@RequestBody ProductRequest productRequest){
+//        System.out.println("productRequest post"+productRequest);
+//    }
     @PutMapping("/management/twobee/products/{id}")
     public ResponseEntity<Product> put(@PathVariable("id") Integer id,@RequestBody ProductRequest productRequest){
         System.out.println("productRequest "+productRequest);
@@ -67,10 +74,11 @@ public class ProductController {
 //    }
 
     @DeleteMapping("/management/twobee/products/{id}")
-    public ResponseEntity<Product> delete(@PathVariable("id") Integer id){
+    public ResponseEntity<?> delete(@PathVariable("id") Integer id) throws JsonProcessingException {
         Product response = productService.delete(id);
         if(response==null){
-            return ResponseEntity.notFound().build();
+            String errorMessage="Không tồn tại sản phẩm";
+            return ResponseEntity.badRequest().body(objectMapper.writeValueAsString(errorMessage));
         }
         return ResponseEntity.ok(response);
     }

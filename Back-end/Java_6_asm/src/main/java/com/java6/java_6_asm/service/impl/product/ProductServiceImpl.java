@@ -1,5 +1,6 @@
 package com.java6.java_6_asm.service.impl.product;
 
+import com.java6.java_6_asm.entities._enum.Gender;
 import com.java6.java_6_asm.entities.product.*;
 import com.java6.java_6_asm.model.request.ProductRequest;
 import com.java6.java_6_asm.model.response.ProductRespone;
@@ -52,11 +53,27 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product save(Product product) {
-        if(productRepository.existsById(product.getProductId())){
+    public Product save(ProductRequest productRequest) {
+        if(productRepository.existsById(productRequest.getProductId())){
             return null;
         }
+        Product product = new Product();
+        Brand brand = brandRepository.findById(Integer.valueOf(productRequest.getSelectedBrand())).orElse(null);
+        product.setProductName(productRequest.getNameProduct());
+        product.setIsActive(productRequest.getIsActive());
+        product.setQuantityInStock(productRequest.getQuantityInStock());
+        product.setPrice(productRequest.getPrice());
+        product.setDescription(productRequest.getDescription()==null?"":productRequest.getDescription());
+        product.setGender(Gender.MALE);
+        product.setBrand(brand);
         productRepository.save(product);
+        Integer productId=product.getProductId();
+        this.setupImage(productId,productRequest,product);
+        this.setupDiscount(productId,productRequest,product);
+        this.setupDetailsSize(productId,productRequest,product);
+        DetailsSize tempDetailsSize=this.setupDetailsSize(productId,productRequest,product);
+        DetailsColor tempDetailColor=this.setupDetailsColor(productId,productRequest,product);
+        this.setupDetailsQuantity(productId,productRequest,product,tempDetailsSize,tempDetailColor);
         return product;
     }
 
@@ -69,95 +86,20 @@ public class ProductServiceImpl implements ProductService {
         product.setProductName(productRequest.getNameProduct());
         product.setIsActive(productRequest.getIsActive());
         product.setPrice(productRequest.getPrice());
-        Brand brand = brandRepository.findById(Integer.valueOf(productRequest.getSelectedBrand())).get();
+        product.setDescription(productRequest.getDescription()==null?"":productRequest.getDescription());
+        Brand brand = brandRepository.findById(Integer.valueOf(productRequest.getSelectedBrand())).orElse(null);
         product.setBrand(brand);
         productRepository.save(product);
 
-        //Cập nhật lại hình ảnh lại  hình ảnh
-        List<String> newImages = productRequest.getImages();
-        if(newImages!=null){
-                List<ProductImage> productImages = productImageRepository.findImageByProduct(productId);
-                for(ProductImage productImage:productImages){
-                    productImageRepository.delete(productImage);
-                }
-                for(String newImage:newImages){
-                    ProductImage productImage = new ProductImage();
-                    productImage.setImageName(newImage);
-                    productImage.setProduct(product);
-                    productImageRepository.save(productImage);
-                }
-        }
-
-        //
-//        Discount discount = new Discount();
-        List<Discount> discounts= discountRepository.findDiscountByProduct(productId);
-         for(Discount discount:discounts){
-             discount.setDiscountedPrice(productRequest.getDiscount());
-             discountRepository.save(discount);
-         }
-
-
-        List<DetailsSize> detailsSizes=detailsSizeRepository.findDetailSizeByProduct(productId);
-        Size size = sizeRepository.findById(Integer.valueOf(productRequest.getSelectedSize())).orElse(null);
-        DetailsSize tempDetailsSize=null;
-        if (size != null && detailsSizes.stream().noneMatch(detailsSize -> detailsSize.getSize().getSizeId() == size.getSizeId())) {
-            // Nếu không tồn tại, tạo mới một DetailsSize và thêm vào detailsSizes
-            DetailsSize newDetailsSize = new DetailsSize();
-            newDetailsSize.setProduct(product);
-            newDetailsSize.setSize(size);
-            detailsSizeRepository.save(newDetailsSize);
-            tempDetailsSize=newDetailsSize;
-        }else{
-            for (DetailsSize detailSize : detailsSizes) {
-                if (detailSize.getSize().getSizeId() == size.getSizeId()) {
-                    tempDetailsSize = detailSize;
-                    break; // Đã tìm thấy và gán tempSize, không cần duyệt tiếp
-                }
-            }
-        }
-
-
-        List<DetailsColor> detailsColors = detailsColorRepository.findDetailsColorByProduct(productId);
-        Color color = colorRepository.findById(Integer.valueOf(productRequest.getSelectedColor())).orElse(null);
-        DetailsColor tempDetailColor=null;
-        if(color!=null && detailsColors.stream().noneMatch(detailColor ->detailColor.getColor().getColorId()==color.getColorId())){
-            DetailsColor newDetailsColor = new DetailsColor();
-            newDetailsColor.setProduct(product);
-            newDetailsColor.setColor(color);
-            detailsColorRepository.save(newDetailsColor);
-            tempDetailColor=newDetailsColor;
-        }else{
-            for (DetailsColor detailsColor : detailsColors) {
-                if (detailsColor.getColor().getColorId() == color.getColorId()) {
-                    tempDetailColor = detailsColor;
-                    break; // Đã tìm thấy và gán tempSize, không cần duyệt tiếp
-                }
-            }
-        }
-
-       List<DetailsQuantity> detailsQuantities=detailsQuantityRepository.findDetailsQuantityProduct(productId);
-        boolean found = false;
-        for(DetailsQuantity dq:detailsQuantities){
-            if(dq.getDetailsColorId()==tempDetailColor.getDetailsColorId() && dq.getDetailsSizeId()==tempDetailsSize.getDetailsSizeId()){
-                dq.setQuantity(productRequest.getQuantityInStock());
-                detailsQuantityRepository.save(dq);
-                found=true;
-                break;
-            }
-        }
-
-        if(!found){
-            DetailsQuantity newDetailsQuantity = new DetailsQuantity();
-            newDetailsQuantity.setProductId(product);
-            newDetailsQuantity.setDetailsColorId(tempDetailColor.getDetailsColorId());
-            newDetailsQuantity.setDetailsSizeId(tempDetailsSize.getDetailsSizeId());
-            newDetailsQuantity.setQuantity(productRequest.getQuantityInStock());
-            newDetailsQuantity.setSpecialPrice(productRequest.getPrice());
-            detailsQuantityRepository.save(newDetailsQuantity);
-        }
+        this.setupImage(productId,productRequest,product);
+        this.setupDiscount(productId,productRequest,product);
+        this.setupDetailsSize(productId,productRequest,product);
+        DetailsSize tempDetailsSize=this.setupDetailsSize(productId,productRequest,product);
+        DetailsColor tempDetailColor=this.setupDetailsColor(productId,productRequest,product);
+        this.setupDetailsQuantity(productId,productRequest,product,tempDetailsSize,tempDetailColor);
 
         return product;
-        //chưa test
+
     }
 
     @Override
@@ -170,8 +112,6 @@ public class ProductServiceImpl implements ProductService {
         product.setIsActive(false);
         productRepository.save(product);
         return product;
-//        productRepository.deleteById(productId);
-//        return 1;
     }
 
     @Override
@@ -197,6 +137,120 @@ public class ProductServiceImpl implements ProductService {
         data.put("detailsSizes",detailsSizeRepository.findAll());
         data.put("discounts", discountRepository.findAll());
         return  data;
+    }
+
+    @Override
+    public void setupImage(Integer productId, ProductRequest productRequest,Product product) {
+        List<String> newImages = productRequest.getImages();
+        if(newImages != null && !newImages.isEmpty()){
+
+            List<ProductImage> productImages = productImageRepository.findImageByProduct(productId);
+            if(productImages!=null && !productImages.isEmpty()){
+                for(ProductImage productImage:productImages){
+                    productImageRepository.delete(productImage);
+                }
+                for(String newImage:newImages){
+                    ProductImage productImage = new ProductImage();
+                    productImage.setImageName(newImage);
+                    productImage.setProduct(product);
+                    productImageRepository.save(productImage);
+                }
+            }else{
+                //productId là new
+                for(String newImage:newImages){
+                    ProductImage productImage = new ProductImage();
+                    productImage.setImageName(newImage);
+                    productImage.setProduct(product);
+                    productImageRepository.save(productImage);
+                }
+            }
+
+        }
+    }
+
+    @Override
+    public void setupDiscount(Integer productId, ProductRequest productRequest, Product product) {
+        List<Discount> discounts= discountRepository.findDiscountByProduct(productId);
+        if(!discounts.isEmpty()){
+            for(Discount discount:discounts){
+                discount.setDiscountedPrice(productRequest.getDiscount());
+                discountRepository.save(discount);
+            }
+        }else{
+            Discount discount = new Discount();
+            discount.setProduct(product);
+            discount.setDiscountedPrice(productRequest.getDiscount());
+            discountRepository.save(discount);
+        }
+    }
+
+    @Override
+    public DetailsSize setupDetailsSize(Integer productId, ProductRequest productRequest, Product product) {
+        List<DetailsSize> detailsSizes=detailsSizeRepository.findDetailSizeByProduct(productId);
+        Size size = sizeRepository.findById(Integer.valueOf(productRequest.getSelectedSize())).orElse(null);
+        DetailsSize tempDetailsSize=null;
+        if (size != null && detailsSizes.stream().noneMatch(detailsSize -> detailsSize.getSize().getSizeId() == size.getSizeId())) {
+            // Nếu không tồn tại, tạo mới một DetailsSize và thêm vào detailsSizes
+            DetailsSize newDetailsSize = new DetailsSize();
+            newDetailsSize.setProduct(product);
+            newDetailsSize.setSize(size);
+            detailsSizeRepository.save(newDetailsSize);
+            tempDetailsSize=newDetailsSize;
+        }else{
+            for (DetailsSize detailSize : detailsSizes) {
+                if (detailSize.getSize().getSizeId() == size.getSizeId()) {
+                    tempDetailsSize = detailSize;
+                    break; // Đã tìm thấy và gán tempSize, không cần duyệt tiếp
+                }
+            }
+        }
+        return tempDetailsSize;// trả về details size để sét bảng chi tiết số lượng
+    }
+
+    @Override
+    public DetailsColor setupDetailsColor(Integer productId, ProductRequest productRequest, Product product) {
+        List<DetailsColor> detailsColors = detailsColorRepository.findDetailsColorByProduct(productId);
+        Color color = colorRepository.findById(Integer.valueOf(productRequest.getSelectedColor())).orElse(null);
+        DetailsColor tempDetailColor=null;
+        if(color!=null && detailsColors.stream().noneMatch(detailColor ->detailColor.getColor().getColorId()==color.getColorId())){
+            DetailsColor newDetailsColor = new DetailsColor();
+            newDetailsColor.setProduct(product);
+            newDetailsColor.setColor(color);
+            detailsColorRepository.save(newDetailsColor);
+            tempDetailColor=newDetailsColor;
+        }else{
+            for (DetailsColor detailsColor : detailsColors) {
+                if (detailsColor.getColor().getColorId() == color.getColorId()) {
+                    tempDetailColor = detailsColor;
+                    break; // Đã tìm thấy và gán tempSize, không cần duyệt tiếp
+                }
+            }
+        }
+        return  tempDetailColor;
+    }
+
+    @Override
+    public void setupDetailsQuantity(Integer productId, ProductRequest productRequest, Product product, DetailsSize tempDetailsSize, DetailsColor tempDetailColor) {
+        List<DetailsQuantity> detailsQuantities=detailsQuantityRepository.findDetailsQuantityProduct(productId);
+        boolean found = false;
+        for(DetailsQuantity dq:detailsQuantities){
+            if(dq.getDetailsColorId()==tempDetailColor.getDetailsColorId() && dq.getDetailsSizeId()==tempDetailsSize.getDetailsSizeId()){
+                dq.setQuantity(productRequest.getQuantityInStock());
+                detailsQuantityRepository.save(dq);
+                found=true;
+                break;
+            }
+        }
+
+        if(!found){
+            DetailsQuantity newDetailsQuantity = new DetailsQuantity();
+            newDetailsQuantity.setProductId(product);
+            newDetailsQuantity.setDetailsColorId(tempDetailColor.getDetailsColorId());
+            newDetailsQuantity.setDetailsSizeId(tempDetailsSize.getDetailsSizeId());
+            newDetailsQuantity.setQuantity(productRequest.getQuantityInStock());
+            newDetailsQuantity.setSpecialPrice(productRequest.getPrice());
+            detailsQuantityRepository.save(newDetailsQuantity);
+        }
     }
 
 }
