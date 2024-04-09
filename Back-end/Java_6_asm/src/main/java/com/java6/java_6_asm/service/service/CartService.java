@@ -31,4 +31,6 @@ public interface CartService {
     void DeleteCart(String cartId);
 
     List<Cart> findAllCartForAdmin();
+
+    List<Cart> finAllOrderId(String orderId);
 }

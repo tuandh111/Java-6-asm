@@ -1,5 +1,6 @@
 package com.java6.java_6_asm.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -14,6 +15,7 @@ import org.hibernate.annotations.Nationalized;
 @AllArgsConstructor
 @Entity
 @Table(name = "Contact")
+@JsonIgnoreProperties
 public class Contact {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

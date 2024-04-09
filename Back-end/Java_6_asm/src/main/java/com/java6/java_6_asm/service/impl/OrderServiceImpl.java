@@ -68,7 +68,7 @@ public class OrderServiceImpl implements OrderService {
         String token = GetTokenRefreshToken.getToken(httpServletRequest);
         String email = jwtService.extractUsername(token);
         User user = userRepository.findByEmail(email).orElseThrow(null);
-        Optional<Order> order = orderRepository.findByUserId(user.getId(), "Đặt hàng");
+        Optional<Order> order = orderRepository.findByUserId(user.getId(), "Đang chờ xác nhận");
         if (order.isPresent()) {
             return order.get();
         }
@@ -81,7 +81,12 @@ public class OrderServiceImpl implements OrderService {
         String token = GetTokenRefreshToken.getToken(httpServletRequest);
         String email = jwtService.extractUsername(token);
         User user = userRepository.findByEmail(email).orElseThrow(null);
-        List<Order> order = orderRepository.findByListOrder(user.getId(), "Đặt hàng");
+        List<Order> order = orderRepository.findByListOrder(user.getId(), "Đang chờ xác nhận");
         return order;
+    }
+
+    @Override
+    public List<Order> findByContactId(String id) {
+        return orderRepository.findByContactId(Integer.parseInt(id));
     }
 }

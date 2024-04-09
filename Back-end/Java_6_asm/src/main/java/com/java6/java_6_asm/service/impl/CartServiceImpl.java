@@ -89,7 +89,7 @@ public class CartServiceImpl implements CartService {
             Order orderList = orderRepository.findById(orderId).orElseThrow(null);
             orderList.setContactId(checkOutCartIdRequest.getContactId());
             orderList.setTotalAmount(checkOutCartIdRequest.getTotalCartAll());
-            orderList.setStatus("Đặt hàng");
+            orderList.setStatus("Đang chờ xác nhận");
             orderList.setNote("Đơn hàng đang giao");
             orderRepository.save(orderList);
         }
@@ -255,5 +255,10 @@ public class CartServiceImpl implements CartService {
     @Override
     public List<Cart> findAllCartForAdmin() {
         return cartRepository.findAll();
+    }
+
+    @Override
+    public List<Cart> finAllOrderId(String orderId) {
+        return cartRepository.findByAllOrderId(orderId);
     }
 }

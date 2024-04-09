@@ -1,6 +1,7 @@
 package com.java6.java_6_asm.repositories;
 
 import com.java6.java_6_asm.entities.Cart;
+import com.java6.java_6_asm.entities.Order;
 import com.java6.java_6_asm.entities.User;
 import com.java6.java_6_asm.entities.product.Brand;
 import jakarta.transaction.Transactional;
@@ -26,5 +27,8 @@ public interface CartRepository extends JpaRepository<Cart, String> {
     @Query("select  p from  Cart p where  p.user.id = :userID and  p.product.productId = :productID and p.colorId = :colorId and p.sizeId = :sizeId and p.checkPay = false")
     Cart findByProductIDAndAndUserID(@Param("userID") Integer userID, @Param("productID") Integer productID, @Param("colorId") Integer colorId, @Param("sizeId") Integer sizeId);
 
+
+    @Query("select o from   Cart o where  o.order.orderId = :orderId")
+    List<Cart> findByAllOrderId(@Param("orderId") String orderId);
 
 }

@@ -81,6 +81,7 @@ function cartController($scope, $http, $rootScope) {
       console.log("isLiked" + $scope.isLiked)
     },
     function errorCallback(response) {
+      window.location.href = '/index.html#!/shop/login';
     }
   );
   $scope.addToFavorites1 = function (productId) {

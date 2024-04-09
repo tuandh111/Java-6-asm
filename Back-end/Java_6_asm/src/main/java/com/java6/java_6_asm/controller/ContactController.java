@@ -31,7 +31,7 @@ public class ContactController {
     }
 
     @GetMapping("/contact-by-userId/{id}")
-    public ResponseEntity<?> findAByContactId(@PathVariable("id") String id) {
+    public ResponseEntity<Contact> findAByContactId(@PathVariable("id") String id) {
         System.out.println(contactService.findByContactId(Integer.parseInt(id)));
         return ResponseEntity.ok(contactService.findByContactId(Integer.parseInt(id)));
     }

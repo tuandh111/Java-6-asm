@@ -20,4 +20,7 @@ public interface OrderService {
 
     Order findByUserId(HttpServletRequest httpServletRequest);
     List<Order> findByListOrder(HttpServletRequest httpServletRequest);
+
+    List<Order> findByContactId(String id);
+
 }

@@ -98,4 +98,10 @@ public class CartController {
     public ResponseEntity<List<Cart>> checkoutUpdate(@RequestBody CheckOutCartIdRequest cartRequest) {
         return ResponseEntity.ok(cartService.updateCheckOut(cartRequest));
     }
+
+
+    @GetMapping("/get-all-orderId/{id}")
+    public ResponseEntity<?> getOrderId(@PathVariable("id") String id) {
+        return ResponseEntity.ok(cartService.finAllOrderId(id));
+    }
 }

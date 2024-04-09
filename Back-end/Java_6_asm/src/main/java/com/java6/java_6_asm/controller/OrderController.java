@@ -17,20 +17,26 @@ public class OrderController {
     OrderService orderService;
     @Autowired
     private ObjectMapper objectMapper;
+
     @GetMapping("/management/twobee/orders")
-    public ResponseEntity<?> getAll(){
-        return  ResponseEntity.ok(orderService.getAllOrderDetail());
+    public ResponseEntity<?> getAll() {
+        return ResponseEntity.ok(orderService.getAllOrderDetail());
     }
 
     @PutMapping("/management/twobee/orders/{id}")
     public ResponseEntity<?> put(@PathVariable("id") String orderId, @RequestBody OrderRequest orderRequest) throws JsonProcessingException {
 //        System.out.println("orderId "+orderId);
 //        System.out.println("orderRequest"+orderRequest);
-        Order response = orderService.update(orderId,orderRequest);
-        if(response==null){
-            String errorMessage="Không tồn tại đơn hàng";
+        Order response = orderService.update(orderId, orderRequest);
+        if (response == null) {
+            String errorMessage = "Không tồn tại đơn hàng";
             return ResponseEntity.badRequest().body(objectMapper.writeValueAsString(errorMessage));
         }
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/orders/{id}")
+    public ResponseEntity<?> findByContactId(@PathVariable("id") String id) {
+        return ResponseEntity.ok(orderService.findByContactId(id));
     }
 }
