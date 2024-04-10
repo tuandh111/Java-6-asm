@@ -66,6 +66,29 @@
         </div>
       </div>
     </div>
+    <h2>Giảm giá phần trăm</h2>
+    <div class="row">
+      <div class="col-lg-3" ng-repeat=" voucher in vouchers">
+        <div class="mb-3">
+          <div ng-if="voucher.type ==='PT'">
+            <div class="card mr-2" style="width:240px;height: 430px;">
+              <div class="card-body pb-4">
+                <h5 class="card-title text-danger">Mã: <span class="btn btn-secondary"
+                    id="{{voucher.voucherName}}">{{voucher.voucherName}}</span>
+                </h5>
+                <h4>Giảm: {{voucher.amountPercentage}} %
+                </h4>
+                <p class="card-text">{{voucher.description}}</p>
+                <p>Áp dụng từ ngày: {{voucher.effectiveDate | date: 'dd/MM/yyyy'}}</p>
+                <p>Ngày hết hạn: {{voucher.expirationDate | date: 'dd/MM/yyyy'}}</p>
+                <button class="btn btn-warning" ng-click="copyVoucher(voucher.voucherName)">Sao
+                  chép</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <h2>Sự kiện</h2>
     <div ng-repeat="voucher in vouchers">
       <div ng-if="voucher.type =='EVENT'">
@@ -267,7 +290,9 @@
             <ul class="list list_2">
               <li><a href="#">Tạm tính: <span>{{totalAmount | number : fractionSize}} VNĐ</span></a></li>
               <li><a href="#">Phí giao hàng: <span>{{freeShip}}</span></a></li>
-              <li><a href="#">Giảm giá voucher: <span>{{count | number : fractionSize}} VNĐ</span></a>
+              <li><a href="#">Giảm giá voucher tiền mặt: <span>{{count | number : fractionSize}} VNĐ</span></a>
+              </li>
+              <li><a href="#">Giảm giá voucher phần trăm: <span>{{coutPT }} %</span></a>
               </li>
               <li><a href="#">{{discountTitle}}<span>{{discount}}</span></a></li>
               <li>
