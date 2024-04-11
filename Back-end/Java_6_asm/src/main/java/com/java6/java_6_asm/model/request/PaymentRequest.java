@@ -8,7 +8,10 @@ import lombok.Setter;
 @Setter
 @Builder
 public class PaymentRequest {
-    private String numberPhone;
-    private double totalAmount;
+
     private String[] cartId;
+    private int userId;
+    private int contactId;
+    private double totalAmount;
+    private String payments;
 }

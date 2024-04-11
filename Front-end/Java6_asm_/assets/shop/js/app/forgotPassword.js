@@ -28,8 +28,8 @@ app.controller('forgotPasswordController', ['$scope', '$http', function ($scope,
                 title: 'Xác thực tài khoản',
                 html: `<form action="/verify-code" method="post">
                         <input type="text" id="verificationCode" name="confirmPassword1" class="swal2-input" placeholder="Nhập mã xác nhận email" />
-                        <input type="text" id="password" name="confirmPassword1" class="swal2-input" placeholder="Nhập mật khẩu mới" />
-                        <input type="text" id="confirmPassword" name="confirmPassword1" class="swal2-input" placeholder="Nhập lại mật khẩu" />
+                        <input type="password" id="password" name="confirmPassword1" class="swal2-input" placeholder="Nhập mật khẩu mới" />
+                        <input type="passoword" id="confirmPassword" name="confirmPassword1" class="swal2-input" placeholder="Nhập lại mật khẩu" />
                     </form>`,
                 showCancelButton: true,
                 confirmButtonText: 'Xác nhận',
@@ -86,7 +86,7 @@ app.controller('forgotPasswordController', ['$scope', '$http', function ($scope,
                                 timer: 1500
                             }).then(function () {
                                 // Redirect to the home page
-                                window.location.href = '#!/shop/registerr'; // Change '/home' to the actual URL of your home page
+                                window.location.href = '#!/shop/register'; // Change '/home' to the actual URL of your home page
                             });
                         }
                     });

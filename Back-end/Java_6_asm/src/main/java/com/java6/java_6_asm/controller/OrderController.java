@@ -45,4 +45,14 @@ public class OrderController {
         orderService.deleteOrder(id);
         return ResponseEntity.ok(new MessageResponse("successfully"));
     }
+
+    @PutMapping("/update-order/{id}")
+    public ResponseEntity<?> updateOrder(@PathVariable("id") String orderId, @RequestBody OrderRequest orderRequest) throws JsonProcessingException {
+        Order response = orderService.update(orderId, orderRequest);
+        if (response == null) {
+            String errorMessage = "Không tồn tại đơn hàng";
+            return ResponseEntity.badRequest().body(objectMapper.writeValueAsString(errorMessage));
+        }
+        return ResponseEntity.ok(response);
+    }
 }

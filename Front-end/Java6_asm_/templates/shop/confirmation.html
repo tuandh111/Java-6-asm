@@ -6,7 +6,7 @@
         <h1>Order Confirmation</h1>
         <nav aria-label="breadcrumb" class="banner-breadcrumb">
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item"><a href="javasctipt:void(0)">Home</a></li>
             <li class="breadcrumb-item active" aria-current="page">Shop Category</li>
           </ol>
         </nav>
@@ -33,7 +33,7 @@
             <select ng-model="selectedStatus" class="form-control mt-2" ng-change=" onStatusChange()">
               <option value="">-- Chọn trạng thái --</option>
               <option value="all">--Tất cả --</option>
-              <option value="Đặt hàng">Đặt hàng</option>
+              <option value="Đang chờ hoàn tiền">Đang chờ hoàn tiền</option>
               <option value="Đang chờ xác nhận">Đang chờ xác nhận</option>
               <option value="Thành công">Thành công</option>
             </select>
@@ -42,7 +42,7 @@
             <thead>
               <tr>
                 <th>Mã đơn hàng</th>
-                <th>Status</th>
+                <th>Trạng thái đơn hàng</th>
                 <th>Ngày đặt</th>
                 <th></th>
                 <th></th>
@@ -52,10 +52,10 @@
               <tr>
                 <td>{{od.orderId}}</td>
                 <td>{{od.status}}</td>
-                <td>{{od.createAt | date: 'dd/MM/yyyy'}}</td>
+                <td>{{od.createAt | date: 'HH:mm:ss dd/MM/yyyy'}}</td>
                 <td> <a style="float: right;" href="javascript:void(0)" class="btn btn-primary"
                     ng-click="details(od)">Xem chi tiết</a></td>
-                <td ng-if="od.status == 'Đặt hàng' || od.status == 'Đang chờ xác nhận'">
+                <td ng-if=" od.status == 'Đang chờ xác nhận'">
                   <a href="javascript:void(0)" class="btn btn-danger" ng-click="deleteOd(od)">Hủy đơn</a>
                 </td>
               </tr>
@@ -95,18 +95,21 @@
             style="text-decoration: line-through;float: right;margin-right: 15px;">
             {{ checkOut.product.price | number : fractionSize }}
           </span>
+          <div ng-if="$last">Hình thức thanh toán: {{ checkOut.order.payments }}</div>
         </div>
         <ul class="list list_2 mt-5" style="font-size: 16px;">
-          <li><a href="#">Tạm tính: <span>{{totalAmount | number : fractionSize}} VNĐ</span></a></li>
-          <li><a href="#">Phí giao hàng: <span>{{freeShip}}</span></a></li>
-          <li><a href="#">{{discountTitle}}<span>{{discount}}</span></a></li>
-          <li ng-if="voucher.condition != null"><a href="#">Voucher tiền mặt: <span>{{voucher.condition | number :
+          <li><a href="javasctipt:void(0)">Tạm tính: <span>{{totalAmount | number : fractionSize}} VNĐ</span></a></li>
+          <li><a href="javasctipt:void(0)">Phí giao hàng: <span>{{freeShip}}</span></a></li>
+          <li><a href="javasctipt:void(0)">{{discountTitle}}<span>{{discount}}</span></a></li>
+          <li ng-if="voucher.condition != null"><a href="javasctipt:void(0)">Voucher tiền mặt: <span>{{voucher.condition
+                | number :
                 fractionSize}} VNĐ</span></a>
           </li>
-          <li ng-if="voucher.amountPercentage != null"><a href="#">Voucher phần trăm: <span>{{voucher.amountPercentage}}
+          <li ng-if="voucher.amountPercentage != null"><a href="javasctipt:void(0)">Voucher phần trăm:
+              <span>{{voucher.amountPercentage}}
                 %</span></a></li>
-          <li><a href="#">Tổng tiền: <span>{{totalCartAll | number : fractionSize}} VNĐ</span></a></li>
-          <li>(Đã bao gồm VAT)</li>
+          <li><a href="javasctipt:void(0)">Tổng tiền: <span>{{totalCartAll | number : fractionSize}} VNĐ</span></a></li>
+          <li>(Đã bao gồm VAT) </li>
         </ul>
 
 

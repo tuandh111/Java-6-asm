@@ -3,11 +3,13 @@ package com.java6.java_6_asm.controller;
 
 import com.java6.java_6_asm.config.ConfigVNPay;
 import com.java6.java_6_asm.entities.Cart;
+import com.java6.java_6_asm.entities.Order;
 import com.java6.java_6_asm.entities.User;
 import com.java6.java_6_asm.entities.product.Product;
 import com.java6.java_6_asm.model.request.PaymentRequest;
 import com.java6.java_6_asm.model.response.MessageResponse;
 import com.java6.java_6_asm.repositories.CartRepository;
+import com.java6.java_6_asm.repositories.OrderRepository;
 import com.java6.java_6_asm.repositories.PaymentRepository;
 import com.java6.java_6_asm.repositories.UserRepository;
 import com.java6.java_6_asm.repositories.product.ProductRepository;
@@ -43,6 +45,8 @@ public class PaymentController {
     JwtService jwtService;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    OrderRepository orderRepository;
 
     @PostMapping("/pay")
     public ResponseEntity<?> getPay(HttpServletRequest httpServletRequest, @RequestBody PaymentRequest paymentRequest) throws UnsupportedEncodingException {
@@ -59,7 +63,30 @@ public class PaymentController {
                 return ResponseEntity.ok("NotEnoughProducts");
             }
         }
-
+        List<Cart> newListCartId = new ArrayList<>();
+        String[] cartIds = paymentRequest.getCartId();
+        for (String cartId : cartIds) {
+            Optional<Cart> cartOptional = cartRepository.findById(cartId);
+            if (cartOptional.isPresent()) {
+                newListCartId.add(cartOptional.get());
+            }
+        }
+        Order orderNew = new Order();
+        orderNew.setOrderId(ConfigVNPay.getRandomString(12));
+        orderNew.setContactId(paymentRequest.getContactId());
+        orderNew.setTotalAmount(paymentRequest.getTotalAmount());
+        orderNew.setUser(userCustom);
+        orderNew.setIdVoucher(paymentRequest.getUserId());
+        orderNew.setPayments(paymentRequest.getPayments());
+        orderNew.setStatus("Đang chờ xác nhận");
+        orderNew.setNote("Đơn hàng đang giao");
+        orderRepository.save(orderNew);
+        for (Cart cart : newListCartId) {
+            cart.setVoucherId(paymentRequest.getUserId());
+            cart.setCheckPay(true);
+            cart.setOrder(orderNew);
+            cartRepository.save(cart);
+        }
         long totalPrice = (long) paymentRequest.getTotalAmount();
         System.out.println("tp" + totalPrice);
         String vnp_Version = "2.1.0";
@@ -86,7 +113,7 @@ public class PaymentController {
         vnp_Params.put("vnp_OrderType", orderType);
 
         vnp_Params.put("vnp_Locale", "vn");
-        vnp_Params.put("vnp_ReturnUrl", ConfigVNPay.vnp_ReturnUrl + "?PhoneID=" + paymentRequest.getNumberPhone());
+        vnp_Params.put("vnp_ReturnUrl", ConfigVNPay.vnp_ReturnUrl + "?PhoneID=" + paymentRequest.getTotalAmount());
         vnp_Params.put("vnp_IpAddr", vnp_IpAddr);
 
         Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));

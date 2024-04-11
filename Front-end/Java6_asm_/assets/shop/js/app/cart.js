@@ -1117,6 +1117,7 @@ function cartController($scope, $http, $rootScope) {
       imageId: null,
       sizeId: parseInt(selectedSizeId)
     };
+
     $http({
       method: "POST",
       headers: {

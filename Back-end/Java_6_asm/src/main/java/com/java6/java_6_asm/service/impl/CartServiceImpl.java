@@ -88,6 +88,7 @@ public class CartServiceImpl implements CartService {
         orderNew.setTotalAmount(checkOutCartIdRequest.getTotalCartAll());
         orderNew.setUser(user);
         orderNew.setIdVoucher(checkOutCartIdRequest.getUserId());
+        orderNew.setPayments(checkOutCartIdRequest.getPayments());
         orderNew.setStatus("Đang chờ xác nhận");
         orderNew.setNote("Đơn hàng đang giao");
         orderRepository.save(orderNew);

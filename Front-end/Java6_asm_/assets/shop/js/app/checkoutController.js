@@ -1040,12 +1040,15 @@ app.controller('checkoutController', ['$scope', '$http', '$location', function (
     }
 
     $scope.payment = function () {
+        var contact_id = localStorage.getItem('updateContactId');
         const storedCartIds = localStorage.getItem('checkCartId');
         const cartIdsArray = storedCartIds.split(',');
         const trimmedCartIdsArray = cartIdsArray.map(id => id.trim());
         const uniqueCartIds = [...new Set(trimmedCartIdsArray)];
         var requestData = {
-            numberPhone: "",
+            userId: $scope.voucherId,//mã voucher
+            contactId: contact_id,// địa chỉ
+            payments: 'VNPAY',
             totalAmount: $scope.totalCartAll,
             cartId: uniqueCartIds,
         };
@@ -1131,7 +1134,8 @@ app.controller('checkoutController', ['$scope', '$http', '$location', function (
             cartId: uniqueCartIds,
             userId: $scope.voucherId,
             contactId: contact_id,
-            totalCartAll: $scope.totalCartAll
+            totalCartAll: $scope.totalCartAll,
+            payments: $scope.selector
         };
         if ($scope.selector == null || $scope.selector === undefined || $scope.selector === '') {
             $scope.errorPay = true;

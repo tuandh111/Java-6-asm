@@ -19,7 +19,7 @@ public class Order {
     @Id
     private String orderId;
 
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "createAt")
     private Date createAt = new Date();
 

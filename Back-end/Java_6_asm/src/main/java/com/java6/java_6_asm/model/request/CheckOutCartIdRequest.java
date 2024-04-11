@@ -12,4 +12,5 @@ public class CheckOutCartIdRequest {
     private int userId;
     private int contactId;
     private double totalCartAll;
+    private String payments;
 }
