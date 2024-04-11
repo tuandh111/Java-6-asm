@@ -40,7 +40,7 @@ public class CartController {
         return ResponseEntity.ok(cartService.findAllByUser(httpServletRequest));
     }
 
-    @GetMapping("/auth/twobee/carts")
+    @GetMapping("/management/twobee/carts")
     public ResponseEntity<?> getAllCartForAdmin() {
         return ResponseEntity.ok(cartService.findAllCartForAdmin());
     }

@@ -45,7 +45,7 @@
                                     <thead>
                                         <tr>
                                             <th>Mã đơn hàng</th>
-                                            <th>Ngày đơn hàng</th>
+                                            <th>Ngày Đang chờ xác nhận</th>
                                             <th>Giá trị</th>
                                             <th>Trạng thái</th>
                                             <th>Ghi chú</th>
@@ -55,7 +55,7 @@
                                     <tfoot>
                                         <tr>
                                             <th>Mã đơn hàng</th>
-                                            <th>Ngày đơn hàng</th>
+                                            <th>Ngày Đang chờ xác nhận</th>
                                             <th>Giá trị</th>
                                             <th>Trạng thái</th>
                                             <th>Ghi chú</th>
@@ -65,7 +65,7 @@
                                     <tbody>
                                         <tr ng-repeat="o in listOrderShow |filter:searchText |limitTo:pageSize:begin">
                                             <td>{{o.order.orderId}}</td>
-                                            <td>{{o.order.createAt}}</td>
+                                            <td>{{o.order.createDate}}</td>
 
                                             <td>{{o.order.totalAmount|formatPrice}}</td>
                                             <td ng-if="o.order.status=='Thành công'" class="text-success">Thành công

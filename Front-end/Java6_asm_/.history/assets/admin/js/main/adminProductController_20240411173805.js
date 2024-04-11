@@ -236,11 +236,6 @@ app.controller('AdminProductController', function ($scope, $http, $rootScope, $l
             if ($scope.filenames.length > 0) {
                 $scope.filenames.forEach(filename => $scope.deleteImg(filename))
             }
-            Swal.fire({
-                title: "Thành công!",
-                html: "Đã đặt mặc định",
-                icon: "success"
-            })
         }
 
         $scope.updateProduct = function () {

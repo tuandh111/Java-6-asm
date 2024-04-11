@@ -22,16 +22,11 @@ app.controller('AdminOrderController', function ($scope, $http, $rootScope, $loc
     $scope.listSizesFilter = [];
     $scope.listColorsFilter = [];
 
-    $scope.listOrderSortByCreateDate = [];
-
-    $rootScope.urlImgProd = (filename) => {
-        return "http://localhost:8080/api/v1/auth/twobee/uploadImage/" + filename;
-    }
     $scope.getOrders = function () {
         $http.get(url + "/management/twobee/orders", { headers: headers }).then(respone => {
             $scope.listOrderFilter = respone.data;
             $scope.listOrderShow = $scope.listOrderFilter;
-            console.log("$scope.listOrderFilter", $scope.listOrderFilter);
+            console.log(" $scope.listOrderShow ", $scope.listOrderShow);
             $scope.pageCount = Math.ceil($scope.listOrderShow.length / $scope.pageSize);
             $scope.firtPage = function () {
                 $scope.begin = 0;
@@ -57,8 +52,8 @@ app.controller('AdminOrderController', function ($scope, $http, $rootScope, $loc
     $scope.getCarts = function () {
         $http.get(url + "/management/twobee/carts", { headers: headers }).then(respone => {
             $scope.listCartFilter = respone.data;
-            // $scope.listCartFilterByCartId = $scope.listCartFilter;
-            // console.log("$scope.listCartFilter ", $scope.listCartFilter);
+            $scope.listCartFilterByCartId = $scope.listCartFilter;
+            console.log("$scope.listCartFilter ", $scope.listCartFilter);
         }).catch(err => {
             console.log("error", err);
         })
@@ -116,7 +111,7 @@ app.controller('AdminOrderController', function ($scope, $http, $rootScope, $loc
             } else {
                 $rootScope.userInfo = null;
             }
-            //    console.log("$rootScope.listCartFilterByCartId", $rootScope.listCartFilterByCartId);
+            console.log("$rootScope.listCartFilterByCartId", $rootScope.listCartFilterByCartId);
             console.log("$rootScope.userInfo", $rootScope.userInfo);
         }
 
@@ -226,6 +221,7 @@ app.controller('AdminOrderController', function ($scope, $http, $rootScope, $loc
         }
 
     };
+
 
     $scope.getOrders();
     $scope.getCarts();

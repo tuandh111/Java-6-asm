@@ -13,7 +13,7 @@ import java.util.Optional;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, String> {
 
-    @Query("select o,(Select STRING_AGG(c.cartId, ',') from Cart c Where c.order=o) from Order o")
+    @Query("select o,(Select STRING_AGG(c.cartId, ',') from Cart c Where c.order=o) from Order o order by o.createAt desc")
     List<Object[]> getAllOrderDetail();
 
     @Query("SELECT o FROM Order o WHERE o.user.id = :id AND o.status = :status")

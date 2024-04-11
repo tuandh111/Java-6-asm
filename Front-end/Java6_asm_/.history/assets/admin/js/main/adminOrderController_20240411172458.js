@@ -22,8 +22,6 @@ app.controller('AdminOrderController', function ($scope, $http, $rootScope, $loc
     $scope.listSizesFilter = [];
     $scope.listColorsFilter = [];
 
-    $scope.listOrderSortByCreateDate = [];
-
     $rootScope.urlImgProd = (filename) => {
         return "http://localhost:8080/api/v1/auth/twobee/uploadImage/" + filename;
     }
@@ -31,7 +29,7 @@ app.controller('AdminOrderController', function ($scope, $http, $rootScope, $loc
         $http.get(url + "/management/twobee/orders", { headers: headers }).then(respone => {
             $scope.listOrderFilter = respone.data;
             $scope.listOrderShow = $scope.listOrderFilter;
-            console.log("$scope.listOrderFilter", $scope.listOrderFilter);
+            console.log(" $scope.listOrderShow ", $scope.listOrderShow);
             $scope.pageCount = Math.ceil($scope.listOrderShow.length / $scope.pageSize);
             $scope.firtPage = function () {
                 $scope.begin = 0;
@@ -227,6 +225,14 @@ app.controller('AdminOrderController', function ($scope, $http, $rootScope, $loc
 
     };
 
+    // $scope.sortListProduct = () => {
+    //     $scope.listOrdersSortByCreateDate = $scope.infoProductRelative.products.sort((prod1, prod2) => {
+    //         return new Date(prod2.createDate) - new Date(prod1.createDate);
+    //         //return prod2.productId - prod1.productId;
+    //     });
+    //     //  console.log("listProductSortByCreateDate", $scope.listProductSortByCreateDate);
+    //     return $scope.listProductSortByCreateDate
+    // }
     $scope.getOrders();
     $scope.getCarts();
     $scope.getProducts();

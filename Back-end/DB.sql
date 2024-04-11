@@ -561,14 +561,7 @@ insert into _user(birth_day, email, firstname,gender, lastname, password,role) v
 insert into contact(address_name, is_active, is_message, number_phone,user_id) values (N'ấp khánh hội, thị trấn ngã sáu, huyện châu thành, tỉnh hậu giang',0, 0, '0383658814',1)
 insert into contact(address_name, is_active, is_message, number_phone,user_id) values (N'ấp khánh hội, thị trấn ngã sáu, huyện châu thành, tỉnh hậu giang',0, 0, '0383658812',2)
 insert into contact(address_name, is_active, is_message, number_phone,user_id) values (N'ấp khánh hội, thị trấn ngã sáu, huyện châu thành, tỉnh hậu giang',0, 0, '0383658816',3)
--- Thêm dữ liệu bảng giỏ hàng
-insert into cart(cart_id,check_pay, quantity,product_id,id,order_id) values ('1dsfsd',0,2,1,1,'dfyrhewdferrte')
-insert into cart(cart_id,check_pay, quantity,product_id,id,order_id) values ('1dsfsdfsdf',0,2,1,2,'dfyrhewdferrte')
-insert into cart(cart_id,check_pay, quantity,product_id,id,order_id) values ('1abc',1,2,10,1,'1dfyrhewdferrteq')
-insert into cart(cart_id,check_pay, quantity,product_id,id,order_id) values ('2abc',1,1,2,1,'1dfyrhewdferrteq')
-insert into cart(cart_id,check_pay, quantity,product_id,id,order_id) values ('3abc',1,1,5,1,'1dfyrhewdferrteq')
-insert into cart(cart_id,check_pay, quantity,product_id,id,order_id) values ('4abc',1,1,27,1,'2dfyrhewdferrteq')
-insert into cart(cart_id,check_pay, quantity,product_id,id,order_id) values ('5abc',1,1,28,1,'2dfyrhewdferrteq')
+
 
 
 -- thêm dữ liệu vào bảng order
@@ -633,7 +626,14 @@ values('2024-04-30', NULL,12000, N'Sự kiện lễ 30/4',N'Sản phẩm đượ
 insert into voucher(expiration_date,amount_percentage,condition,event,description,effective_date,type,voucher_name,user_id)
 values('2025-05-01', NULL,12000, N'Sự kiện lễ 1/5',N'Sản phẩm được khuyến','2024-05-01','EVENT','IHERTPROI10',1)
 
-
+-- Thêm dữ liệu bảng giỏ hàng
+insert into cart(cart_id,check_pay, quantity,product_id,id,order_id) values ('1dsfsd',0,2,1,1,'dfyrhewdferrte')
+insert into cart(cart_id,check_pay, quantity,product_id,id,order_id) values ('1dsfsdfsdf',0,2,1,2,'dfyrhewdferrte')
+insert into cart(cart_id,check_pay, quantity,product_id,id,order_id) values ('1abc',1,2,10,1,'1dfyrhewdferrteq')
+insert into cart(cart_id,check_pay, quantity,product_id,id,order_id) values ('2abc',1,1,2,1,'1dfyrhewdferrteq')
+insert into cart(cart_id,check_pay, quantity,product_id,id,order_id) values ('3abc',1,1,5,1,'1dfyrhewdferrteq')
+insert into cart(cart_id,check_pay, quantity,product_id,id,order_id) values ('4abc',1,1,27,1,'2dfyrhewdferrteq')
+insert into cart(cart_id,check_pay, quantity,product_id,id,order_id) values ('5abc',1,1,28,1,'2dfyrhewdferrteq')
 
 
 

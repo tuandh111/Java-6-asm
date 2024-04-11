@@ -31,7 +31,7 @@ app.controller('AdminOrderController', function ($scope, $http, $rootScope, $loc
         $http.get(url + "/management/twobee/orders", { headers: headers }).then(respone => {
             $scope.listOrderFilter = respone.data;
             $scope.listOrderShow = $scope.listOrderFilter;
-            console.log("$scope.listOrderFilter", $scope.listOrderFilter);
+            console.log(" $scope.listOrderShow ", $scope.listOrderShow);
             $scope.pageCount = Math.ceil($scope.listOrderShow.length / $scope.pageSize);
             $scope.firtPage = function () {
                 $scope.begin = 0;
@@ -227,6 +227,12 @@ app.controller('AdminOrderController', function ($scope, $http, $rootScope, $loc
 
     };
 
+    $scope.sortListOrder = () => {
+        $scope.listOrderSortByCreateDate = $scope.listOrderShow.order.sort((o1, o2) => {
+            return new Date(o2.createAt) - new Date(o1.createAt);
+        });
+        return $scope.listOrderSortByCreateDate;
+    }
     $scope.getOrders();
     $scope.getCarts();
     $scope.getProducts();
