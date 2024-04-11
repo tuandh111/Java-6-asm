@@ -22,16 +22,14 @@ app.controller('AdminOrderController', function ($scope, $http, $rootScope, $loc
     $scope.listSizesFilter = [];
     $scope.listColorsFilter = [];
 
-    $scope.listOrderSortByCreateDate = [];
-
-    $rootScope.urlImgProd = (filename) => {
-        return "http://localhost:8080/api/v1/auth/twobee/uploadImage/" + filename;
+    $rootScope.urlImg = (filename) => {
+        return "http://localhost:8080/api/v1/auth/twobee/images/" + filename;
     }
     $scope.getOrders = function () {
         $http.get(url + "/management/twobee/orders", { headers: headers }).then(respone => {
             $scope.listOrderFilter = respone.data;
             $scope.listOrderShow = $scope.listOrderFilter;
-            console.log("$scope.listOrderFilter", $scope.listOrderFilter);
+            console.log(" $scope.listOrderShow ", $scope.listOrderShow);
             $scope.pageCount = Math.ceil($scope.listOrderShow.length / $scope.pageSize);
             $scope.firtPage = function () {
                 $scope.begin = 0;
@@ -226,6 +224,7 @@ app.controller('AdminOrderController', function ($scope, $http, $rootScope, $loc
         }
 
     };
+
 
     $scope.getOrders();
     $scope.getCarts();

@@ -22,16 +22,11 @@ app.controller('AdminOrderController', function ($scope, $http, $rootScope, $loc
     $scope.listSizesFilter = [];
     $scope.listColorsFilter = [];
 
-    $scope.listOrderSortByCreateDate = [];
-
-    $rootScope.urlImgProd = (filename) => {
-        return "http://localhost:8080/api/v1/auth/twobee/uploadImage/" + filename;
-    }
     $scope.getOrders = function () {
         $http.get(url + "/management/twobee/orders", { headers: headers }).then(respone => {
             $scope.listOrderFilter = respone.data;
             $scope.listOrderShow = $scope.listOrderFilter;
-            console.log("$scope.listOrderFilter", $scope.listOrderFilter);
+            console.log(" $scope.listOrderShow ", $scope.listOrderShow);
             $scope.pageCount = Math.ceil($scope.listOrderShow.length / $scope.pageSize);
             $scope.firtPage = function () {
                 $scope.begin = 0;
@@ -106,9 +101,7 @@ app.controller('AdminOrderController', function ($scope, $http, $rootScope, $loc
     }
 
     $scope.filterOrder = function () {
-        $scope.getCarts();
         $scope.filerCartByCartId = function (dataCartId) {
-            // console.log("dataCartId", dataCartId);
             $scope.filteredCarts = $scope.listCartFilter.filter(cart => dataCartId.includes(cart.cartId))
             $rootScope.listCartFilterByCartId = $scope.filteredCarts
             if ($scope.filteredCarts && $scope.filteredCarts.length > 0 && $scope.filteredCarts[0].user !== undefined) {
@@ -116,7 +109,7 @@ app.controller('AdminOrderController', function ($scope, $http, $rootScope, $loc
             } else {
                 $rootScope.userInfo = null;
             }
-            //    console.log("$rootScope.listCartFilterByCartId", $rootScope.listCartFilterByCartId);
+            console.log("$rootScope.listCartFilterByCartId", $rootScope.listCartFilterByCartId);
             console.log("$rootScope.userInfo", $rootScope.userInfo);
         }
 
@@ -226,6 +219,7 @@ app.controller('AdminOrderController', function ($scope, $http, $rootScope, $loc
         }
 
     };
+
 
     $scope.getOrders();
     $scope.getCarts();

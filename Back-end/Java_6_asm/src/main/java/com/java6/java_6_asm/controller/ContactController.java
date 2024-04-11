@@ -57,4 +57,5 @@ public class ContactController {
     public ResponseEntity<UserWithIdResponse> findAllByUser(HttpServletRequest httpServletRequest) {
         return ResponseEntity.ok(userService.findByUserId(httpServletRequest));
     }
+
 }

@@ -117,11 +117,6 @@ app.controller('AdminBrandController', function ($scope, $http, $rootScope, $loc
                 nameBrand: "",
                 isActive: false
             };
-            Swal.fire({
-                title: "Thành công!",
-                html: "Đã đặt mặc định",
-                icon: "success"
-            })
         }
         $scope.createBrand = function () {
             var requsetBrandJSON = angular.toJson($scope.formBrand)

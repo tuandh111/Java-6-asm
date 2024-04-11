@@ -109,7 +109,7 @@ app.controller('AdminProductController', function ($scope, $http, $rootScope, $l
             return new Date(prod2.createDate) - new Date(prod1.createDate);
             //return prod2.productId - prod1.productId;
         });
-        //console.log("listProductSortByCreateDate", $scope.listProductSortByCreateDate);
+        console.log("listProductSortByCreateDate", $scope.listProductSortByCreateDate);
         return $scope.listProductSortByCreateDate
     }
 
@@ -236,11 +236,6 @@ app.controller('AdminProductController', function ($scope, $http, $rootScope, $l
             if ($scope.filenames.length > 0) {
                 $scope.filenames.forEach(filename => $scope.deleteImg(filename))
             }
-            Swal.fire({
-                title: "Thành công!",
-                html: "Đã đặt mặc định",
-                icon: "success"
-            })
         }
 
         $scope.updateProduct = function () {

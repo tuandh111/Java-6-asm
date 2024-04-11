@@ -49,6 +49,14 @@ app.controller('AdminOrderController', function ($scope, $http, $rootScope, $loc
             $scope.lastPage = function () {
                 $scope.begin = ($scope.pageCount - 1) * $scope.pageSize
             }
+            $scope.sortListOrder = () => {
+                $scope.listOrderSortByCreateDate = $scope.listOrderFilter.order.sort((o1, o2) => {
+                    return new Date(o2.createAt) - new Date(o1.createAt);
+                });
+                console.log("$scope.listOrderSortByCreateDate", $scope.listOrderSortByCreateDate);
+                return $scope.listOrderSortByCreateDate;
+            }
+            $scope.sortListOrder();
         }).catch(err => {
             console.log("error", err);
         })
@@ -227,6 +235,13 @@ app.controller('AdminOrderController', function ($scope, $http, $rootScope, $loc
 
     };
 
+    // $scope.sortListOrder = () => {
+    //     $scope.listOrderSortByCreateDate = $scope.listOrderFilter.order.sort((o1, o2) => {
+    //         return new Date(o2.createAt) - new Date(o1.createAt);
+    //     });
+    //     console.log("$scope.listOrderSortByCreateDate", $scope.listOrderSortByCreateDate);
+    //     return $scope.listOrderSortByCreateDate;
+    // }
     $scope.getOrders();
     $scope.getCarts();
     $scope.getProducts();
