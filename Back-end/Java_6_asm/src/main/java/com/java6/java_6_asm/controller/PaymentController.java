@@ -47,6 +47,8 @@ public class PaymentController {
     UserRepository userRepository;
     @Autowired
     OrderRepository orderRepository;
+    @Autowired
+    SessionService sessionService;
 
     @PostMapping("/pay")
     public ResponseEntity<?> getPay(HttpServletRequest httpServletRequest, @RequestBody PaymentRequest paymentRequest) throws UnsupportedEncodingException {
@@ -64,6 +66,7 @@ public class PaymentController {
             }
         }
         List<Cart> newListCartId = new ArrayList<>();
+
         String[] cartIds = paymentRequest.getCartId();
         for (String cartId : cartIds) {
             Optional<Cart> cartOptional = cartRepository.findById(cartId);
@@ -71,28 +74,31 @@ public class PaymentController {
                 newListCartId.add(cartOptional.get());
             }
         }
-        Order orderNew = new Order();
-        orderNew.setOrderId(ConfigVNPay.getRandomString(12));
-        orderNew.setContactId(paymentRequest.getContactId());
-        orderNew.setTotalAmount(paymentRequest.getTotalAmount());
-        orderNew.setUser(userCustom);
-        orderNew.setIdVoucher(paymentRequest.getUserId());
-        orderNew.setPayments(paymentRequest.getPayments());
-        orderNew.setStatus("Đang chờ xác nhận");
-        orderNew.setNote("Đơn hàng đang giao");
-        orderRepository.save(orderNew);
-        for (Cart cart : newListCartId) {
-            cart.setVoucherId(paymentRequest.getUserId());
-            cart.setCheckPay(true);
-            cart.setOrder(orderNew);
-            cartRepository.save(cart);
+        String idOrder = ConfigVNPay.getRandomString(12);
+        if (paymentRequest.getPayments() != null) {
+            Order orderNew = new Order();
+            orderNew.setOrderId(idOrder);
+            orderNew.setContactId(paymentRequest.getContactId());
+            orderNew.setTotalAmount(paymentRequest.getTotalAmount());
+            orderNew.setUser(userCustom);
+            orderNew.setIdVoucher(paymentRequest.getUserId());
+            orderNew.setPayments(paymentRequest.getPayments());
+            orderNew.setStatus("Đang chờ xác nhận");
+            orderNew.setNote("");
+            orderRepository.save(orderNew);
+            for (Cart cart : newListCartId) {
+                cart.setVoucherId(paymentRequest.getUserId());
+                cart.setCheckPay(true);
+                cart.setOrder(orderNew);
+                cartRepository.save(cart);
+            }
         }
         long totalPrice = (long) paymentRequest.getTotalAmount();
         System.out.println("tp" + totalPrice);
         String vnp_Version = "2.1.0";
         String vnp_Command = "pay";
         String orderType = "other";
-        long amount = totalPrice *100;
+        long amount = totalPrice * 100;
         String bankCode = "NCB";
 
         String vnp_TxnRef = ConfigVNPay.getRandomNumber(8);
@@ -159,7 +165,7 @@ public class PaymentController {
     @GetMapping("/auth/payment")
     public void paymentController(Model model, HttpServletResponse httpServletResponse, HttpServletRequest httpServletRequest, @RequestParam("PhoneID") String PhoneID, @RequestParam("vnp_Amount") String vnp_Amount, @RequestParam("vnp_BankCode") String vnp_BankCode, @RequestParam("vnp_BankTranNo") String vnp_BankTranNo, @RequestParam("vnp_CardType") String vnp_CardType, @RequestParam("vnp_OrderInfo") String vnp_OrderInfo, @RequestParam("vnp_PayDate") String vnp_PayDate, @RequestParam("vnp_ResponseCode") String vnp_ResponseCode, @RequestParam("vnp_TmnCode") String vnp_TmnCode, @RequestParam("vnp_TransactionNo") String vnp_TransactionNo, @RequestParam("vnp_TransactionStatus") String vnp_TransactionStatus, @RequestParam("vnp_TxnRef") String vnp_TxnRef, @RequestParam("vnp_SecureHash") String vnp_SecureHash) {
         System.out.println("Chạy thành công");
-        System.out.println("vnp_Amount: " + Double.parseDouble(vnp_Amount)/100);
+        System.out.println("vnp_Amount: " + Double.parseDouble(vnp_Amount) / 100);
         System.out.println("vnp_BankCode: " + vnp_BankCode);
         System.out.println("vnp_BankTranNo: " + vnp_BankTranNo);
         System.out.println("vnp_CardType: " + vnp_CardType);
@@ -171,6 +177,11 @@ public class PaymentController {
         System.out.println("vnp_TransactionStatus: " + vnp_TransactionStatus);
         System.out.println("vnp_TxnRef: " + vnp_TxnRef);
         System.out.println("vnp_SecureHash: " + vnp_SecureHash);
+
+        Optional<Order> order = orderRepository.findById(vnp_TxnRef);
+        if (order.isPresent()) {
+
+        }
 
         try {
             httpServletResponse.sendRedirect("http://127.0.0.1:5501/index.html#!/shop/confirmation");

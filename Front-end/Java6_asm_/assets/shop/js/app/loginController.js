@@ -1,4 +1,6 @@
 app.controller('SignInController', ['$scope', '$http', function ($scope, $http) {
+
+
     $scope.signIn = function () {
         console.log('Login');
         $scope.checkInputFields();
@@ -28,6 +30,8 @@ app.controller('SignInController', ['$scope', '$http', function ($scope, $http) 
                             window.location.href = '/index.html#!';
                         });
                         $scope.loadData();
+
+
                         console.log('Login successful');
                     } else {
                         Swal.fire({
@@ -178,6 +182,7 @@ app.controller('SignInController', ['$scope', '$http', function ($scope, $http) 
             }
         );
     }
+
 
 }]);
 

@@ -2,7 +2,17 @@ console.log("this is cartController");
 app.controller("CartCtrl", cartController);
 
 function cartController($scope, $http, $rootScope) {
+  let headers = {
+    Authorization: "Bearer " + localStorage.getItem("accessToken"),
+    "X-Refresh-Token": localStorage.getItem("refreshToken"),
+  }
 
+  $http.get("http://localhost:8080/api/v1/by-userId", { headers: headers }).then(respone => {
+    console.log("userrrrr", respone.data);
+    $scope.userInfo = respone.data;
+  }).catch(err => {
+    console.log("error", err);
+  })
   //color
   $scope.openModel = function (productId) {
     // Gán productId vào $scope để hiển thị trong model

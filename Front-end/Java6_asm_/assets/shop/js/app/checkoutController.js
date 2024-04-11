@@ -1038,7 +1038,6 @@ app.controller('checkoutController', ['$scope', '$http', '$location', function (
         );
 
     }
-
     $scope.payment = function () {
         var contact_id = localStorage.getItem('updateContactId');
         const storedCartIds = localStorage.getItem('checkCartId');

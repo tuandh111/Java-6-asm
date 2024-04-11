@@ -82,21 +82,23 @@ public class CartServiceImpl implements CartService {
                 newListCartId.add(cartOptional.get());
             }
         }
-        Order orderNew = new Order();
-        orderNew.setOrderId(ConfigVNPay.getRandomString(12));
-        orderNew.setContactId(checkOutCartIdRequest.getContactId());
-        orderNew.setTotalAmount(checkOutCartIdRequest.getTotalCartAll());
-        orderNew.setUser(user);
-        orderNew.setIdVoucher(checkOutCartIdRequest.getUserId());
-        orderNew.setPayments(checkOutCartIdRequest.getPayments());
-        orderNew.setStatus("Đang chờ xác nhận");
-        orderNew.setNote("Đơn hàng đang giao");
-        orderRepository.save(orderNew);
-        for (Cart cart : newListCartId) {
-            cart.setVoucherId(checkOutCartIdRequest.getUserId());
-            cart.setCheckPay(true);
-            cart.setOrder(orderNew);
-            cartRepository.save(cart);
+        if(checkOutCartIdRequest.getPayments().equalsIgnoreCase("COD")) {
+            Order orderNew = new Order();
+            orderNew.setOrderId(ConfigVNPay.getRandomString(12));
+            orderNew.setContactId(checkOutCartIdRequest.getContactId());
+            orderNew.setTotalAmount(checkOutCartIdRequest.getTotalCartAll());
+            orderNew.setUser(user);
+            orderNew.setIdVoucher(checkOutCartIdRequest.getUserId());
+            orderNew.setPayments(checkOutCartIdRequest.getPayments());
+            orderNew.setStatus("Đang chờ xác nhận");
+            orderNew.setNote("");
+            orderRepository.save(orderNew);
+            for (Cart cart : newListCartId) {
+                cart.setVoucherId(checkOutCartIdRequest.getUserId());
+                cart.setCheckPay(true);
+                cart.setOrder(orderNew);
+                cartRepository.save(cart);
+            }
         }
         return newListCartId;
     }

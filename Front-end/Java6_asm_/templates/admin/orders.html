@@ -65,13 +65,14 @@
                                     <tbody>
                                         <tr ng-repeat="o in listOrderShow |filter:searchText |limitTo:pageSize:begin">
                                             <td>{{o.order.orderId}}</td>
-                                            <td>{{o.order.createAt}}</td>
+                                            <td>{{o.order.createAt |date: 'HH:mm:ss dd/MM/yyyy'}}</td>
 
                                             <td>{{o.order.totalAmount|formatPrice}}</td>
                                             <td ng-if="o.order.status=='Thành công'" class="text-success">Thành công
                                             </td>
                                             <td ng-if="o.order.status=='Đã hủy'" class="text-danger">Đã hủy</td>
-                                            <td ng-if="o.order.status=='Đang chờ xác nhận'">
+                                            <td
+                                                ng-if="o.order.status=='Đang chờ xác nhận'|| o.order.status=='Hủy đơn VNPAY'">
                                                 <select name="selectStatus" ng-model="o.order.status"
                                                     ng-change="updateStatus(o.order)">
                                                     <option value="Đang chờ xác nhận">Đang chờ xác nhận</option>

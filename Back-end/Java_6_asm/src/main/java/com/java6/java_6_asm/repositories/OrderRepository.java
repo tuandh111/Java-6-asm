@@ -16,13 +16,13 @@ public interface OrderRepository extends JpaRepository<Order, String> {
     @Query("select o,(Select STRING_AGG(c.cartId, ',') from Cart c Where c.order=o) from Order o order by o.createAt desc")
     List<Object[]> getAllOrderDetail();
 
-    @Query("SELECT o FROM Order o WHERE o.user.id = :id AND o.status = :status")
+    @Query("SELECT o FROM Order o WHERE o.user.id = :id AND o.status = :status ORDER BY o.createAt DESC")
     Optional<Order> findByUserId(@Param("id") Integer id, @Param("status") String status);
 
-    @Query("SELECT o FROM Order o WHERE o.user.id = :id ")
+    @Query("SELECT o FROM Order o WHERE o.user.id = :id ORDER BY o.createAt DESC")
     List<Order> findByListOrder(@Param("id") Integer id);
 
-    @Query("SELECT o FROM Order o WHERE o.contactId = :id" )
+    @Query("SELECT o FROM Order o WHERE o.contactId = :id ORDER BY o.createAt DESC" )
     List<Order> findByContactId(@Param("id") Integer id);
 
     @Query("select month(o.createAt), sum(o.totalAmount) From Order o where o.status like '%Thành công%' group by month(o.createAt) ORDER BY month(o.createAt) ASC")

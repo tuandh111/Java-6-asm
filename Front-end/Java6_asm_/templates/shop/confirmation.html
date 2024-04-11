@@ -44,6 +44,7 @@
                 <th>Mã đơn hàng</th>
                 <th>Trạng thái đơn hàng</th>
                 <th>Ngày đặt</th>
+                <th>Ghi chú</th>
                 <th></th>
                 <th></th>
               </tr>
@@ -53,6 +54,7 @@
                 <td>{{od.orderId}}</td>
                 <td>{{od.status}}</td>
                 <td>{{od.createAt | date: 'HH:mm:ss dd/MM/yyyy'}}</td>
+                <td>{{od.note}}</td>
                 <td> <a style="float: right;" href="javascript:void(0)" class="btn btn-primary"
                     ng-click="details(od)">Xem chi tiết</a></td>
                 <td ng-if=" od.status == 'Đang chờ xác nhận'">

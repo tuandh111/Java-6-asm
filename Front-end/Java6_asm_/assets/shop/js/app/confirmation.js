@@ -254,86 +254,99 @@ app.controller('confirmationController', ['$scope', '$http', function ($scope, $
 
         if (hoursSinceCreation <= 24) {
             if (order.payments == 'VNPAY') {
-                var requestData = {
-                    note: 'Hủy đơn VNPAY',
-                    status: 'Đang chờ hoàn tiền',
-
-                };
-                $http({
-                    method: "PUT",
-                    headers: {
-                        Authorization: "Bearer " + localStorage.getItem("accessToken"),
-                        "X-Refresh-Token": localStorage.getItem("refreshToken"),
-                    },
-                    data: JSON.stringify(requestData),
-                    url: "http://localhost:8080/api/v1/update-order/" + order.orderId,
-                }).then(function (response) {
-                    Swal.fire({
-                        title: "Thành công!",
-                        text: "Hãy đợi cửa hàng xác nhận hoàn tiền lại",
-                        icon: "success",
-                    });
-                    $http({
-                        method: "GET",
-                        headers: {
-                            Authorization: "Bearer " + localStorage.getItem("accessToken"),
-                            "X-Refresh-Token": localStorage.getItem("refreshToken"),
-                        },
-                        url: "http://localhost:8080/api/v1/get-all-order",
-                    }).then(
-                        function successCallback(response) {
-                            $scope.orders = response.data;
-
-                            console.table($scope.orders)
-                            $scope.filterOrdersByDate = function () {
-                                $scope.filteredOrders = $scope.orders.filter(function (od) {
-                                    var orderDate = new Date(od.createAt);
-                                    var startDate = new Date($scope.startDate);
-                                    var endDate = new Date($scope.endDate);
-
-                                    return orderDate >= startDate && orderDate <= endDate;
-                                });
-                            };
-                            $scope.selectedStatus = '';
-
-                            // Hàm để lọc danh sách đơn hàng dựa trên trạng thái được chọn
-                            $scope.filterOrdersByStatus = function () {
-                                $scope.filteredOrders = $scope.orders.filter(function (order) {
-                                    return order.status === $scope.selectedStatus;
-                                });
-                            };
-
-                            $scope.onStatusChange = function () {
-                                console.log('onStatusChange')
-                                $scope.filterOrdersByStatus();
-                            };
-
-                            // Khởi tạo filteredOrders ban đầu bằng toàn bộ danh sách orders
-                            $scope.filteredOrders = $scope.orders;
+                Swal.fire({
+                    title: "Huỷ đơn hàng",
+                    text: "Bạn có muốn hủy đơn hàng VNPAY?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Chấp nhận!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        var requestData = {
+                            note: 'Đang chờ hoàn tiền',
+                            status: 'Hủy đơn VNPAY',
+                        };
+                        $http({
+                            method: "PUT",
+                            headers: {
+                                Authorization: "Bearer " + localStorage.getItem("accessToken"),
+                                "X-Refresh-Token": localStorage.getItem("refreshToken"),
+                            },
+                            data: JSON.stringify(requestData),
+                            url: "http://localhost:8080/api/v1/update-order/" + order.orderId,
+                        }).then(function (response) {
+                            Swal.fire({
+                                title: "Thành công!",
+                                text: "Hãy đợi cửa hàng xác nhận hoàn tiền lại",
+                                icon: "success",
+                            });
                             $http({
                                 method: "GET",
                                 headers: {
                                     Authorization: "Bearer " + localStorage.getItem("accessToken"),
                                     "X-Refresh-Token": localStorage.getItem("refreshToken"),
                                 },
-                                url: "http://localhost:8080/api/v1/contact-by-userId",
+                                url: "http://localhost:8080/api/v1/get-all-order",
                             }).then(
                                 function successCallback(response) {
-                                    console.log("success")
-                                    $scope.contacts = response.data;
+                                    $scope.orders = response.data;
+
+                                    console.table($scope.orders)
+                                    $scope.filterOrdersByDate = function () {
+                                        $scope.filteredOrders = $scope.orders.filter(function (od) {
+                                            var orderDate = new Date(od.createAt);
+                                            var startDate = new Date($scope.startDate);
+                                            var endDate = new Date($scope.endDate);
+
+                                            return orderDate >= startDate && orderDate <= endDate;
+                                        });
+                                    };
+                                    $scope.selectedStatus = '';
+
+                                    // Hàm để lọc danh sách đơn hàng dựa trên trạng thái được chọn
+                                    $scope.filterOrdersByStatus = function () {
+                                        $scope.filteredOrders = $scope.orders.filter(function (order) {
+                                            return order.status === $scope.selectedStatus;
+                                        });
+                                    };
+
+                                    $scope.onStatusChange = function () {
+                                        console.log('onStatusChange')
+                                        $scope.filterOrdersByStatus();
+                                    };
+
+                                    // Khởi tạo filteredOrders ban đầu bằng toàn bộ danh sách orders
+                                    $scope.filteredOrders = $scope.orders;
+                                    $http({
+                                        method: "GET",
+                                        headers: {
+                                            Authorization: "Bearer " + localStorage.getItem("accessToken"),
+                                            "X-Refresh-Token": localStorage.getItem("refreshToken"),
+                                        },
+                                        url: "http://localhost:8080/api/v1/contact-by-userId",
+                                    }).then(
+                                        function successCallback(response) {
+                                            console.log("success")
+                                            $scope.contacts = response.data;
+                                        },
+                                        function errorCallback(response) {
+
+                                            // Xử lý lỗi nếu có
+                                        }
+                                    );
                                 },
                                 function errorCallback(response) {
-
                                     // Xử lý lỗi nếu có
                                 }
                             );
-                        },
-                        function errorCallback(response) {
-                            // Xử lý lỗi nếu có
-                        }
-                    );
+                        });
+
+                    }
                 });
                 return;
+
             }
             Swal.fire({
                 title: "Huỷ đơn hàng",
