@@ -1,6 +1,7 @@
 package com.java6.java_6_asm.service.impl;
 
 import com.java6.java_6_asm.config.ConfigVNPay;
+import com.java6.java_6_asm.controller.PaymentController;
 import com.java6.java_6_asm.entities.Cart;
 import com.java6.java_6_asm.entities.Order;
 import com.java6.java_6_asm.entities.User;
@@ -63,17 +64,17 @@ public class CartServiceImpl implements CartService {
                 newListCartId.add(cartOptional.get());
             }
         }
-        for (Cart cart : newListCartId){
-            System.out.println("car: "+ cart.getCartId());
+        for (Cart cart : newListCartId) {
+            System.out.println("car: " + cart.getCartId());
         }
         return newListCartId;
     }
 
     @Override
-    public List<Cart> updateCheckOut(HttpServletRequest httpServletRequest,CheckOutCartIdRequest checkOutCartIdRequest) {
+    public List<Cart> updateCheckOut(HttpServletRequest httpServletRequest, CheckOutCartIdRequest checkOutCartIdRequest) {
         String token = GetTokenRefreshToken.getToken(httpServletRequest);
         String email = jwtService.extractUsername(token);
-        User user = userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("Not found userId with Id: " ));
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("Not found userId with Id: "));
         List<Cart> newListCartId = new ArrayList<>();
         String[] cartIds = checkOutCartIdRequest.getCartId();
         for (String cartId : cartIds) {
@@ -82,7 +83,8 @@ public class CartServiceImpl implements CartService {
                 newListCartId.add(cartOptional.get());
             }
         }
-        if(checkOutCartIdRequest.getPayments().equalsIgnoreCase("COD")) {
+        
+        if (checkOutCartIdRequest.getPayments().equalsIgnoreCase("COD")) {
             Order orderNew = new Order();
             orderNew.setOrderId(ConfigVNPay.getRandomString(12));
             orderNew.setContactId(checkOutCartIdRequest.getContactId());

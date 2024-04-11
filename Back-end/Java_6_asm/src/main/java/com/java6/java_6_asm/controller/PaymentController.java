@@ -15,10 +15,12 @@ import com.java6.java_6_asm.repositories.UserRepository;
 import com.java6.java_6_asm.repositories.product.ProductRepository;
 import com.java6.java_6_asm.security.service.GetTokenRefreshToken;
 import com.java6.java_6_asm.security.service.JwtService;
+import com.java6.java_6_asm.service.service.utils.CookieService;
 import com.java6.java_6_asm.service.service.utils.ParamService;
 import com.java6.java_6_asm.service.service.utils.SessionService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.hibernate.annotations.Array;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -48,7 +50,10 @@ public class PaymentController {
     @Autowired
     OrderRepository orderRepository;
     @Autowired
-    SessionService sessionService;
+    HttpSession session;
+    @Autowired
+    CookieService cookieService;
+    public static  String check="check";
 
     @PostMapping("/pay")
     public ResponseEntity<?> getPay(HttpServletRequest httpServletRequest, @RequestBody PaymentRequest paymentRequest) throws UnsupportedEncodingException {
@@ -75,7 +80,9 @@ public class PaymentController {
             }
         }
         String idOrder = ConfigVNPay.getRandomString(12);
-        if (paymentRequest.getPayments() != null) {
+        Optional<Order> order= orderRepository.findById(check);
+        if (paymentRequest.getPayments() != null && order.isEmpty()) {
+            check=idOrder;
             Order orderNew = new Order();
             orderNew.setOrderId(idOrder);
             orderNew.setContactId(paymentRequest.getContactId());
@@ -164,6 +171,7 @@ public class PaymentController {
 
     @GetMapping("/auth/payment")
     public void paymentController(Model model, HttpServletResponse httpServletResponse, HttpServletRequest httpServletRequest, @RequestParam("PhoneID") String PhoneID, @RequestParam("vnp_Amount") String vnp_Amount, @RequestParam("vnp_BankCode") String vnp_BankCode, @RequestParam("vnp_BankTranNo") String vnp_BankTranNo, @RequestParam("vnp_CardType") String vnp_CardType, @RequestParam("vnp_OrderInfo") String vnp_OrderInfo, @RequestParam("vnp_PayDate") String vnp_PayDate, @RequestParam("vnp_ResponseCode") String vnp_ResponseCode, @RequestParam("vnp_TmnCode") String vnp_TmnCode, @RequestParam("vnp_TransactionNo") String vnp_TransactionNo, @RequestParam("vnp_TransactionStatus") String vnp_TransactionStatus, @RequestParam("vnp_TxnRef") String vnp_TxnRef, @RequestParam("vnp_SecureHash") String vnp_SecureHash) {
+        check= "check";
         System.out.println("Chạy thành công");
         System.out.println("vnp_Amount: " + Double.parseDouble(vnp_Amount) / 100);
         System.out.println("vnp_BankCode: " + vnp_BankCode);
