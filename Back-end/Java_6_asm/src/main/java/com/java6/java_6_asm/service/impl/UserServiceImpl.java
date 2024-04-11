@@ -1,13 +1,19 @@
 package com.java6.java_6_asm.service.impl;
 
+import com.java6.java_6_asm.config.ConfigVNPay;
 import com.java6.java_6_asm.entities.User;
 import com.java6.java_6_asm.exception.NotFoundException;
+import com.java6.java_6_asm.model.MailInfo;
+import com.java6.java_6_asm.model.request.UpdatePasswordRequest;
+import com.java6.java_6_asm.model.response.ForgotPasswordResponse;
 import com.java6.java_6_asm.model.response.UserWithIdResponse;
 import com.java6.java_6_asm.repositories.UserRepository;
 import com.java6.java_6_asm.model.request.ChangePasswordRequest;
 import com.java6.java_6_asm.security.service.GetTokenRefreshToken;
 import com.java6.java_6_asm.security.service.JwtService;
 import com.java6.java_6_asm.service.service.UserService;
+import com.java6.java_6_asm.service.service.utils.MailerService;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -15,7 +21,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -28,6 +36,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     JwtService jwtService;
+    @Autowired
+    MailerService mailerService;
+
 
     @Override
     public void changePassword(ChangePasswordRequest request, Principal connectedUser) {
@@ -85,5 +96,32 @@ public class UserServiceImpl implements UserService {
         userWithIdResponse.setFirstname(user.getFirstname());
         userWithIdResponse.setBirthDay(user.getBirthDay());
         return userWithIdResponse;
+    }
+
+    @Override
+    public ForgotPasswordResponse forgotPassword(String email) {
+        User user = userRepository.findByEmail(email).orElseThrow(null);
+        ForgotPasswordResponse forgotPasswordResponse = new ForgotPasswordResponse();
+        String verify = ConfigVNPay.getRandomString(6);
+        if (user != null) {
+            try {
+                mailerService.sendVerify(new MailInfo(email, "Chao mung ban den voi Twobee", "Đây là mã xác nhận của bạn: " + verify));
+                forgotPasswordResponse.setMessage("success");
+                forgotPasswordResponse.setVerify(verify);
+                System.out.println("run email successfully");
+            } catch (MessagingException e) {
+                forgotPasswordResponse.setMessage("success");
+            }
+        }else{
+            forgotPasswordResponse.setMessage("errorEmail");
+        }
+        return forgotPasswordResponse;
+    }
+
+    @Override
+    public void updatePassword(UpdatePasswordRequest updatePasswordRequest) {
+        User user = userRepository.findByEmail(updatePasswordRequest.getEmail()).orElseThrow(null);
+        user.setPassword(passwordEncoder.encode(updatePasswordRequest.getPassword()));
+        userRepository.save(user);
     }
 }

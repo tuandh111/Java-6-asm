@@ -8,8 +8,11 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface VoucherRepository extends JpaRepository<Voucher,Integer> {
+public interface VoucherRepository extends JpaRepository<Voucher, Integer> {
     @Query("select v from Voucher  v where  v.voucherName = :voucherName")
-    Voucher findByVoucherName(@Param("voucherName") String  voucherName );
+    Voucher findByVoucherName(@Param("voucherName") String voucherName);
+
+    @Query("select v from Voucher  v where  v.voucherId = :voucherId")
+    Voucher findByVoucherId(@Param("voucherId") int voucherId);
 
 }

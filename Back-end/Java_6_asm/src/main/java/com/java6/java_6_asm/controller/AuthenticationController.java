@@ -3,8 +3,10 @@ package com.java6.java_6_asm.controller;
 import com.java6.java_6_asm.entities.User;
 import com.java6.java_6_asm.entities._enum.Role;
 import com.java6.java_6_asm.model.request.AuthenticationRequest;
+import com.java6.java_6_asm.model.request.UpdatePasswordRequest;
 import com.java6.java_6_asm.model.response.AuthenticationResponse;
 import com.java6.java_6_asm.model.request.RegisterRequest;
+import com.java6.java_6_asm.model.response.MessageResponse;
 import com.java6.java_6_asm.security.service.AuthenticationService;
 import com.java6.java_6_asm.security.service.JwtService;
 import com.java6.java_6_asm.service.service.UserService;
@@ -68,10 +70,22 @@ public class AuthenticationController {
         return ResponseEntity.ok(userService.findAll());
     }
 
+    @PostMapping("/forgot-password/{id}")
+    @Operation(summary = "Cập nhật user")
+    public ResponseEntity<?> forgotPassword(@PathVariable("id") String email) {
+        return ResponseEntity.ok(userService.forgotPassword(email));
+    }
+    @PostMapping("/update-password")
+    @Operation(summary = "Cập nhật user")
+    public ResponseEntity<?> updatePassword(@RequestBody UpdatePasswordRequest updatePasswordRequest) {
+        userService.updatePassword(updatePasswordRequest);
+        return ResponseEntity.ok(new MessageResponse("success"));
+    }
     public boolean checkEmail(String email) {
         Optional<User> user = userService.findByEmail(email);
         if (user.isPresent()) return true;
         return false;
     }
+
 
 }

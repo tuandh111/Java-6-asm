@@ -92,8 +92,10 @@ app.controller('checkoutController', ['$scope', '$http', '$location', function (
     $scope.errorPay = false;
     $scope.errorAddressReceive = false;
     $scope.checkOutCartId = [];
+
     $scope.count = 0;
     $scope.coutPT = 0;
+    $scope.voucherId;
     $http({
         method: "GET",
         headers: {
@@ -126,6 +128,103 @@ app.controller('checkoutController', ['$scope', '$http', '$location', function (
         function errorCallback(response) {
         }
     );
+    const storedCartIds = localStorage.getItem('checkCartId');
+    if (storedCartIds != null) {
+        const cartIdsArray = storedCartIds.split(',');
+        const trimmedCartIdsArray = cartIdsArray.map(id => id.trim());
+        const uniqueCartIds = [...new Set(trimmedCartIdsArray)];
+        var requestData = {
+            cartId: uniqueCartIds,
+            userId: 4
+        };
+        $http({
+            method: "POST",
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem("accessToken"),
+                "X-Refresh-Token": localStorage.getItem("refreshToken"),
+            },
+
+            data: JSON.stringify(requestData),
+            url: "http://localhost:8080/api/v1/get-cartId",
+        }).then(function (response) {
+            $scope.checkOutCartId = response.data
+            $scope.totalAmount = 0;
+            $scope.totalCartAll = 0;
+
+            loadDiscounts().then(function (discounts) {
+                $scope.discounts = discounts;
+
+                $scope.checkOutCartId.forEach(function (item) {
+                    var isDiscountApplied = false;
+
+                    $scope.discounts.forEach(function (discount) {
+                        if (item.product.productId === discount.product.productId) {
+                            $scope.totalAmount += (discount.discountedPrice * item.quantity);
+                            isDiscountApplied = true;
+                        }
+                    });
+                    if (!isDiscountApplied) {
+                        $scope.totalAmount += (item.product.price * item.quantity);
+                    }
+                });
+
+                if ($scope.totalAmount > 3000000) {
+                    $scope.freeShip = 'Miễn phí giao hàng';
+                    $scope.discountTitle = 'Giảm giá đơn hàng:'
+                    $scope.discount = ' -150,000 VNĐ'
+                    if ($scope.count > 0) {
+                        $scope.totalCartAll = $scope.totalAmount - $scope.count
+                    }
+                    if ($scope.coutPT > 0) {
+                        $scope.totalCartAll = $scope.totalAmount - ($scope.totalAmount * ($scope.coutPT / 100))
+
+                    }
+                    $scope.totalCartAll = $scope.totalAmount - 150000
+
+
+                } else if ($scope.totalAmount > 100000) {
+                    if ($scope.totalAmount > 999000) {
+                        $scope.discountTitle = 'Giảm giá đơn hàng:'
+                        $scope.discount = ' -80,000 VNĐ'
+                        $scope.totalCartAll = $scope.totalAmount - 80000
+
+                    } else if ($scope.totalAmount > 599000) {
+                        $scope.discountTitle = 'Giảm giá đơn hàng:'
+                        $scope.discount = ' -50,000 VNĐ'
+                        $scope.totalCartAll = $scope.totalAmount - 50000
+
+                    } else {
+                        $scope.totalCartAll = $scope.totalAmount
+                        $scope.discountTitle = ''
+                        $scope.discount = ''
+
+                    }
+                    if ($scope.count > 0) {
+                        $scope.totalCartAll = $scope.totalAmount - $scope.count
+                    }
+                    if ($scope.coutPT > 0) {
+
+                        $scope.totalCartAll = $scope.totalCartAll - ($scope.totalAmount * ($scope.coutPT / 100))
+
+                    }
+                    $scope.freeShip = '+25,000 VNĐ';
+                    $scope.totalCartAll = $scope.totalCartAll + 25000
+
+                } else {
+
+                    $scope.discountTitle = ''
+                    $scope.discount = ''
+                    $scope.freeShip = '';
+                    $scope.discount = ''
+                }
+
+            }).catch(function (error) {
+                window.location.href = '/index.html#!';
+            });
+
+        });
+    }
+
 
     $scope.applyVoucher = function () {
         if ($scope.voucherN == '' || $scope.voucherN == undefined || $scope.voucherN == null) {
@@ -170,6 +269,7 @@ app.controller('checkoutController', ['$scope', '$http', '$location', function (
                         } else {
                             $scope.count = $scope.voucherName.condition;
                         }
+                        $scope.voucherId = $scope.voucherName.voucherId;
                     } else {
                         Swal.fire({
                             title: "Thất bại!",
@@ -214,7 +314,7 @@ app.controller('checkoutController', ['$scope', '$http', '$location', function (
                             }).then(function (response) {
                                 $scope.checkOutCartId = response.data
                                 $scope.totalAmount = 0;
-
+                                $scope.totalCartAll = 0;
 
                                 loadDiscounts().then(function (discounts) {
                                     $scope.discounts = discounts;
@@ -240,15 +340,15 @@ app.controller('checkoutController', ['$scope', '$http', '$location', function (
 
                                         if ($scope.count > 0) {
                                             $scope.totalCartAll = $scope.totalAmount - $scope.count
-                                        }
-                                        if ($scope.coutPT > 0) {
-                                            alert($scope.totalAmount)
-                                            $scope.totalCartAll = $scope.totalAmount - ($scope.totalAmount * ($scope.coutPT / 100))
 
                                         }
+                                        if ($scope.coutPT > 0) {
+                                            $scope.totalCartAll = $scope.totalAmount - ($scope.totalAmount * ($scope.coutPT / 100))
+                                        }
                                         $scope.totalCartAll = $scope.totalCartAll - 150000
+
                                     } else if ($scope.totalAmount > 100000) {
-                                        if ($scope.totalAmount > 999000) {
+                                        if (parseInt($scope.totalAmount) > 999000) {
                                             $scope.discountTitle = 'Giảm giá đơn hàng:'
                                             $scope.discount = ' -80,000 VNĐ'
                                             $scope.totalCartAll = $scope.totalAmount - 80000
@@ -259,23 +359,23 @@ app.controller('checkoutController', ['$scope', '$http', '$location', function (
                                             $scope.totalCartAll = $scope.totalAmount - 50000
 
                                         } else {
+
                                             $scope.totalCartAll = $scope.totalAmount
                                             $scope.discountTitle = ''
                                             $scope.discount = ''
 
                                         }
                                         if ($scope.count > 0) {
-                                            $scope.totalCartAll = $scope.totalAmount - $scope.count
+                                            $scope.totalCartAll = $scope.totalCartAll - $scope.count
                                         }
-                                        if ($scope.coutPT > 0) {
-
-                                            $scope.totalCartAll = $scope.totalAmount - ($scope.totalAmount * ($scope.coutPT / 100))
-
+                                        else if ($scope.coutPT > 0) {
+                                            $scope.totalCartAll = $scope.totalCartAll - ($scope.totalAmount * ($scope.coutPT / 100))
                                         }
-                                        $scope.freeShip = '25,000 VNĐ';
+
+                                        $scope.freeShip = '+25,000 VNĐ';
                                         $scope.totalCartAll = $scope.totalCartAll + 25000
-                                    } else {
 
+                                    } else {
                                         $scope.discountTitle = ''
                                         $scope.discount = ''
                                         $scope.freeShip = '';
@@ -287,7 +387,8 @@ app.controller('checkoutController', ['$scope', '$http', '$location', function (
                                         icon: "success"
                                     });
                                     console.log('Tổng tiền chiết khấu: ' + $scope.totalCartAll);
-                                }).catch(function (error) {
+                                }
+                                ).catch(function (error) {
                                     window.location.href = '/index.html#!';
                                 });
 
@@ -420,102 +521,6 @@ app.controller('checkoutController', ['$scope', '$http', '$location', function (
     //     }
     // );
 
-    const storedCartIds = localStorage.getItem('checkCartId');
-    if (storedCartIds != null) {
-        const cartIdsArray = storedCartIds.split(',');
-        const trimmedCartIdsArray = cartIdsArray.map(id => id.trim());
-        const uniqueCartIds = [...new Set(trimmedCartIdsArray)];
-        var requestData = {
-            cartId: uniqueCartIds,
-            userId: 4
-        };
-        $http({
-            method: "POST",
-            headers: {
-                Authorization: "Bearer " + localStorage.getItem("accessToken"),
-                "X-Refresh-Token": localStorage.getItem("refreshToken"),
-            },
-
-            data: JSON.stringify(requestData),
-            url: "http://localhost:8080/api/v1/get-cartId",
-        }).then(function (response) {
-            $scope.checkOutCartId = response.data
-            $scope.totalAmount = 0;
-
-
-            loadDiscounts().then(function (discounts) {
-                $scope.discounts = discounts;
-
-                $scope.checkOutCartId.forEach(function (item) {
-                    var isDiscountApplied = false;
-
-                    $scope.discounts.forEach(function (discount) {
-                        if (item.product.productId === discount.product.productId) {
-                            $scope.totalAmount += (discount.discountedPrice * item.quantity);
-                            isDiscountApplied = true;
-                        }
-                    });
-                    if (!isDiscountApplied) {
-                        $scope.totalAmount += (item.product.price * item.quantity);
-                    }
-                });
-
-                if ($scope.totalAmount > 3000000) {
-                    $scope.freeShip = 'Miễn phí giao hàng';
-                    $scope.discountTitle = 'Giảm giá đơn hàng:'
-                    $scope.discount = ' -150,000 VNĐ'
-                    if ($scope.count > 0) {
-                        $scope.totalCartAll = $scope.totalAmount - $scope.count
-                    }
-                    if ($scope.coutPT > 0) {
-                        alert($scope.totalAmount)
-                        $scope.totalCartAll = $scope.totalAmount - ($scope.totalAmount * ($scope.coutPT / 100))
-
-                    }
-                    $scope.totalCartAll = $scope.totalCartAll - 150000
-
-                } else if ($scope.totalAmount > 100000) {
-                    if ($scope.totalAmount > 999000) {
-                        $scope.discountTitle = 'Giảm giá đơn hàng:'
-                        $scope.discount = ' -80,000 VNĐ'
-                        $scope.totalCartAll = $scope.totalAmount - 80000
-
-                    } else if ($scope.totalAmount > 599000) {
-                        $scope.discountTitle = 'Giảm giá đơn hàng:'
-                        $scope.discount = ' -50,000 VNĐ'
-                        $scope.totalCartAll = $scope.totalAmount - 50000
-
-                    } else {
-                        $scope.totalCartAll = $scope.totalAmount
-                        $scope.discountTitle = ''
-                        $scope.discount = ''
-
-                    }
-                    if ($scope.count > 0) {
-                        $scope.totalCartAll = $scope.totalAmount - $scope.count
-                    }
-                    if ($scope.coutPT > 0) {
-
-                        $scope.totalCartAll = $scope.totalAmount - ($scope.totalAmount * ($scope.coutPT / 100))
-
-                    }
-                    $scope.freeShip = '25,000 VNĐ';
-                    $scope.totalCartAll = $scope.totalCartAll + 25000
-
-                } else {
-
-                    $scope.discountTitle = ''
-                    $scope.discount = ''
-                    $scope.freeShip = '';
-                    $scope.discount = ''
-                }
-                console.log('Tổng tiền chiết khấu: ' + $scope.totalAmount);
-            }).catch(function (error) {
-                window.location.href = '/index.html#!';
-            });
-
-        });
-    }
 
 
     $http({
@@ -742,48 +747,48 @@ app.controller('checkoutController', ['$scope', '$http', '$location', function (
 
     $scope.addContact = function () {
         localStorage.removeItem('updateContactId');
-        if ($scope.firstname == null || $scope.firstname === undefined || $scope.firstname === '') {
-            $scope.errorFirstName = true;
-            return;
-        } else {
-            $scope.errorFirstName = false;
-        }
-        if ($scope.lastname == null || $scope.lastname === undefined || $scope.lastname === '') {
-            $scope.errorLastName = true;
-            return;
-        } else {
-            $scope.errorLastName = false;
-        }
-        if ($scope.phone == null || $scope.phone === undefined || $scope.phone === '') {
-            $scope.errorPhone = true;
-            return;
-        } else {
-            $scope.errorPhone = false;
-        }
-        if (!$scope.validatePhoneNumber($scope.phone)) {
-            $scope.errorPhoneCheck = true;
-            return;
-        } else {
-            $scope.errorPhoneCheck = false;
-        }
-        if ($scope.email == null || $scope.email === undefined || $scope.email === '') {
-            $scope.errorEmail = true;
-            return;
-        } else {
-            $scope.errorEmail = false;
-        }
-        if ($scope.gender == null || $scope.gender === undefined || $scope.gender === '') {
-            $scope.errorGender = true;
-            return;
-        } else {
-            $scope.errorGender = false;
-        }
-        if ($scope.birthday == null || $scope.birthday === undefined || $scope.birthday === '') {
-            $scope.errorBirthday = true;
-            return;
-        } else {
-            $scope.errorBirthday = false;
-        }
+        // if ($scope.firstname == null || $scope.firstname === undefined || $scope.firstname === '') {
+        //     $scope.errorFirstName = true;
+        //     return;
+        // } else {
+        //     $scope.errorFirstName = false;
+        // }
+        // if ($scope.lastname == null || $scope.lastname === undefined || $scope.lastname === '') {
+        //     $scope.errorLastName = true;
+        //     return;
+        // } else {
+        //     $scope.errorLastName = false;
+        // }
+        // if ($scope.phone == null || $scope.phone === undefined || $scope.phone === '') {
+        //     $scope.errorPhone = true;
+        //     return;
+        // } else {
+        //     $scope.errorPhone = false;
+        // }
+        // if (!$scope.validatePhoneNumber($scope.phone)) {
+        //     $scope.errorPhoneCheck = true;
+        //     return;
+        // } else {
+        //     $scope.errorPhoneCheck = false;
+        // }
+        // if ($scope.email == null || $scope.email === undefined || $scope.email === '') {
+        //     $scope.errorEmail = true;
+        //     return;
+        // } else {
+        //     $scope.errorEmail = false;
+        // }
+        // if ($scope.gender == null || $scope.gender === undefined || $scope.gender === '') {
+        //     $scope.errorGender = true;
+        //     return;
+        // } else {
+        //     $scope.errorGender = false;
+        // }
+        // if ($scope.birthday == null || $scope.birthday === undefined || $scope.birthday === '') {
+        //     $scope.errorBirthday = true;
+        //     return;
+        // } else {
+        //     $scope.errorBirthday = false;
+        // }
         var city = $('#city').val();
         var district = $('#district').val();
         var ward = $('#ward').val();
@@ -1124,7 +1129,7 @@ app.controller('checkoutController', ['$scope', '$http', '$location', function (
         const uniqueCartIds = [...new Set(trimmedCartIdsArray)];
         var requestData = {
             cartId: uniqueCartIds,
-            userId: 4,
+            userId: $scope.voucherId,
             contactId: contact_id,
             totalCartAll: $scope.totalCartAll
         };

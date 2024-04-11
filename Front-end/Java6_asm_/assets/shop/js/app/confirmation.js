@@ -1,6 +1,8 @@
 console.log("This is confirmationController")
 app.controller('confirmationController', ['$scope', '$http', function ($scope, $http, $rootScope) {
-
+    $scope.count = 0;
+    $scope.coutPT = 0;
+    $scope.voucherId;
     localStorage.removeItem("checkCartId");
     $http({
         method: "GET",
@@ -119,6 +121,28 @@ app.controller('confirmationController', ['$scope', '$http', function ($scope, $
             function successCallback(response) {
                 console.log("success cart")
                 $scope.carts = response.data;
+
+                $http({
+                    method: "GET",
+                    headers: {
+                        Authorization: "Bearer " + localStorage.getItem("accessToken"),
+                        "X-Refresh-Token": localStorage.getItem("refreshToken"),
+                    },
+                    url: "http://localhost:8080/api/v1/auth/voucherId/" + $scope.carts[0].voucherId,
+                }).then(
+                    function successCallback(response) {
+                        $scope.voucher = response.data;
+                        $scope.count = $scope.voucher.condition;
+                        $scope.coutPT = $scope.voucher.amountPercentage;
+                        $scope.voucherId;
+                    },
+                    function errorCallback(response) {
+
+                        // Xử lý lỗi nếu có
+                    }
+                );
+
+
                 var cartIds = [];
                 for (var i = 0; i < $scope.carts.length; i++) {
                     var cart = $scope.carts[i];
@@ -169,7 +193,15 @@ app.controller('confirmationController', ['$scope', '$http', function ($scope, $
                             $scope.freeShip = 'Miễn phí giao hàng';
                             $scope.discountTitle = 'Giảm giá đơn hàng:'
                             $scope.discount = ' -150,000 VNĐ'
-                            $scope.totalCartAll = $scope.totalAmount - 150000
+
+                            if ($scope.count > 0) {
+                                $scope.totalCartAll = $scope.totalAmount - $scope.count
+
+                            }
+                            if ($scope.coutPT > 0) {
+                                $scope.totalCartAll = $scope.totalAmount - ($scope.totalAmount * ($scope.coutPT / 100))
+                            }
+                            $scope.totalCartAll = $scope.totalCartAll - 150000
 
                         } else if ($scope.totalAmount > 100000) {
                             if ($scope.totalAmount > 999000) {
@@ -188,7 +220,14 @@ app.controller('confirmationController', ['$scope', '$http', function ($scope, $
                                 $scope.discount = ''
 
                             }
-                            $scope.freeShip = '25,000 VNĐ';
+                            if ($scope.count > 0) {
+                                $scope.totalCartAll = $scope.totalCartAll - $scope.count
+                            }
+                            else if ($scope.coutPT > 0) {
+                                $scope.totalCartAll = $scope.totalCartAll - ($scope.totalAmount * ($scope.coutPT / 100))
+                            }
+
+                            $scope.freeShip = '+25,000 VNĐ';
                             $scope.totalCartAll = $scope.totalCartAll + 25000
                         } else {
 

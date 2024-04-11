@@ -11,4 +11,7 @@ public interface VoucherService {
     Voucher saveVoucher(VoucherRequest voucherRequest);
 
     Voucher findByVoucherName(String voucherName);
+
+    Voucher findByVoucherId(int voucherId);
+
 }

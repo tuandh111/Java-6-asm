@@ -46,4 +46,6 @@ public class Voucher {
     @ManyToOne
     @JoinColumn(name = "userId")
     private User user;
+
+
 }

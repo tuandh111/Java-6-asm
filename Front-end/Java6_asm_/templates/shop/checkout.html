@@ -6,7 +6,7 @@
         <h1>Product Checkout</h1>
         <nav aria-label="breadcrumb" class="banner-breadcrumb">
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
             <li class="breadcrumb-item active" aria-current="page">Checkout</li>
           </ol>
         </nav>
@@ -123,7 +123,8 @@
       </div>
       <div class="row">
         <div class="col-lg-6 form-group p_star">
-          <input type="text" class="form-control mt-5 my-3" ng-model="voucherN" placeholder="Mã khuyến mãi">
+          <h2>MÃ GIẢM GIÁ</h2>
+          <input type="text" class="form-control my-3" ng-model="voucherN" placeholder="Mã khuyến mãi">
           <a class="button button-coupon" href="javascript:void(0)" ng-click="applyVoucher()">Áp dụng </a>
           <span class="placeholder" data-placeholder="Last name"></span>
         </div>
@@ -257,7 +258,7 @@
           <div class="order_box">
             <h2>Danh sách đặt hàng của bạn</h2>
             <ul class="list">
-              <li><a href="#">
+              <li><a href="javascript:void(0)">
                   <h4>Sản phẩm <span>Giá</span></h4>
                 </a></li>
 
@@ -288,17 +289,29 @@
               </div>
             </ul>
             <ul class="list list_2">
-              <li><a href="#">Tạm tính: <span>{{totalAmount | number : fractionSize}} VNĐ</span></a></li>
-              <li><a href="#">Phí giao hàng: <span>{{freeShip}}</span></a></li>
-              <li><a href="#">Giảm giá voucher tiền mặt: <span>{{count | number : fractionSize}} VNĐ</span></a>
+              <li><a href="javascript:void(0)">Tạm tính: <span>{{totalAmount | number : fractionSize}} VNĐ</span></a>
               </li>
-              <li><a href="#">Giảm giá voucher phần trăm: <span>{{coutPT }} %</span></a>
-              </li>
-              <li><a href="#">{{discountTitle}}<span>{{discount}}</span></a></li>
+              <li><a href="javascript:void(0)">Phí giao hàng: <span>{{freeShip}}</span></a></li>
+              <details>
+                <summary style="font-weight: bold;">Voucher</summary>
+                <li><a href="javascript:void(0)">Giảm giá voucher tiền mặt: <span>- {{count |
+                      number : fractionSize}}
+                      VNĐ</span></a>
+                </li>
+                <li><a href="javascript:void(0)">Giảm giá voucher phần trăm: <span>- {{coutPT
+                      }}
+                      %</span></a>
+                </li>
+                <li><span class="text-danger" style="font-size: 11px;">(Voucher chỉ áp dụng được 1 loại)</span></li>
+              </details>
+
+
+              <li><a href="javascript:void(0)">{{discountTitle}}<span>{{discount}}</span></a></li>
               <li>
                 <hr>
               </li>
-              <li><a href="#">Tổng tiền: <span>{{totalCartAll | number : fractionSize}} VNĐ</span></a></li>
+              <li><a href="javascript:void(0)">Tổng tiền: <span>{{totalCartAll | number : fractionSize}} VNĐ</span></a>
+              </li>
               <li>(Đã bao gồm VAT)</li>
             </ul>
             <form>

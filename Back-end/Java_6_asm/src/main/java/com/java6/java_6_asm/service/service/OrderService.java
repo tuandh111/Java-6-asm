@@ -25,4 +25,6 @@ public interface OrderService {
 
     void deleteOrder(String id);
 
+    Order updateVoucherId(String voucherId);
+
 }

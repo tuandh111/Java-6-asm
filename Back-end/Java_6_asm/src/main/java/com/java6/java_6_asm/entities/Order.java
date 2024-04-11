@@ -42,6 +42,8 @@ public class Order {
 
     private Integer contactId;
 
-    private String  Payments;
+    private String Payments;
+
+    private int idVoucher;
 
 }

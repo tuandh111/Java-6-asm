@@ -109,4 +109,9 @@ public class OrderServiceImpl implements OrderService {
         }
         orderRepository.deleteById(id);
     }
+
+    @Override
+    public Order updateVoucherId(String voucherId) {
+        return null;
+    }
 }

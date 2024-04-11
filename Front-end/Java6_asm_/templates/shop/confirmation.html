@@ -100,6 +100,11 @@
           <li><a href="#">Tạm tính: <span>{{totalAmount | number : fractionSize}} VNĐ</span></a></li>
           <li><a href="#">Phí giao hàng: <span>{{freeShip}}</span></a></li>
           <li><a href="#">{{discountTitle}}<span>{{discount}}</span></a></li>
+          <li ng-if="voucher.condition != null"><a href="#">Voucher tiền mặt: <span>{{voucher.condition | number :
+                fractionSize}} VNĐ</span></a>
+          </li>
+          <li ng-if="voucher.amountPercentage != null"><a href="#">Voucher phần trăm: <span>{{voucher.amountPercentage}}
+                %</span></a></li>
           <li><a href="#">Tổng tiền: <span>{{totalCartAll | number : fractionSize}} VNĐ</span></a></li>
           <li>(Đã bao gồm VAT)</li>
         </ul>

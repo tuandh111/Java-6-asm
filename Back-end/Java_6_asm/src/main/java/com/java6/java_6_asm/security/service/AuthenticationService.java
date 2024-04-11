@@ -38,7 +38,7 @@ public class AuthenticationService {
         .lastname(request.getLastname())
         .email(request.getEmail())
         .birthDay(date)
-        .gender(Gender.FEMALE)
+        .gender(Gender.MALE)
         .password(passwordEncoder.encode(request.getPassword()))
         .role(request.getRole())
         .build();

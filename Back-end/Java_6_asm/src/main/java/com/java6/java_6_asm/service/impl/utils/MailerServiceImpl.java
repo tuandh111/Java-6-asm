@@ -5,8 +5,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.java6.java_6_asm.model.request.MailInfo;
+
+import com.java6.java_6_asm.model.MailInfo;
 import com.java6.java_6_asm.service.service.utils.MailerService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -20,7 +22,7 @@ import jakarta.servlet.ServletContext;
 @Service
 public class MailerServiceImpl implements MailerService {
 
-
+    @Autowired
     JavaMailSender sender;
     ServletContext app;
 
