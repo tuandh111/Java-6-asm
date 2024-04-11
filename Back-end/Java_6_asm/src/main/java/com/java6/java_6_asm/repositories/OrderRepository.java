@@ -25,4 +25,23 @@ public interface OrderRepository extends JpaRepository<Order, String> {
     @Query("SELECT o FROM Order o WHERE o.contactId = :id" )
     List<Order> findByContactId(@Param("id") Integer id);
 
+    @Query("select month(o.createAt), sum(o.totalAmount) From Order o where o.status like '%Thành công%' group by month(o.createAt) ORDER BY month(o.createAt) ASC")
+    List<Object[]> dataRevenueByMonth();
+
+    @Query("SELECT p.productId, SUM(o.totalAmount) " +
+            "FROM Order o left join  Cart  c ON c.order.orderId=o.orderId " +
+            "left join Product p ON p.productId=c.product.productId "+
+            "WHERE o.status LIKE '%Thành công%' " +
+            "GROUP BY p.productId " +
+            "ORDER BY SUM(o.totalAmount) ASC limit 5")
+    List<Object[]> dataRevenueByProduct();
+
+
+    @Query("Select b.nameBrand ,sum(o.totalAmount) From Order o "+
+    "JOIN o.carts c "+
+    "JOIN c.product p "+
+    "JOIN p.brand b "+
+    "WHERE o.status like '%Thành công%' "+
+    "GROUP BY b.nameBrand")
+    List<Object[]> dataRevenueByBrand();
 }
