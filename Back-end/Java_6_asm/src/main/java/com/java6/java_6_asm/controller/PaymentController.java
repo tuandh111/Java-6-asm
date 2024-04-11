@@ -53,7 +53,8 @@ public class PaymentController {
     HttpSession session;
     @Autowired
     CookieService cookieService;
-    public static  String check="check";
+    public static String check = "check";
+    public static PaymentRequest paymentRequest1 = null;
 
     @PostMapping("/pay")
     public ResponseEntity<?> getPay(HttpServletRequest httpServletRequest, @RequestBody PaymentRequest paymentRequest) throws UnsupportedEncodingException {
@@ -71,7 +72,7 @@ public class PaymentController {
             }
         }
         List<Cart> newListCartId = new ArrayList<>();
-
+        paymentRequest1 = paymentRequest;
         String[] cartIds = paymentRequest.getCartId();
         for (String cartId : cartIds) {
             Optional<Cart> cartOptional = cartRepository.findById(cartId);
@@ -80,9 +81,9 @@ public class PaymentController {
             }
         }
         String idOrder = ConfigVNPay.getRandomString(12);
-        Optional<Order> order= orderRepository.findById(check);
+        Optional<Order> order = orderRepository.findById(check);
         if (paymentRequest.getPayments() != null && order.isEmpty()) {
-            check=idOrder;
+            check = idOrder;
             Order orderNew = new Order();
             orderNew.setOrderId(idOrder);
             orderNew.setContactId(paymentRequest.getContactId());
@@ -92,12 +93,12 @@ public class PaymentController {
             orderNew.setPayments(paymentRequest.getPayments());
             orderNew.setStatus("Đang chờ xác nhận");
             orderNew.setNote("");
-            orderRepository.save(orderNew);
+            //orderRepository.save(orderNew);
             for (Cart cart : newListCartId) {
                 cart.setVoucherId(paymentRequest.getUserId());
                 cart.setCheckPay(true);
                 cart.setOrder(orderNew);
-                cartRepository.save(cart);
+                // cartRepository.save(cart);
             }
         }
         long totalPrice = (long) paymentRequest.getTotalAmount();
@@ -171,7 +172,7 @@ public class PaymentController {
 
     @GetMapping("/auth/payment")
     public void paymentController(Model model, HttpServletResponse httpServletResponse, HttpServletRequest httpServletRequest, @RequestParam("PhoneID") String PhoneID, @RequestParam("vnp_Amount") String vnp_Amount, @RequestParam("vnp_BankCode") String vnp_BankCode, @RequestParam("vnp_BankTranNo") String vnp_BankTranNo, @RequestParam("vnp_CardType") String vnp_CardType, @RequestParam("vnp_OrderInfo") String vnp_OrderInfo, @RequestParam("vnp_PayDate") String vnp_PayDate, @RequestParam("vnp_ResponseCode") String vnp_ResponseCode, @RequestParam("vnp_TmnCode") String vnp_TmnCode, @RequestParam("vnp_TransactionNo") String vnp_TransactionNo, @RequestParam("vnp_TransactionStatus") String vnp_TransactionStatus, @RequestParam("vnp_TxnRef") String vnp_TxnRef, @RequestParam("vnp_SecureHash") String vnp_SecureHash) {
-        check= "check";
+        check = "check";
         System.out.println("Chạy thành công");
         System.out.println("vnp_Amount: " + Double.parseDouble(vnp_Amount) / 100);
         System.out.println("vnp_BankCode: " + vnp_BankCode);
@@ -186,10 +187,34 @@ public class PaymentController {
         System.out.println("vnp_TxnRef: " + vnp_TxnRef);
         System.out.println("vnp_SecureHash: " + vnp_SecureHash);
 
-        Optional<Order> order = orderRepository.findById(vnp_TxnRef);
-        if (order.isPresent()) {
-
+        List<Cart> newListCartId = new ArrayList<>();
+        User userCustom = userRepository.findByEmail("hoangtuan97531@gmail.com").orElseThrow(null);
+        String[] cartIds = paymentRequest1.getCartId();
+        for (String cartId : cartIds) {
+            Optional<Cart> cartOptional = cartRepository.findById(cartId);
+            if (cartOptional.isPresent()) {
+                newListCartId.add(cartOptional.get());
+            }
         }
+        String idOrder = ConfigVNPay.getRandomString(12);
+
+        Order orderNew = new Order();
+        orderNew.setOrderId(idOrder);
+        orderNew.setContactId(paymentRequest1.getContactId());
+        orderNew.setTotalAmount(paymentRequest1.getTotalAmount());
+        orderNew.setUser(userCustom);
+        orderNew.setIdVoucher(paymentRequest1.getUserId());
+        orderNew.setPayments(paymentRequest1.getPayments());
+        orderNew.setStatus("Đang chờ xác nhận");
+        orderNew.setNote("");
+        orderRepository.save(orderNew);
+        for (Cart cart : newListCartId) {
+            cart.setVoucherId(paymentRequest1.getUserId());
+            cart.setCheckPay(true);
+            cart.setOrder(orderNew);
+            cartRepository.save(cart);
+        }
+        
 
         try {
             httpServletResponse.sendRedirect("http://127.0.0.1:5501/index.html#!/shop/confirmation");
